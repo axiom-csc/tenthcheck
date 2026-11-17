@@ -5,8 +5,12 @@ One server is bound to one repository root. The parsed graph is cached by file m
 """
 from __future__ import annotations
 
+import os
+import secrets
 from pathlib import Path
 from typing import Any
+
+from tenthcheck import agents
 
 from tenthcheck.check_edit import check_edit
 from tenthcheck.cycles import import_cycles
@@ -17,6 +21,12 @@ from tenthcheck.topology import dependents_radius
 
 MAX_NODES = 10_000
 
+AGENTS_INSTRUCTIONS = (
+    " If several agents work in this repository at once: call record_edit after writing a file, so other sessions "
+    "are warned when they edit inside your blast radius; check_proposed_edit includes `agent_warnings` for overlap "
+    "with other sessions. Warnings never block an edit."
+)
+
 INSTRUCTIONS = (
     "Structural checks for Python code in one repository, from module-level imports and statically "
     "resolved calls only. Dynamic dispatch, getattr, super() and calls through variables are not seen, "
@@ -24,7 +34,7 @@ INSTRUCTIONS = (
 )
 
 
-def build_server(repo_dir: str | Path):
+def build_server(repo_dir: str | Path, session_id: str | None = None):
     from mcp.server.mcpserver import MCPServer
     from mcp.server.mcpserver.exceptions import ToolError
 
@@ -36,7 +46,12 @@ def build_server(repo_dir: str | Path):
 
     root = Path(repo_dir).resolve()
     index = IncrementalCodeIndex(root)
-    server = MCPServer(name="tenthcheck", instructions=INSTRUCTIONS)
+    server = MCPServer(name="tenthcheck", instructions=INSTRUCTIONS + AGENTS_INSTRUCTIONS)
+    # One server process serves one agent session (Claude Code starts one per session).
+    session = session_id or os.environ.get("TENTHCHECK_SESSION") or f"mcp-{os.getpid()}-{secrets.token_hex(3)}"
+    label = os.environ.get("TENTHCHECK_SESSION_LABEL", "")
+    # The code as this session last recorded it: record_edit diffs against it, so it works after the write too.
+    snapshot = {"graph": index.graph}
 
     @server.tool()
     def check_blast_radius(symbol: str, max_depth: int | None = None) -> dict[str, Any]:
@@ -68,7 +83,30 @@ def build_server(repo_dir: str | Path):
         if res.get("changed"):
             for rad in res["changed"]["blast_radii"].values():
                 rad["by_depth"] = {str(k): v for k, v in rad["by_depth"].items()}
+            # Read-only overlap with other agent sessions; never changes `ok`. Skipped (no parse) when no other
+            # session has recorded edits, so single-agent use costs nothing extra.
+            res["agent_warnings"] = (agents.check(root, session, file_path, new_source, index=index)["warnings"]
+                                     if agents.others_active(root, session) else [])
         return res
+
+    @server.tool()
+    def record_edit(file_path: str, new_source: str) -> dict[str, Any]:
+        """Record which functions/classes this session changed in `file_path` (pass the file's new content; call it
+        just before or just after writing) and get warnings when any of them is inside another running session's
+        blast radius (callers or callees of what that session edited, up to 2 hops). Warn only: nothing is
+        blocked, and nothing is written to `file_path`. State is kept in .tenthcheck/agents.json."""
+        try:
+            res = agents.record_edit(root, session, file_path, new_source, label=label, index=index,
+                                     before=snapshot["graph"])
+        except ValueError as e:
+            raise ToolError(str(e)) from None
+        snapshot["graph"] = index.graph
+        return res
+
+    @server.tool()
+    def agent_sessions() -> dict[str, Any]:
+        """Running agent sessions in this repository (this one included) and the functions/classes each has edited."""
+        return {"this_session": session, **agents.list_sessions(root)}
 
     @server.tool()
     def scope_audit(before_dir: str, after_dir: str) -> dict[str, Any]:

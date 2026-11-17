@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0.dev0 (branch v0.2, unreleased)
+
+- `tenthcheck agents` (CLI) and the MCP tools `record_edit` and `agent_sessions`: track which functions/classes each
+  running agent session has edited (`.tenthcheck/agents.json`) and warn when a session edits inside another
+  session's blast radius (same symbol, callers or callees, 2 hops by default). Warn only: never blocks, never
+  changes an exit code or `ok`.
+- `check_proposed_edit` returns `agent_warnings` (only computed when another live session has recorded edits).
+- The MCP tool list grows from 4 to 6.
+
 ## 0.1.1 (unreleased)
 
 - First version intended for PyPI; 0.1.0 was never uploaded.

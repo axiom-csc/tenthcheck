@@ -6,6 +6,12 @@
     tenthcheck blast  <repo_dir> <symbol>                       what calls/imports/subclasses <symbol>, by hop
     tenthcheck cycles <repo_dir>                                import cycles from module-level imports
     tenthcheck scope  <before_dir> <after_dir>                  changed symbols and their untouched dependents
+    tenthcheck agents edit  <repo_dir> <file_path> [new_source_file] --session S [--symbol X ...]
+                                                                record a session's edit; warn (never block) when it
+                                                                is inside another session's blast radius
+    tenthcheck agents check <repo_dir> <file_path> <new_source_file> --session S   same warnings, records nothing
+    tenthcheck agents list  <repo_dir>                          live sessions and the symbols each has edited
+    tenthcheck agents end   <repo_dir> --session S              forget a session
     tenthcheck serve  [repo_dir]                                MCP stdio server for repo_dir (default: current
                                                                 directory; needs `pip install "tenthcheck[mcp]"`)
 """
@@ -13,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from collections import Counter
 from pathlib import Path
@@ -82,6 +89,42 @@ def _print_cycles(res: dict) -> None:
         print(f"  [{len(comp['modules'])} modules] {format_cycle(comp['cycle'])}")
 
 
+def _agents(a, ap) -> int:
+    from tenthcheck import agents
+    if a.agents_cmd == "list":
+        res = agents.list_sessions(a.repo_dir)
+        if a.json:
+            print(json.dumps(res, indent=2))
+        else:
+            print(f"{len(res['sessions'])} live session(s)")
+            for s in res["sessions"]:
+                print(f"  {s['session']}{' (' + s['label'] + ')' if s['label'] else ''}: {len(s['edits'])} symbol(s), "
+                      f"last edit {s['last_seen_age_s']} s ago")
+                for e in s["edits"]:
+                    print(f"      {e}")
+        return 0
+    if not a.session:
+        ap.error("agents: give --session or set TENTHCHECK_SESSION")
+    if a.agents_cmd == "end":
+        print(f"session {a.session}: {'ended' if agents.end_session(a.repo_dir, a.session) else 'not found'}")
+        return 0
+    if a.new_source_file and not a.file_path:
+        ap.error("agents: NEW_SOURCE_FILE needs FILE_PATH")
+    if not a.new_source_file and not a.symbol:
+        ap.error("agents: give FILE_PATH NEW_SOURCE_FILE and/or --symbol")
+    src = Path(a.new_source_file).read_text(encoding="utf-8") if a.new_source_file else None
+    from tenthcheck.resolve import resolve_symbol
+    syms = []
+    if a.symbol:
+        g = parse_package(a.repo_dir, skip_syntax_errors=True)
+        syms = [resolve_symbol(g, s) for s in a.symbol]
+    fn = agents.record_edit if a.agents_cmd == "edit" else agents.check
+    kw = {"label": a.label} if a.agents_cmd == "edit" else {}
+    res = fn(a.repo_dir, a.session, a.file_path, src, syms, depth=a.depth, **kw)
+    print(json.dumps(res, indent=2)) if a.json else print(agents.format_result(res))
+    return 0  # warn only: overlap never changes the exit code
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="tenthcheck", description="Tenthcheck, from Tenthlook: see what an AI coding agent's edit could break before it lands.")
     ap.add_argument("--version", action="version", version=f"tenthcheck {__version__}")
@@ -100,6 +143,20 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("repo_dir"); p.add_argument("--json", action="store_true")
     p = sub.add_parser("scope", help="scope report between two snapshots")
     p.add_argument("before_dir"); p.add_argument("after_dir"); p.add_argument("--json", action="store_true")
+    p = sub.add_parser("agents", help="multi-agent edit warnings (sessions under .tenthcheck/)")
+    asub = p.add_subparsers(dest="agents_cmd", required=True)
+    for name, hlp in (("edit", "record an edit and warn on overlap"), ("check", "warn on overlap, record nothing")):
+        q = asub.add_parser(name, help=hlp)
+        q.add_argument("repo_dir"); q.add_argument("file_path", nargs="?")
+        q.add_argument("new_source_file", nargs="?", help="proposed new contents of file_path")
+        q.add_argument("--symbol", action="append", default=[], help="an edited symbol (repeatable)")
+        q.add_argument("--session", default=os.environ.get("TENTHCHECK_SESSION"))
+        q.add_argument("--label", default="")
+        q.add_argument("--depth", type=int, default=2, help="hops of callers/callees in a blast radius (default 2)")
+        q.add_argument("--json", action="store_true")
+    q = asub.add_parser("list", help="live sessions"); q.add_argument("repo_dir"); q.add_argument("--json", action="store_true")
+    q = asub.add_parser("end", help="forget a session"); q.add_argument("repo_dir")
+    q.add_argument("--session", default=os.environ.get("TENTHCHECK_SESSION"))
     p = sub.add_parser("serve", help="run the MCP stdio server (server name: tenthcheck)")
     p.add_argument("repo_dir", nargs="?", default=".")
     a = ap.parse_args(argv)
@@ -130,6 +187,8 @@ def main(argv: list[str] | None = None) -> int:
             if res.get("syntax_error"):
                 return 2
             return 0 if res["ok"] else 1
+        if a.cmd == "agents":
+            return _agents(a, ap)
         if a.cmd == "serve":
             from tenthcheck.server import serve
             serve(a.repo_dir)

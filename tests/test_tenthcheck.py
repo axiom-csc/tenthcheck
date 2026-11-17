@@ -125,7 +125,8 @@ def test_mcp_server_tools_in_process(repo):
 
     assert build_server(repo).name == "tenthcheck"
     names, blast, cyc, edit = asyncio.run(run())
-    assert names == ["check_blast_radius", "check_proposed_edit", "find_import_cycles", "scope_audit"]
+    assert names == ["agent_sessions", "check_blast_radius", "check_proposed_edit", "find_import_cycles",
+                     "record_edit", "scope_audit"]
     assert blast.structured_content["by_depth"]["2"] == ["pkg.api.calculate"]
     assert cyc.structured_content["n_cyclic_components"] == 0
     assert edit.structured_content["ok"] is False
