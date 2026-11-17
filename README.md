@@ -92,11 +92,11 @@ Python version are in `measurements/results/latency.json`.
 | flask | 83 | 0.46 s | 1457 | 154 | 231 | 424 | 1 | 0 / 0 |
 | pydantic | 3156 | 7.36 s | 8241 | 9907 | 1731 | 13187 | 0 | 0 / 0 |
 
-Re-run 2026-11-12 with the typed-call pass (below); CALLS edges rose from 259 / 171 / 1,472 (round 1) to the numbers shown, and parse time rose about 0.1 s on httpx and flask and ~1 s on pydantic (that run was on battery power, which slows this laptop). The typed pass raised no errors on any of the four libraries parsed. pydantic's clone is mostly `tests/` (2,961 of 3,156 files). Dependents walks never hit the 10,000-node cap (`hit_node_cap` = 0 in every repo).
+Re-run 2026-11-12 with the typed-call pass (below); CALLS edges rose from 259 / 171 / 1,472 (round 1) to the numbers shown, and parse time rose about 0.1 s on httpx and flask and ~1 s on pydantic (parse times in this table: measured on battery; may be slower on AC). The typed pass raised no errors on any of the four libraries parsed. pydantic's clone is mostly `tests/` (2,961 of 3,156 files). Dependents walks never hit the 10,000-node cap (`hit_node_cap` = 0 in every repo).
 
 ### Latency (`measurements/scripts/bench_latency.py` -> `measurements/results/latency_2026-11-17.json`)
 
-**Measured 2026-11-17 on the current code, on battery power** (recorded in the file's `meta.power`). Apple M4, Python 3.11.18. Milliseconds. **MCP (warm):** one `serve` process per repo, real stdio round trips through the official MCP client, after one untimed call per tool. **CLI (cold):** a fresh process each time, parse included. With n = 5–100 runs, p99 is close to the max; n is shown.
+**Measured 2026-11-17 on the current code; measured on battery; may be slower on AC** (power source recorded in the file's `meta.power`). Apple M4, Python 3.11.18. Milliseconds. **MCP (warm):** one `serve` process per repo, real stdio round trips through the official MCP client, after one untimed call per tool. **CLI (cold):** a fresh process each time, parse included. With n = 5–100 runs, p99 is close to the max; n is shown.
 
 | Repo | Tool | MCP p50 | MCP p99 | n | CLI cold p50 | CLI cold p99 | n |
 |---|---|---|---|---|---|---|---|

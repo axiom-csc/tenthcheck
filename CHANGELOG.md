@@ -9,3 +9,4 @@
 - `tenthcheck check <repo>` with no file arguments now prints import cycles plus a summary of the parsed repo.
   `tenthcheck check <repo> <file> <proposed_file>` works as before.
 - `tenthcheck serve` defaults to the current directory.
+- README latency and parse-time numbers (2026-11-17 latency run, 2026-11-12 parsing run) were measured on battery; may be slower on AC.
