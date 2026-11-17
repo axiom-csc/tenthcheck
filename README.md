@@ -8,7 +8,7 @@ Static checks for Python repositories, as a CLI and an MCP server for coding age
 a library no fix was made for. The 23 symbols were picked by a fixed call-frequency rule, every call site was
 labelled by hand from grep hits without seeing Tenthcheck's output, and the labels and the parser were hashed
 before scoring once (`measurements/results/accuracy_starlette/`). Small sample, typed code only; details and
-the other two libraries are under [Measured](#measured).
+the other two libraries are under [Measured](https://github.com/tenthlook/tenthcheck#measured).
 
 Known misses on that set (no edge is produced; nothing is guessed):
 
@@ -18,7 +18,7 @@ Known misses on that set (no edge is produced; nothing is guessed):
 - an unannotated attribute, `self.router = Router(...)`, used in another method (1)
 
 Still missed on click: a call inside `if isinstance(command, Group):` and one through a closure variable. The
-full list of what isn't resolved is in [What this does not do](#what-this-does-not-do).
+full list of what isn't resolved is in [What this does not do](https://github.com/tenthlook/tenthcheck#what-this-does-not-do).
 
 - `tenthcheck check <repo>`: import cycles among the repo's modules plus a summary (modules, functions,
   classes and edges parsed; files skipped for syntax errors).
