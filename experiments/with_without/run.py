@@ -51,7 +51,8 @@ def vpy(venv: Path) -> Path:
 def setup(python: str) -> None:
     WORK.mkdir(parents=True, exist_ok=True)
     if not MIRROR.exists():
-        sh(["git", "clone", "--bare", "--filter=blob:none", TARGET["repo"], str(MIRROR)])
+        # Full (not --filter=blob:none) mirror: local clones of a partial clone cannot fetch blobs.
+        sh(["git", "clone", "--bare", TARGET["repo"], str(MIRROR)])
     sh(["git", "-C", str(MIRROR), "fetch", "origin", "tag", TARGET["tag"], "--no-tags"])
     if not TARGET_VENV.exists():
         sh([python, "-m", "venv", str(TARGET_VENV)])
@@ -61,6 +62,8 @@ def setup(python: str) -> None:
         sh([str(vpy(TOOL_VENV)), "-m", "pip", "install", "-q", f"{HERE.parents[1]}[mcp]"])
     co = fresh_checkout(WORK / "baseline_checkout")
     passed, all_ids, junit = run_tests(co, WORK / "baseline_junit.xml")
+    if not passed:
+        sys.exit("baseline: no passing tests; the checkout or test venv is broken (see baseline_junit.xml)")
     BASELINE.write_text(json.dumps({"commit": TARGET["commit"], "python": python_version(),
                                     "n_collected": len(all_ids), "n_passed": len(passed),
                                     "passed": sorted(passed)}, indent=1))

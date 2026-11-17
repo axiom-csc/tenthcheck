@@ -1,0 +1,12 @@
+{
+ "mcpServers": {
+  "tenthcheck": {
+   "type": "stdio",
+   "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck",
+   "args": [
+    "serve",
+    "/Users/narensara/tenthcheck-with-without/checkouts/20261117-161855__t03_rename_adjust_line_length__with"
+   ]
+  }
+ }
+}

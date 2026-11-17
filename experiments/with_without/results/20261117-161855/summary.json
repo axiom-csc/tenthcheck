@@ -1,0 +1,77 @@
+{
+ "pairs": 4,
+ "total_broken": {
+  "with": 0,
+  "without": 0
+ },
+ "tasks_with_any_breakage": {
+  "with": 0,
+  "without": 0
+ },
+ "done_check_passed": {
+  "with": 4,
+  "without": 4
+ },
+ "mean_diff_without_minus_with": 0.0,
+ "median_diff": 0.0,
+ "wins_ties_losses_for_with": [
+  0,
+  4,
+  0
+ ],
+ "sign_test_p_two_sided": 1.0,
+ "permutation_p_two_sided": 1.0,
+ "bootstrap_95ci_mean_diff": [
+  0.0,
+  0.0
+ ],
+ "tenthcheck_calls_total": 8,
+ "with_arm_sessions_without_any_tenthcheck_call": 0,
+ "reported_cost_usd_total": 1.7027106,
+ "rows": [
+  {
+   "task_id": "t03_rename_adjust_line_length",
+   "broken_without": 0,
+   "broken_with": 0,
+   "diff_without_minus_with": 0,
+   "done_without": true,
+   "done_with": true,
+   "tenthcheck_calls": 1,
+   "first": "with",
+   "touched_tests": false
+  },
+  {
+   "task_id": "t06_console_options_module",
+   "broken_without": 0,
+   "broken_with": 0,
+   "diff_without_minus_with": 0,
+   "done_without": true,
+   "done_with": true,
+   "tenthcheck_calls": 4,
+   "first": "without",
+   "touched_tests": false
+  },
+  {
+   "task_id": "t08_rename_loop_last",
+   "broken_without": 0,
+   "broken_with": 0,
+   "diff_without_minus_with": 0,
+   "done_without": true,
+   "done_with": true,
+   "tenthcheck_calls": 1,
+   "first": "without",
+   "touched_tests": false
+  },
+  {
+   "task_id": "t09_control_codes_module",
+   "broken_without": 0,
+   "broken_with": 0,
+   "diff_without_minus_with": 0,
+   "done_without": true,
+   "done_with": true,
+   "tenthcheck_calls": 2,
+   "first": "with",
+   "touched_tests": false
+  }
+ ]
+}

@@ -1,0 +1,161 @@
+diff --git a/rich/_control_codes.py b/rich/_control_codes.py
+new file mode 100644
+index 00000000..259906e1
+--- /dev/null
++++ b/rich/_control_codes.py
+@@ -0,0 +1,50 @@
++from typing import Dict, Final
++
++STRIP_CONTROL_CODES: Final = [
++    7,  # Bell
++    8,  # Backspace
++    11,  # Vertical tab
++    12,  # Form feed
++    13,  # Carriage return
++]
++_CONTROL_STRIP_TRANSLATE: Final = {
++    _codepoint: None for _codepoint in STRIP_CONTROL_CODES
++}
++
++CONTROL_ESCAPE: Final = {
++    7: "\\a",
++    8: "\\b",
++    11: "\\v",
++    12: "\\f",
++    13: "\\r",
++}
++
++
++def strip_control_codes(
++    text: str, _translate_table: Dict[int, None] = _CONTROL_STRIP_TRANSLATE
++) -> str:
++    """Remove control codes from text.
++
++    Args:
++        text (str): A string possibly contain control codes.
++
++    Returns:
++        str: String with control codes removed.
++    """
++    return text.translate(_translate_table)
++
++
++def escape_control_codes(
++    text: str,
++    _translate_table: Dict[int, str] = CONTROL_ESCAPE,
++) -> str:
++    """Replace control codes with their "escaped" equivalent in the given text.
++    (e.g. "\b" becomes "\\b")
++
++    Args:
++        text (str): A string possibly containing control codes.
++
++    Returns:
++        str: String with control codes replaced with their escaped version.
++    """
++    return text.translate(_translate_table)
+diff --git a/rich/_inspect.py b/rich/_inspect.py
+index ac78ffe2..f8dc880f 100644
+--- a/rich/_inspect.py
++++ b/rich/_inspect.py
+@@ -3,7 +3,7 @@ from inspect import cleandoc, getdoc, getfile, isclass, ismodule, signature
+ from typing import Any, Collection, Iterable, Optional, Tuple, Type, Union
+ 
+ from .console import Group, RenderableType
+-from .control import escape_control_codes
++from ._control_codes import escape_control_codes
+ from .highlighter import ReprHighlighter
+ from .jupyter import JupyterMixin
+ from .panel import Panel
+diff --git a/rich/control.py b/rich/control.py
+index 248b0f59..801e4444 100644
+--- a/rich/control.py
++++ b/rich/control.py
+@@ -1,30 +1,18 @@
+ import time
+ from typing import TYPE_CHECKING, Callable, Dict, Iterable, List, Union, Final
+ 
++from ._control_codes import (  # noqa: F401
++    CONTROL_ESCAPE,
++    STRIP_CONTROL_CODES,
++    _CONTROL_STRIP_TRANSLATE,
++    escape_control_codes,
++    strip_control_codes,
++)
+ from .segment import ControlCode, ControlType, Segment
+ 
+ if TYPE_CHECKING:
+     from .console import Console, ConsoleOptions, RenderResult
+ 
+-STRIP_CONTROL_CODES: Final = [
+-    7,  # Bell
+-    8,  # Backspace
+-    11,  # Vertical tab
+-    12,  # Form feed
+-    13,  # Carriage return
+-]
+-_CONTROL_STRIP_TRANSLATE: Final = {
+-    _codepoint: None for _codepoint in STRIP_CONTROL_CODES
+-}
+-
+-CONTROL_ESCAPE: Final = {
+-    7: "\\a",
+-    8: "\\b",
+-    11: "\\v",
+-    12: "\\f",
+-    13: "\\r",
+-}
+-
+ CONTROL_CODES_FORMAT: Dict[int, Callable[..., str]] = {
+     ControlType.BELL: lambda: "\x07",
+     ControlType.CARRIAGE_RETURN: lambda: "\r",
+@@ -178,36 +166,6 @@ class Control:
+             yield self.segment
+ 
+ 
+-def strip_control_codes(
+-    text: str, _translate_table: Dict[int, None] = _CONTROL_STRIP_TRANSLATE
+-) -> str:
+-    """Remove control codes from text.
+-
+-    Args:
+-        text (str): A string possibly contain control codes.
+-
+-    Returns:
+-        str: String with control codes removed.
+-    """
+-    return text.translate(_translate_table)
+-
+-
+-def escape_control_codes(
+-    text: str,
+-    _translate_table: Dict[int, str] = CONTROL_ESCAPE,
+-) -> str:
+-    """Replace control codes with their "escaped" equivalent in the given text.
+-    (e.g. "\b" becomes "\\b")
+-
+-    Args:
+-        text (str): A string possibly containing control codes.
+-
+-    Returns:
+-        str: String with control codes replaced with their escaped version.
+-    """
+-    return text.translate(_translate_table)
+-
+-
+ if __name__ == "__main__":  # pragma: no cover
+     from rich.console import Console
+ 
+diff --git a/rich/text.py b/rich/text.py
+index 7e087a4e..8f7c0670 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -22,7 +22,7 @@ from ._wrap import divide_line
+ from .align import AlignMethod
+ from .cells import cell_len, set_cell_size
+ from .containers import Lines
+-from .control import strip_control_codes
++from ._control_codes import strip_control_codes
+ from .emoji import EmojiVariant
+ from .jupyter import JupyterMixin
+ from .measure import Measurement

@@ -1,4 +1,4 @@
-"""Paired comparison of the with/without runs. n = 10 pairs is a demonstration, not a significance test.
+"""Paired comparison of the with/without runs. n <= 10 pairs is a demonstration, not a significance test.
 
     python analyze.py results/<run_id>/results.json [--json summary.json]
 """
@@ -103,9 +103,10 @@ def main() -> None:
           f"paired permutation p = {summary['permutation_p_two_sided']:.3f}")
     print(f"tenthcheck calls in the with arm: {summary['tenthcheck_calls_total']} "
           f"({summary['with_arm_sessions_without_any_tenthcheck_call']} with-arm sessions made none)")
-    print("\nHow to read this: 10 pairs, one session per arm per task, on one repository and one model. Session-to-"
+    print(f"\nHow to read this: {len(pairs)} pair(s), one session per arm per task, on one repository and one model. Session-to-"
           "session variance in Claude Code is large, so a difference here is an anecdote with a direction, not "
-          "evidence of an effect. Even a sign test of 10-0 only gives p ~ 0.002 and 8-2 gives p ~ 0.11; the "
+          f"evidence of an effect. The best possible sign-test result with {len(pairs)} pairs is p = {2 * 0.5 ** len(pairs):.3g} "
+          "(10-0 would give p ~ 0.002, 8-2 p ~ 0.11); the "
           "numbers above are reported for transparency, not as significance claims. A tie (both 0) is the "
           "expected result for easy tasks. Report it as a demo.")
     if any(r["touched_tests"] for r in rows):

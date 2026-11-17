@@ -1,0 +1,80 @@
+diff --git a/rich/segment.py b/rich/segment.py
+index dd1e8c2a..aa73ec6d 100644
+--- a/rich/segment.py
++++ b/rich/segment.py
+@@ -327,7 +327,7 @@ class Segment(NamedTuple):
+         line: List[Segment] = []
+         append = line.append
+ 
+-        adjust_line_length = cls.adjust_line_length
++        fit_line_length = cls.fit_line_length
+         new_line_segment = cls("\n")
+ 
+         for segment in segments:
+@@ -338,7 +338,7 @@ class Segment(NamedTuple):
+                     if _text:
+                         append(cls(_text, segment_style))
+                     if new_line:
+-                        cropped_line = adjust_line_length(
++                        cropped_line = fit_line_length(
+                             line, length, style=style, pad=pad
+                         )
+                         if include_new_lines:
+@@ -348,10 +348,10 @@ class Segment(NamedTuple):
+             else:
+                 append(segment)
+         if line:
+-            yield adjust_line_length(line, length, style=style, pad=pad)
++            yield fit_line_length(line, length, style=style, pad=pad)
+ 
+     @classmethod
+-    def adjust_line_length(
++    def fit_line_length(
+         cls,
+         line: List["Segment"],
+         length: int,
+@@ -395,6 +395,17 @@ class Segment(NamedTuple):
+             new_line = line[:]
+         return new_line
+ 
++    @classmethod
++    def adjust_line_length(
++        cls,
++        line: List["Segment"],
++        length: int,
++        style: Optional[Style] = None,
++        pad: bool = True,
++    ) -> List["Segment"]:
++        """Alias of :meth:`fit_line_length`, kept for backwards compatibility."""
++        return cls.fit_line_length(line, length, style=style, pad=pad)
++
+     @classmethod
+     def get_line_length(cls, line: List["Segment"]) -> int:
+         """Get the length of list of segments.
+@@ -449,11 +460,9 @@ class Segment(NamedTuple):
+             [cls(" " * width + "\n", style)] if new_lines else [cls(" " * width, style)]
+         )
+ 
+-        adjust_line_length = cls.adjust_line_length
++        fit_line_length = cls.fit_line_length
+         shaped_lines = lines[:_height]
+-        shaped_lines[:] = [
+-            adjust_line_length(line, width, style=style) for line in lines
+-        ]
++        shaped_lines[:] = [fit_line_length(line, width, style=style) for line in lines]
+         if len(shaped_lines) < _height:
+             shaped_lines.extend([blank] * (_height - len(shaped_lines)))
+         return shaped_lines
+diff --git a/rich/syntax.py b/rich/syntax.py
+index 8c8f8315..d3667759 100644
+--- a/rich/syntax.py
++++ b/rich/syntax.py
+@@ -757,7 +757,7 @@ class Syntax(JupyterMixin):
+                     wrapped_lines = [segments]
+                 else:
+                     wrapped_lines = [
+-                        _Segment.adjust_line_length(
++                        _Segment.fit_line_length(
+                             segments,
+                             render_options.max_width,
+                             style=background_style,
