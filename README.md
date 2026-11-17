@@ -94,31 +94,34 @@ Python version are in `measurements/results/latency.json`.
 
 Re-run 2026-11-12 with the typed-call pass (below); CALLS edges rose from 259 / 171 / 1,472 (round 1) to the numbers shown, and parse time rose about 0.1 s on httpx and flask and ~1 s on pydantic (parse times in this table: measured on battery; may be slower on AC). The typed pass raised no errors on any of the four libraries parsed. pydantic's clone is mostly `tests/` (2,961 of 3,156 files). Dependents walks never hit the 10,000-node cap (`hit_node_cap` = 0 in every repo).
 
-### Latency (`measurements/scripts/bench_latency.py` -> `measurements/results/latency_2026-11-17.json`)
+### Latency (`measurements/scripts/bench_latency.py` -> `measurements/results/latency_2026-11-17_ac.json`)
 
-**Measured 2026-11-17 on the current code; measured on battery; may be slower on AC** (power source recorded in the file's `meta.power`). Apple M4, Python 3.11.18. Milliseconds. **MCP (warm):** one `serve` process per repo, real stdio round trips through the official MCP client, after one untimed call per tool. **CLI (cold):** a fresh process each time, parse included. With n = 5–100 runs, p99 is close to the max; n is shown.
+**Measured 2026-11-17 on the current code, on AC power for the whole run** (`measurements/scripts/ac_bench.sh` checked the power source every 5 s; also recorded in the file's `meta.power`). Apple M4, Python 3.11.18. Milliseconds. **MCP (warm):** one `serve` process per repo, real stdio round trips through the official MCP client, after one untimed call per tool. **CLI (cold):** a fresh process each time, parse included. With n = 5–100 runs, p99 is close to the max; n is shown.
 
 | Repo | Tool | MCP p50 | MCP p99 | n | CLI cold p50 | CLI cold p99 | n |
 |---|---|---|---|---|---|---|---|
-| httpx | `check_blast_radius` / `blast` | 3.2 | 4.3 | 100 | 591 | 627 | 5 |
-| httpx | `find_import_cycles` / `cycles` | 2.6 | 2.8 | 30 | 605 | 621 | 5 |
-| httpx | `check_proposed_edit` / `check` | 297.1 | 346.3 | 20 | 1082 | 1097 | 5 |
-| httpx | `scope_audit` / `scope` | 1188.1 | 1234.2 | 5 | 1069 | 1141 | 5 |
-| flask | `check_blast_radius` / `blast` | 4.5 | 6.6 | 100 | 577 | 598 | 5 |
-| flask | `find_import_cycles` / `cycles` | 4.0 | 4.5 | 30 | 576 | 578 | 5 |
-| flask | `check_proposed_edit` / `check` | 287.2 | 348.8 | 20 | 1020 | 1040 | 5 |
-| flask | `scope_audit` / `scope` | 1085.8 | 1114.3 | 5 | 1024 | 1033 | 5 |
-| pydantic | `check_blast_radius` / `blast` | 104.2 | 645.6 | 100 | 7314 | 7947 | 5 |
-| pydantic | `find_import_cycles` / `cycles` | 88.1 | 569.0 | 30 | 7386 | 7457 | 5 |
-| pydantic | `check_proposed_edit` / `check` | 4128.0 | 4491.1 | 20 | 15838 | 18779 | 5 |
-| pydantic | `scope_audit` / `scope` | 23197.1 | 24064.1 | 5 | 17356 | 18067 | 5 |
+| httpx | `check_blast_radius` / `blast` | 3.7 | 5.2 | 100 | 601 | 711 | 5 |
+| httpx | `find_import_cycles` / `cycles` | 2.6 | 3.8 | 30 | 630 | 646 | 5 |
+| httpx | `check_proposed_edit` / `check` | 321.1 | 420.8 | 20 | 1216 | 1268 | 5 |
+| httpx | `scope_audit` / `scope` | 1434.6 | 1531.3 | 5 | 1274 | 1351 | 5 |
+| flask | `check_blast_radius` / `blast` | 6.8 | 8.9 | 100 | 596 | 610 | 5 |
+| flask | `find_import_cycles` / `cycles` | 5.8 | 7.3 | 30 | 534 | 559 | 5 |
+| flask | `check_proposed_edit` / `check` | 339.4 | 427.6 | 20 | 994 | 1074 | 5 |
+| flask | `scope_audit` / `scope` | 1480.5 | 1760.0 | 5 | 992 | 1031 | 5 |
+| pydantic | `check_blast_radius` / `blast` | 119.9 | 813.2 | 100 | 8605 | 8880 | 5 |
+| pydantic | `find_import_cycles` / `cycles` | 100.9 | 716.9 | 30 | 8712 | 9226 | 5 |
+| pydantic | `check_proposed_edit` / `check` | 4527.6 | 10625.0 | 20 | 17900 | 18276 | 5 |
+| pydantic | `scope_audit` / `scope` | 30128.2 | 32017.7 | 5 | 20002 | 20371 | 5 |
 
-The first MCP call in a session parses the repo: httpx 47 ms, flask 8 ms, pydantic 96 ms. That first number is lower than the cold parse time above because the server already parsed the repo once at startup, before the client's first timed call. On pydantic, a warm `blast` call spends about 55 ms re-checking every file's mtime and about 35 ms rebuilding the reverse edge index for the walk (`measurements/results/pydantic_warm_breakdown.txt`, medians of 10, measured 2026-11-11). `check_proposed_edit` rebuilds the whole graph from cached syntax trees (~4 s on pydantic). `scope_audit` parses two full snapshots from disk on every call.
+The first MCP call in a session parses the repo: httpx 60 ms, flask 11 ms, pydantic 97 ms. That first number is lower than the cold parse time above because the server already parsed the repo once at startup, before the client's first timed call. On pydantic, a warm `blast` call spends about 55 ms re-checking every file's mtime and about 35 ms rebuilding the reverse edge index for the walk (`measurements/results/pydantic_warm_breakdown.txt`, medians of 10, measured 2026-11-11). `check_proposed_edit` rebuilds the whole graph from cached syntax trees (~4.5 s on pydantic). `scope_audit` parses two full snapshots from disk on every call.
 
-Compared with the 2026-11-11 run before the typed-call pass (`measurements/results/latency.json`, power source not
-recorded), warm `blast` and `cycles` are about the same, while warm `check` / `scope` and every cold command are
-about 10–60% slower (warm `check_proposed_edit` on httpx: 185 -> 297 ms p50). This run cannot separate the cost
-of the typed-call pass from running on battery; re-run on AC power to tell them apart.
+**Run-to-run variance is large on this laptop.** A battery run of the same code a few hours earlier
+(`measurements/results/latency_2026-11-17.json`) was *faster* than this AC run in 20 of 24 rows, by up to a third
+(flask warm `blast`: 4.5 vs 6.8 ms p50; pydantic warm `scope_audit`: 23.2 vs 30.1 s). The 2026-11-11 run, before
+the typed-call pass (`measurements/results/latency.json`, power source not recorded), was faster again: warm
+`check_proposed_edit` on httpx was 185 ms then, 297 ms on battery and 321 ms on AC today. Some of that is likely
+the typed-call pass, but with this much variance between same-day runs these files do not show how much. Treat
+the table as one run, not a precise benchmark.
 
 ### How complete are the edges?
 
@@ -234,6 +237,9 @@ python scripts/accuracy_eval.py ~/tenthcheck-corpus
 python scripts/harden.py ~/tenthcheck-corpus results/hardening.json
 python scripts/bench_latency.py ~/tenthcheck-corpus results/latency.json
 ```
+
+On a macOS laptop, `scripts/ac_bench.sh [corpus_dir] [python]` runs the latency benchmark only while on AC
+power: it waits for 2 minutes of uninterrupted AC and discards the run if the power source changes.
 
 To check the held-out freeze: `cd measurements && grep results/ results/accuracy_starlette/FROZEN.sha256 |
 shasum -a 256 -c`, and from the repo root `grep src/ measurements/results/accuracy_starlette/FROZEN.sha256 |

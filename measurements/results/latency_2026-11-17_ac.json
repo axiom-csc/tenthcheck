@@ -1,0 +1,210 @@
+{
+  "meta": {
+    "python": "3.11.18",
+    "platform": "darwin",
+    "seed": 0,
+    "recorded": "2026-11-17 14:11:25",
+    "machine": "Apple M4",
+    "power": "Now drawing from 'AC Power'"
+  },
+  "repos": [
+    {
+      "repo": "httpx",
+      "edit_file": "tests/test_wsgi.py",
+      "n_symbols": 20,
+      "mcp_warm": {
+        "first_call_ms_includes_parse": 60.5,
+        "check_blast_radius": {
+          "n": 100,
+          "p50_ms": 3.69,
+          "p99_ms": 5.25,
+          "max_ms": 5.27,
+          "min_ms": 3.1
+        },
+        "find_import_cycles": {
+          "n": 30,
+          "p50_ms": 2.59,
+          "p99_ms": 3.78,
+          "max_ms": 3.78,
+          "min_ms": 2.49
+        },
+        "check_proposed_edit": {
+          "n": 20,
+          "p50_ms": 321.12,
+          "p99_ms": 420.81,
+          "max_ms": 420.81,
+          "min_ms": 300.26
+        },
+        "scope_audit": {
+          "n": 5,
+          "p50_ms": 1434.62,
+          "p99_ms": 1531.28,
+          "max_ms": 1531.28,
+          "min_ms": 1377.14
+        }
+      },
+      "cli_cold": {
+        "blast": {
+          "n": 5,
+          "p50_ms": 600.94,
+          "p99_ms": 710.64,
+          "max_ms": 710.64,
+          "min_ms": 561.61
+        },
+        "cycles": {
+          "n": 5,
+          "p50_ms": 629.71,
+          "p99_ms": 646.22,
+          "max_ms": 646.22,
+          "min_ms": 624.7
+        },
+        "check": {
+          "n": 5,
+          "p50_ms": 1216.14,
+          "p99_ms": 1267.94,
+          "max_ms": 1267.94,
+          "min_ms": 1183.21
+        },
+        "scope": {
+          "n": 5,
+          "p50_ms": 1274.4,
+          "p99_ms": 1350.69,
+          "max_ms": 1350.69,
+          "min_ms": 1195.62
+        }
+      }
+    },
+    {
+      "repo": "flask",
+      "edit_file": "tests/test_converters.py",
+      "n_symbols": 20,
+      "mcp_warm": {
+        "first_call_ms_includes_parse": 10.66,
+        "check_blast_radius": {
+          "n": 100,
+          "p50_ms": 6.76,
+          "p99_ms": 8.95,
+          "max_ms": 9.26,
+          "min_ms": 4.89
+        },
+        "find_import_cycles": {
+          "n": 30,
+          "p50_ms": 5.85,
+          "p99_ms": 7.34,
+          "max_ms": 7.34,
+          "min_ms": 4.94
+        },
+        "check_proposed_edit": {
+          "n": 20,
+          "p50_ms": 339.43,
+          "p99_ms": 427.63,
+          "max_ms": 427.63,
+          "min_ms": 311.45
+        },
+        "scope_audit": {
+          "n": 5,
+          "p50_ms": 1480.53,
+          "p99_ms": 1760.05,
+          "max_ms": 1760.05,
+          "min_ms": 1424.77
+        }
+      },
+      "cli_cold": {
+        "blast": {
+          "n": 5,
+          "p50_ms": 595.86,
+          "p99_ms": 610.41,
+          "max_ms": 610.41,
+          "min_ms": 566.32
+        },
+        "cycles": {
+          "n": 5,
+          "p50_ms": 533.95,
+          "p99_ms": 559.42,
+          "max_ms": 559.42,
+          "min_ms": 529.41
+        },
+        "check": {
+          "n": 5,
+          "p50_ms": 993.87,
+          "p99_ms": 1074.16,
+          "max_ms": 1074.16,
+          "min_ms": 975.23
+        },
+        "scope": {
+          "n": 5,
+          "p50_ms": 992.29,
+          "p99_ms": 1031.27,
+          "max_ms": 1031.27,
+          "min_ms": 962.69
+        }
+      }
+    },
+    {
+      "repo": "pydantic",
+      "edit_file": "tests/benchmarks/corpus/google-genai/google/genai/_gaos/types/interactions/googlesearch.py",
+      "n_symbols": 20,
+      "mcp_warm": {
+        "first_call_ms_includes_parse": 97.12,
+        "check_blast_radius": {
+          "n": 100,
+          "p50_ms": 119.93,
+          "p99_ms": 813.19,
+          "max_ms": 1171.46,
+          "min_ms": 99.49
+        },
+        "find_import_cycles": {
+          "n": 30,
+          "p50_ms": 100.91,
+          "p99_ms": 716.91,
+          "max_ms": 716.91,
+          "min_ms": 85.28
+        },
+        "check_proposed_edit": {
+          "n": 20,
+          "p50_ms": 4527.62,
+          "p99_ms": 10624.97,
+          "max_ms": 10624.97,
+          "min_ms": 3799.05
+        },
+        "scope_audit": {
+          "n": 5,
+          "p50_ms": 30128.2,
+          "p99_ms": 32017.67,
+          "max_ms": 32017.67,
+          "min_ms": 27925.71
+        }
+      },
+      "cli_cold": {
+        "blast": {
+          "n": 5,
+          "p50_ms": 8605.19,
+          "p99_ms": 8880.35,
+          "max_ms": 8880.35,
+          "min_ms": 8358.12
+        },
+        "cycles": {
+          "n": 5,
+          "p50_ms": 8712.18,
+          "p99_ms": 9226.26,
+          "max_ms": 9226.26,
+          "min_ms": 8272.43
+        },
+        "check": {
+          "n": 5,
+          "p50_ms": 17900.18,
+          "p99_ms": 18275.9,
+          "max_ms": 18275.9,
+          "min_ms": 16453.71
+        },
+        "scope": {
+          "n": 5,
+          "p50_ms": 20002.3,
+          "p99_ms": 20371.29,
+          "max_ms": 20371.29,
+          "min_ms": 19440.92
+        }
+      }
+    }
+  ]
+}
