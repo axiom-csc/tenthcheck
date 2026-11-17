@@ -1,0 +1,63 @@
+{
+  "target": {
+    "repo": "https://github.com/Textualize/rich",
+    "tag": "v15.0.0",
+    "commit": "6ac483cbea39cab124dfd3483bba70ffafb71050",
+    "package_dir": ".",
+    "test_command": ["-m", "pytest", "-p", "no:cacheprovider", "-q", "tests"],
+    "test_deps": ["pygments>=2.13,<3", "markdown-it-py>=2.2", "pytest>=7,<9", "attrs", "typing-extensions>=4"]
+  },
+  "common_rules": "Rules for this task: work only inside the current directory. Do not modify, add or delete anything under tests/. Behaviour must not change, and every name that is importable today (including private names such as rich._ratio.ratio_reduce) must stay importable from the module it is imported from today. You cannot run code or tests in this session. Before writing each file, check what the change could break using the tools available to you. When you are done, reply with a short list of the files you changed.",
+  "tasks": [
+    {
+      "id": "t01_ratio_split",
+      "prompt": "Refactor rich: move the functions ratio_reduce and ratio_distribute out of rich/_ratio.py into a new module rich/_ratio_table.py (they are only used by the table layout code). Update rich/table.py to import them from rich._ratio_table. ratio_resolve stays in rich/_ratio.py.",
+      "done_check": "import rich._ratio_table as m, rich._ratio as r; assert m.ratio_reduce.__module__ == 'rich._ratio_table' and m.ratio_distribute.__module__ == 'rich._ratio_table'; assert r.ratio_reduce is m.ratio_reduce"
+    },
+    {
+      "id": "t02_protocol_to_abc",
+      "prompt": "Refactor rich: move is_renderable and rich_cast from rich/protocol.py into rich/abc.py. Change every import of these two functions inside the rich package (not tests) to import them from rich.abc. rich/protocol.py should only re-export them.",
+      "done_check": "import rich.abc as a, rich.protocol as p; assert a.rich_cast.__module__ == 'rich.abc' and a.is_renderable.__module__ == 'rich.abc'; assert p.rich_cast is a.rich_cast"
+    },
+    {
+      "id": "t03_rename_adjust_line_length",
+      "prompt": "Refactor rich: rename the classmethod Segment.adjust_line_length in rich/segment.py to Segment.fit_line_length and update every caller inside the rich package to use the new name. Keep Segment.adjust_line_length working as a thin alias of fit_line_length.",
+      "done_check": "from rich.segment import Segment; assert 'fit_line_length' in Segment.__dict__; assert Segment.adjust_line_length([Segment('ab')], 1) == Segment.fit_line_length([Segment('ab')], 1)"
+    },
+    {
+      "id": "t04_split_crop_width",
+      "prompt": "Refactor rich: in rich/segment.py rename the parameter `length` of Segment.split_and_crop_lines to `width` (same position, same meaning) and update its docstring. Update every caller inside the rich package that passes it by keyword.",
+      "done_check": "import inspect; from rich.segment import Segment; ps = inspect.signature(Segment.split_and_crop_lines).parameters; assert 'width' in ps and 'length' not in ps"
+    },
+    {
+      "id": "t05_unpack_padding_function",
+      "prompt": "Refactor rich: turn the static method Padding.unpack in rich/padding.py into a module-level function `unpack_padding(pad)` in the same file. Update every call site inside the rich package (outside padding.py too) to call rich.padding.unpack_padding directly. Keep Padding.unpack as a static method that delegates to unpack_padding.",
+      "done_check": "from rich.padding import unpack_padding, Padding; assert unpack_padding((3, 4)) == (3, 4, 3, 4) == Padding.unpack((3, 4))"
+    },
+    {
+      "id": "t06_console_options_module",
+      "prompt": "Refactor rich: rich/console.py is too long. Move the classes NoChange, ConsoleDimensions and ConsoleOptions (and the NO_CHANGE constant, if it exists) into a new module rich/console_options.py. Change the imports of ConsoleOptions and ConsoleDimensions inside the rich package (not tests) to come from rich.console_options. rich.console must keep exporting all of them, so `from rich.console import ConsoleOptions, ConsoleDimensions` still works.",
+      "done_check": "import rich.console as c, rich.console_options as o; assert o.ConsoleOptions.__module__ == 'rich.console_options'; assert c.ConsoleOptions is o.ConsoleOptions and c.ConsoleDimensions is o.ConsoleDimensions"
+    },
+    {
+      "id": "t07_merge_emoji_replace",
+      "prompt": "Refactor rich: merge rich/_emoji_replace.py into rich/emoji.py. Move the function _emoji_replace into rich/emoji.py and change every import of it inside the rich package to `from .emoji import _emoji_replace` (or the equivalent absolute import). Keep rich/_emoji_replace.py as a one-line re-export so old imports still work.",
+      "done_check": "import rich.emoji as e, rich._emoji_replace as r; assert e._emoji_replace.__module__ == 'rich.emoji'; assert r._emoji_replace is e._emoji_replace"
+    },
+    {
+      "id": "t08_rename_loop_last",
+      "prompt": "Refactor rich: rename the function loop_last in rich/_loop.py to iter_last and update every use of it inside the rich package to the new name. Keep loop_last available in rich/_loop.py as an alias of iter_last.",
+      "done_check": "from rich._loop import iter_last, loop_last; assert loop_last is iter_last; assert list(iter_last([1, 2])) == [(False, 1), (True, 2)]"
+    },
+    {
+      "id": "t09_control_codes_module",
+      "prompt": "Refactor rich: move strip_control_codes and escape_control_codes, together with the translation tables they use, out of rich/control.py into a new module rich/_control_codes.py. Update the imports of these functions inside the rich package (not tests) to use rich._control_codes. rich.control must keep exporting both functions and the tables.",
+      "done_check": "import rich._control_codes as n, rich.control as c; assert n.strip_control_codes.__module__ == 'rich._control_codes'; assert c.strip_control_codes is n.strip_control_codes and c.escape_control_codes is n.escape_control_codes; assert n.strip_control_codes('a\\rb') == 'ab'"
+    },
+    {
+      "id": "t10_wrap_offsets",
+      "prompt": "Refactor rich: in rich/_wrap.py rename divide_line to wrap_offsets and make its `fold` parameter keyword-only (`def wrap_offsets(text, width, *, fold=True)`). Update every caller inside the rich package. Keep divide_line as an alias of wrap_offsets.",
+      "done_check": "import inspect; from rich._wrap import wrap_offsets, divide_line; assert divide_line is wrap_offsets; assert inspect.signature(wrap_offsets).parameters['fold'].kind is inspect.Parameter.KEYWORD_ONLY"
+    }
+  ]
+}
