@@ -1,0 +1,75 @@
+===== click.core.Context.fail
+    click.core.Command.parse_args | core.py:1411 | ctx.fail(
+    click.core.Group.invoke | core.py:2057 | ctx.fail(_("Missing command."))
+    click.types.FuncParamType.convert | types.py:279 | self.fail(message, param, ctx)
+    click.types.Choice.convert | types.py:454 | self.fail(
+    click.types.DateTime.convert | types.py:561 | self.fail(
+    click.types._NumberParamTypeBase.convert | types.py:586 | self.fail(
+    click.types._NumberRangeBase.convert | types.py:660 | self.fail(
+    click.types.BoolParamType.convert | types.py:846 | self.fail(
+    click.types.UUIDParameterType.convert | types.py:873 | self.fail(
+    click.types.File.convert | types.py:994 | self.fail(
+    click.types.Path.convert | types.py:1152 | self.fail(
+    click.types.Path.convert | types.py:1161 | self.fail(
+    click.types.Path.convert | types.py:1169 | self.fail(
+    click.types.Path.convert | types.py:1178 | self.fail(
+    click.types.Path.convert | types.py:1187 | self.fail(
+    click.types.Path.convert | types.py:1196 | self.fail(
+    click.types.Tuple.convert | types.py:1267 | self.fail(
+===== click.core.Context.invoke
+    click.core.Context.forward | core.py:953 | return self.invoke(cmd, *args, **kwargs)
+    click.core.Command.invoke | core.py:1437 | return ctx.invoke(self.callback, **ctx.params)
+    click.core.Command.main | core.py:1583 | rv = self.invoke(ctx)
+    click.core.Group.invoke._process_result | core.py:2046 | value = ctx.invoke(self._result_callback, value, **ctx.params)
+    click.core.Group.invoke | core.py:2055 | rv = super().invoke(ctx)
+    click.core.Group.invoke | core.py:2074 | super().invoke(ctx)
+    click.core.Group.invoke | core.py:2077 | return _process_result(sub_ctx.command.invoke(sub_ctx))
+    click.core.Group.invoke | core.py:2086 | super().invoke(ctx)
+    click.core.Group.invoke | core.py:2108 | rv.append(sub_ctx.command.invoke(sub_ctx))
+    click.decorators.make_pass_decorator | decorators.py:63 | return ctx.invoke(f, obj, *args, **kwargs)
+    click.decorators.make_pass_decorator.decorator.new_func | decorators.py:89 | return ctx.invoke(f, obj, *args, **kwargs)
+    click.decorators.pass_meta_key.decorator.new_func | decorators.py:115 | return ctx.invoke(f, obj, *args, **kwargs)
+===== click.core.Command.make_context
+    click.core.Command.main | core.py:1582 | with self.make_context(prog_name, args, **extra) as ctx:
+    click.core.Group.invoke | core.py:2075 | sub_ctx = cmd.make_context(cmd_name, args, parent=ctx)
+    click.core.Group.invoke | core.py:2095 | sub_ctx = cmd.make_context(
+    click.shell_completion._resolve_context | shell_completion.py:706 | with cli.make_context(prog_name, args.copy(), **ctx_args) as ctx:
+    click.shell_completion._resolve_context | shell_completion.py:719 | with cmd.make_context(
+    click.shell_completion._resolve_context | shell_completion.py:733 | with cmd.make_context(
+===== click.core.Parameter.get_default
+    click.core.Context.invoke | core.py:918 | default_value = param.get_default(ctx)
+    click.core.Parameter.consume_value | core.py:2709 | default_value = self.get_default(ctx)
+    click.core.Option.get_default | core.py:3394 | raw = super().get_default(ctx, call=False)
+    click.core.Option.get_help_extra | core.py:3625 | default_value = self.get_default(ctx, call=False)
+    click.core.Option.prompt_for_value | core.py:3692 | default = self.get_default(ctx)
+===== click.termui.style
+    click.core.Command.invoke | core.py:1434 | echo(style(message, fg="red"), err=True)
+    click.core.Parameter.handle_parse_result | core.py:2957 | echo(style(message, fg="red"), err=True)
+    click.termui.style | termui.py:662 | click.echo(click.style('Hello World!', fg='green'))
+    click.termui.style | termui.py:663 | click.echo(click.style('ATTENTION!', blink=True))
+    click.termui.style | termui.py:664 | click.echo(click.style('Some things', reverse=True, fg='cyan'))
+    click.termui.style | termui.py:665 | click.echo(click.style('More colors', fg=(255, 12, 128), bg=117))
+    click.termui.secho | termui.py:792 | click.echo(click.style('Hello World!', fg='green'))
+    click.termui.secho | termui.py:809 | message = style(message, **styles)
+===== click.core.Context.get_help
+    click.core.Context.get_help | core.py:866 | return self.command.get_help(self)
+    click.decorators.help_option.show_help | decorators.py:609 | echo(ctx.get_help(), color=ctx.color)
+    click.exceptions.NoArgsIsHelpError.__init__ | exceptions.py:336 | super().__init__(ctx.get_help(), ctx=ctx)
+===== click.core.Group.resolve_command
+    click.core.Group.invoke | core.py:2071 | cmd_name, cmd, args = self.resolve_command(ctx, args)
+    click.core.Group.invoke | core.py:2093 | cmd_name, cmd, args = self.resolve_command(ctx, args)
+    click.shell_completion._resolve_context | shell_completion.py:714 | name, cmd, args = command.resolve_command(ctx, args)
+    click.shell_completion._resolve_context | shell_completion.py:728 | name, cmd, args = command.resolve_command(ctx, args)
+===== click.core.Context.lookup_default
+    click.core.Parameter.get_default | core.py:2655 | value = ctx.lookup_default(self.name, call=False)
+    click.core.Parameter.consume_value | core.py:2698 | default_map_value = ctx.lookup_default(self.name)
+===== click.formatting.HelpFormatter.write_text
+    click.core.Command.format_help_text | core.py:1317 | formatter.write_text(text)
+    click.core.Command.format_epilog | core.py:1351 | formatter.write_text(epilog)
+===== click.core.Command.get_usage
+    click.core.Context.get_usage | core.py:860 | return self.command.get_usage(self)
+    click.exceptions.UsageError.show | exceptions.py:106 | echo(f"{self.ctx.get_usage()}\n{hint}", file=file, color=color)
+===== click.formatting.HelpFormatter.write_usage
+    click.core.Command.format_usage | core.py:1188 | formatter.write_usage(ctx.command_path, " ".join(pieces))
+===== click.termui.secho
+    click.termui.secho | termui.py:791 | click.secho('Hello World!', fg='green')

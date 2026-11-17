@@ -1,0 +1,176 @@
+{
+ "library": "starlette",
+ "sha": "271c277da0ff64e2048a4d46ecc812b9d61db5f6",
+ "clone": "https://github.com/encode/starlette (shallow, 2026-11-17; commit date 2026-11-06)",
+ "parse_root": "~/tenthcheck-corpus/starlette",
+ "scope": "direct callers (hop 1) inside the starlette package; tests excluded",
+ "method": "Third library, held out: no Tenthcheck code was changed after looking at it. Selection rule fixed before any output was seen (scripts/accuracy_select.py): every non-dunder function/method name defined in starlette/, ranked by number of textual `name(` hits in the package; names with 3-12 hits, top 14, ties alphabetical; every definition of a chosen name is labelled. Each hit was read (receiver type, imports, bases) and labelled by hand from grep_candidates.json only; Tenthcheck's edges were not computed or shown while labelling. Labelled by Claude, 2026-11-17. Declared-type convention: a call through a variable typed as a base class counts for the base method.",
+ "symbols": {
+  "starlette.datastructures.ImmutableMultiDict.keys": {
+   "callers": [
+    "starlette.datastructures.ImmutableMultiDict.__iter__",
+    "starlette.datastructures.MultiDict.update"
+   ],
+   "note": "MultiDict.update: value = MultiDict(...) inherits keys. self._dict.keys() and path_params/param_convertors/__deprecated__ .keys() are dict.keys."
+  },
+  "starlette.datastructures.Headers.keys": {
+   "callers": [
+    "starlette.datastructures.Headers.__iter__"
+   ],
+   "note": ""
+  },
+  "starlette.datastructures.ImmutableMultiDict.multi_items": {
+   "callers": [
+    "starlette.datastructures.URL.append_query_params",
+    "starlette.datastructures.URL.include_query_params",
+    "starlette.datastructures.URL.remove_query_params",
+    "starlette.datastructures.ImmutableMultiDict.__init__",
+    "starlette.datastructures.ImmutableMultiDict.__repr__",
+    "starlette.datastructures.MultiDict.update",
+    "starlette.datastructures.FormData.close"
+   ],
+   "note": "URL.*: params = MultiDict(...). __init__: ImmutableMultiDict(...) and a cast after hasattr. testclient.py:253 is httpx.Headers.multi_items."
+  },
+  "starlette.concurrency.run_in_threadpool": {
+   "callers": [
+    "starlette._exception_handler.wrap_app_handling_exceptions.wrapped_app",
+    "starlette.background.BackgroundTask.__call__",
+    "starlette.datastructures.UploadFile.write",
+    "starlette.datastructures.UploadFile.read",
+    "starlette.datastructures.UploadFile.seek",
+    "starlette.datastructures.UploadFile.close",
+    "starlette.endpoints.HTTPEndpoint.dispatch",
+    "starlette.middleware.errors.ServerErrorMiddleware.__call__"
+   ],
+   "note": "All imported by name. routing.request_response passes it to functools.partial (not a call; no grep hit)."
+  },
+  "starlette.middleware.sessions.Session.mark_modified": {
+   "callers": [
+    "starlette.middleware.sessions.Session.__setitem__",
+    "starlette.middleware.sessions.Session.__delitem__",
+    "starlette.middleware.sessions.Session.clear",
+    "starlette.middleware.sessions.Session.pop",
+    "starlette.middleware.sessions.Session.popitem",
+    "starlette.middleware.sessions.Session.setdefault",
+    "starlette.middleware.sessions.Session.update",
+    "starlette.middleware.sessions.Session.__ior__"
+   ],
+   "note": "self.mark_modified() in Session."
+  },
+  "starlette._utils.is_async_callable": {
+   "callers": [
+    "starlette._exception_handler.wrap_app_handling_exceptions.wrapped_app",
+    "starlette.authentication.requires.decorator",
+    "starlette.background.BackgroundTask.__init__",
+    "starlette.endpoints.HTTPEndpoint.dispatch",
+    "starlette.middleware.errors.ServerErrorMiddleware.__call__",
+    "starlette.routing.request_response",
+    "starlette.testclient._is_asgi3"
+   ],
+   "note": "Implementation (_utils.py:61); the two @overload stubs are not labelled."
+  },
+  "starlette.routing.replace_params": {
+   "callers": [
+    "starlette.routing.Route.url_path_for",
+    "starlette.routing.WebSocketRoute.url_path_for",
+    "starlette.routing.Mount.url_path_for",
+    "starlette.routing.Host.url_path_for"
+   ],
+   "note": ""
+  },
+  "starlette.applications.Starlette.url_path_for": {
+   "callers": [
+    "starlette.requests.HTTPConnection.url_for"
+   ],
+   "note": "url_path_provider: Router | Starlette | None, so url_for calls both."
+  },
+  "starlette.routing.Router.url_path_for": {
+   "callers": [
+    "starlette.applications.Starlette.url_path_for",
+    "starlette.requests.HTTPConnection.url_for"
+   ],
+   "note": "self.router = Router(...)."
+  },
+  "starlette.routing.BaseRoute.url_path_for": {
+   "callers": [
+    "starlette.routing.Mount.url_path_for",
+    "starlette.routing.Host.url_path_for",
+    "starlette.routing.Router.url_path_for"
+   ],
+   "note": "route in self.routes: list[BaseRoute]; labelled by declared type (same convention as click)."
+  },
+  "starlette.routing.Route.url_path_for": {
+   "callers": [],
+   "note": "Reached only by dynamic dispatch through BaseRoute."
+  },
+  "starlette.routing.WebSocketRoute.url_path_for": {
+   "callers": [],
+   "note": "Reached only by dynamic dispatch through BaseRoute."
+  },
+  "starlette.routing.Mount.url_path_for": {
+   "callers": [],
+   "note": "Reached only by dynamic dispatch through BaseRoute."
+  },
+  "starlette.routing.Host.url_path_for": {
+   "callers": [],
+   "note": "Reached only by dynamic dispatch through BaseRoute."
+  },
+  "starlette.middleware.errors.ServerErrorMiddleware.__call__._send": {
+   "callers": [],
+   "note": "Passed to self.app, never called by name. Every `self._send(` hit is the ASGI send attribute of Request/WebSocket."
+  },
+  "starlette.datastructures.MultiDict.clear": {
+   "callers": [],
+   "note": "Hits are dict.clear / list.clear (_file_parts_to_* are annotated lists)."
+  },
+  "starlette.middleware.sessions.Session.clear": {
+   "callers": [],
+   "note": "super().clear() in Session.clear is dict.clear."
+  },
+  "starlette._utils.get_route_path": {
+   "callers": [
+    "starlette.routing.Route.matches",
+    "starlette.routing.WebSocketRoute.matches",
+    "starlette.routing.Mount.matches",
+    "starlette.routing.Router.app",
+    "starlette.staticfiles.StaticFiles.get_path"
+   ],
+   "note": ""
+  },
+  "starlette.datastructures.Headers.getlist": {
+   "callers": [
+    "starlette.datastructures.MutableHeaders.add_vary_header",
+    "starlette.middleware.cors.CORSMiddleware.send",
+    "starlette.middleware.cors.CORSMiddleware.allow_explicit_origin",
+    "starlette.requests.HTTPConnection.cookies",
+    "starlette.requests.Request.send_push_promise"
+   ],
+   "note": "cors.send: headers = MutableHeaders(...); allow_explicit_origin: headers: MutableHeaders; requests: self.headers -> Headers property."
+  },
+  "starlette.datastructures.ImmutableMultiDict.getlist": {
+   "callers": [],
+   "note": "No call site in the package."
+  },
+  "starlette.datastructures.UploadFile.read": {
+   "callers": [],
+   "note": "self.file.read is BinaryIO; responses.py file.read is anyio's AsyncFile; testclient request.read is httpx."
+  },
+  "starlette.requests.Request.stream": {
+   "callers": [
+    "starlette.middleware.base._CachedRequest.wrapped_receive",
+    "starlette.requests.Request.body",
+    "starlette.requests.Request._get_form"
+   ],
+   "note": "_CachedRequest(Request) does not override stream. base.py:25 is a docstring."
+  },
+  "starlette.testclient.WebSocketTestSession._raise_on_close": {
+   "callers": [
+    "starlette.testclient.WebSocketTestSession.__enter__",
+    "starlette.testclient.WebSocketTestSession.receive_text",
+    "starlette.testclient.WebSocketTestSession.receive_bytes",
+    "starlette.testclient.WebSocketTestSession.receive_json"
+   ],
+   "note": ""
+  }
+ }
+}

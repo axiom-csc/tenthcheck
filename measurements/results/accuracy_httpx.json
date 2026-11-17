@@ -1,0 +1,171 @@
+{
+  "library": "httpx",
+  "sha": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+  "scope": "direct callers (hop 1) inside the httpx package; tests excluded",
+  "method": "scripts/accuracy_candidates.py lists every textual `name(` call site with its enclosing def; each hit was read and labelled by hand (Claude, 2026-11-11)",
+  "symbols": 10,
+  "true_callers": 28,
+  "found": 21,
+  "missed": 7,
+  "false_positives": 0,
+  "miss_rate": 0.25,
+  "rows": [
+    {
+      "symbol": "httpx._utils.to_bytes",
+      "true_callers": [
+        "httpx._auth.BasicAuth._build_auth_header",
+        "httpx._auth.DigestAuth.__init__",
+        "httpx._auth.NetRCAuth._build_auth_header",
+        "httpx._multipart.DataField.render_data",
+        "httpx._multipart.FileField.get_length",
+        "httpx._multipart.FileField.render_data"
+      ],
+      "callguard_hop1": [
+        "httpx._auth.BasicAuth._build_auth_header",
+        "httpx._auth.DigestAuth.__init__",
+        "httpx._auth.NetRCAuth._build_auth_header",
+        "httpx._multipart.DataField.render_data",
+        "httpx._multipart.FileField.get_length",
+        "httpx._multipart.FileField.render_data"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "module function, called by bare name after `from ._utils import to_bytes`"
+    },
+    {
+      "symbol": "httpx._utils.primitive_value_to_str",
+      "true_callers": [
+        "httpx._content.encode_urlencoded_data",
+        "httpx._multipart.DataField.__init__",
+        "httpx._urls.QueryParams.__init__",
+        "httpx._urls.QueryParams.add",
+        "httpx._urls.QueryParams.set"
+      ],
+      "callguard_hop1": [
+        "httpx._content.encode_urlencoded_data",
+        "httpx._multipart.DataField.__init__",
+        "httpx._urls.QueryParams.__init__",
+        "httpx._urls.QueryParams.add",
+        "httpx._urls.QueryParams.set"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "module function"
+    },
+    {
+      "symbol": "httpx._utils.get_environment_proxies",
+      "true_callers": [
+        "httpx._client.BaseClient._get_proxy_map"
+      ],
+      "callguard_hop1": [
+        "httpx._client.BaseClient._get_proxy_map"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "module function"
+    },
+    {
+      "symbol": "httpx._urlparse.urlparse",
+      "true_callers": [
+        "httpx._urlparse.ParseResult.copy_with",
+        "httpx._urls.URL.__init__"
+      ],
+      "callguard_hop1": [
+        "httpx._urlparse.ParseResult.copy_with",
+        "httpx._urls.URL.__init__"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "module function"
+    },
+    {
+      "symbol": "httpx._urlparse.quote",
+      "true_callers": [
+        "httpx._urlparse.encode_host",
+        "httpx._urlparse.urlparse"
+      ],
+      "callguard_hop1": [
+        "httpx._urlparse.encode_host",
+        "httpx._urlparse.urlparse"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "module function"
+    },
+    {
+      "symbol": "httpx._utils.URLPattern.matches",
+      "true_callers": [
+        "httpx._client.AsyncClient._transport_for_url",
+        "httpx._client.Client._transport_for_url"
+      ],
+      "callguard_hop1": [],
+      "missed": [
+        "httpx._client.AsyncClient._transport_for_url",
+        "httpx._client.Client._transport_for_url"
+      ],
+      "false_positives": [],
+      "note": "method called on a loop variable (`pattern.matches(url)` over self._mounts); doctest lines are not calls"
+    },
+    {
+      "symbol": "httpx._models.Response.read",
+      "true_callers": [
+        "httpx._auth.Auth.sync_auth_flow",
+        "httpx._client.Client._send_handling_auth",
+        "httpx._client.Client._send_handling_redirects",
+        "httpx._client.Client.send",
+        "httpx._main.main",
+        "httpx._models.Response.__init__"
+      ],
+      "callguard_hop1": [
+        "httpx._models.Response.__init__"
+      ],
+      "missed": [
+        "httpx._auth.Auth.sync_auth_flow",
+        "httpx._client.Client._send_handling_auth",
+        "httpx._client.Client._send_handling_redirects",
+        "httpx._client.Client.send",
+        "httpx._main.main"
+      ],
+      "false_positives": [],
+      "note": "method; only `self.read()` in Response.__init__ is resolved. `request.read()`, `stream.read()`, `file.read()` hits are other methods; docstring hits excluded"
+    },
+    {
+      "symbol": "httpx._client.BaseClient._merge_url",
+      "true_callers": [
+        "httpx._client.BaseClient.build_request"
+      ],
+      "callguard_hop1": [
+        "httpx._client.BaseClient.build_request"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "method called via self"
+    },
+    {
+      "symbol": "httpx._client.Client.send",
+      "true_callers": [
+        "httpx._client.Client.request",
+        "httpx._client.Client.stream"
+      ],
+      "callguard_hop1": [
+        "httpx._client.Client.request",
+        "httpx._client.Client.stream"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "method called via self; AsyncClient.* call AsyncClient.send, `flow.send` is a generator, line 795/798 are docstrings"
+    },
+    {
+      "symbol": "httpx._content.encode_request",
+      "true_callers": [
+        "httpx._models.Request.__init__"
+      ],
+      "callguard_hop1": [
+        "httpx._models.Request.__init__"
+      ],
+      "missed": [],
+      "false_positives": [],
+      "note": "module function"
+    }
+  ]
+}

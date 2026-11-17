@@ -1,0 +1,659 @@
+{
+ "keys": {
+  "definitions": [
+   "starlette.datastructures.ImmutableMultiDict.keys",
+   "starlette.datastructures.Headers.keys"
+  ],
+  "hits": 10,
+  "candidates": [
+   {
+    "file": "datastructures.py",
+    "line": 312,
+    "in": "starlette.datastructures.ImmutableMultiDict.keys",
+    "text": "return self._dict.keys()"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 330,
+    "in": "starlette.datastructures.ImmutableMultiDict.__iter__",
+    "text": "return iter(self.keys())"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 397,
+    "in": "starlette.datastructures.MultiDict.update",
+    "text": "existing_items = [(k, v) for (k, v) in self._list if k not in value.keys()]"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 583,
+    "in": "starlette.datastructures.Headers.__iter__",
+    "text": "return iter(self.keys())"
+   },
+   {
+    "file": "routing.py",
+    "line": 37,
+    "in": "starlette.routing.NoMatchFound.__init__",
+    "text": "params = \", \".join(list(path_params.keys()))"
+   },
+   {
+    "file": "routing.py",
+    "line": 270,
+    "in": "starlette.routing.Route.url_path_for",
+    "text": "seen_params = set(path_params.keys())"
+   },
+   {
+    "file": "routing.py",
+    "line": 271,
+    "in": "starlette.routing.Route.url_path_for",
+    "text": "expected_params = set(self.param_convertors.keys())"
+   },
+   {
+    "file": "routing.py",
+    "line": 352,
+    "in": "starlette.routing.WebSocketRoute.url_path_for",
+    "text": "seen_params = set(path_params.keys())"
+   },
+   {
+    "file": "routing.py",
+    "line": 353,
+    "in": "starlette.routing.WebSocketRoute.url_path_for",
+    "text": "expected_params = set(self.param_convertors.keys())"
+   },
+   {
+    "file": "status.py",
+    "line": 211,
+    "in": "starlette.status.__dir__",
+    "text": "return sorted(list(__all__) + list(__deprecated__.keys()))  # pragma: no cover"
+   }
+  ]
+ },
+ "multi_items": {
+  "definitions": [
+   "starlette.datastructures.ImmutableMultiDict.multi_items"
+  ],
+  "hits": 9,
+  "candidates": [
+   {
+    "file": "datastructures.py",
+    "line": 157,
+    "in": "starlette.datastructures.URL.append_query_params",
+    "text": "appended = urlencode([(str(key), str(value)) for key, value in params.multi_items()])"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 166,
+    "in": "starlette.datastructures.URL.include_query_params",
+    "text": "query = urlencode(params.multi_items())"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 179,
+    "in": "starlette.datastructures.URL.remove_query_params",
+    "text": "query = urlencode(params.multi_items())"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 291,
+    "in": "starlette.datastructures.ImmutableMultiDict.__init__",
+    "text": "value = ImmutableMultiDict(value).multi_items() + ImmutableMultiDict(kwargs).multi_items()"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 297,
+    "in": "starlette.datastructures.ImmutableMultiDict.__init__",
+    "text": "_items = list(value.multi_items())"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 342,
+    "in": "starlette.datastructures.ImmutableMultiDict.__repr__",
+    "text": "items = self.multi_items()"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 398,
+    "in": "starlette.datastructures.MultiDict.update",
+    "text": "self._list = existing_items + value.multi_items()"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 519,
+    "in": "starlette.datastructures.FormData.close",
+    "text": "for key, value in self.multi_items():"
+   },
+   {
+    "file": "testclient.py",
+    "line": 253,
+    "in": "starlette.testclient._TestClientTransport.handle_request",
+    "text": "headers += [(key.lower().encode(), value.encode()) for key, value in request.headers.multi_items()]"
+   }
+  ]
+ },
+ "run_in_threadpool": {
+  "definitions": [
+   "starlette.concurrency.run_in_threadpool"
+  ],
+  "hits": 9,
+  "candidates": [
+   {
+    "file": "_exception_handler.py",
+    "line": 61,
+    "in": "starlette._exception_handler.wrap_app_handling_exceptions.wrapped_app",
+    "text": "response = await run_in_threadpool(handler, conn, exc)  # type: ignore[arg-type]"
+   },
+   {
+    "file": "background.py",
+    "line": 23,
+    "in": "starlette.background.BackgroundTask.__call__",
+    "text": "await run_in_threadpool(self.func, *self.args, **self.kwargs)"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 481,
+    "in": "starlette.datastructures.UploadFile.write",
+    "text": "await run_in_threadpool(self.file.write, data)"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 488,
+    "in": "starlette.datastructures.UploadFile.read",
+    "text": "return await run_in_threadpool(self.file.read, size)"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 494,
+    "in": "starlette.datastructures.UploadFile.seek",
+    "text": "await run_in_threadpool(self.file.seek, offset)"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 500,
+    "in": "starlette.datastructures.UploadFile.close",
+    "text": "await run_in_threadpool(self.file.close)"
+   },
+   {
+    "file": "endpoints.py",
+    "line": 46,
+    "in": "starlette.endpoints.HTTPEndpoint.dispatch",
+    "text": "response = await run_in_threadpool(handler, request)"
+   },
+   {
+    "file": "middleware/errors.py",
+    "line": 169,
+    "in": "starlette.middleware.errors.ServerErrorMiddleware.__call__",
+    "text": "response = await run_in_threadpool(self.debug_response, request, exc)"
+   },
+   {
+    "file": "middleware/errors.py",
+    "line": 178,
+    "in": "starlette.middleware.errors.ServerErrorMiddleware.__call__",
+    "text": "response = await run_in_threadpool(self.handler, request, exc)  # type: ignore[arg-type]"
+   }
+  ]
+ },
+ "mark_modified": {
+  "definitions": [
+   "starlette.middleware.sessions.Session.mark_modified"
+  ],
+  "hits": 8,
+  "candidates": [
+   {
+    "file": "middleware/sessions.py",
+    "line": 107,
+    "in": "starlette.middleware.sessions.Session.__setitem__",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 111,
+    "in": "starlette.middleware.sessions.Session.__delitem__",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 115,
+    "in": "starlette.middleware.sessions.Session.clear",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 120,
+    "in": "starlette.middleware.sessions.Session.pop",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 125,
+    "in": "starlette.middleware.sessions.Session.popitem",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 130,
+    "in": "starlette.middleware.sessions.Session.setdefault",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 134,
+    "in": "starlette.middleware.sessions.Session.update",
+    "text": "self.mark_modified()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 138,
+    "in": "starlette.middleware.sessions.Session.__ior__",
+    "text": "self.mark_modified()"
+   }
+  ]
+ },
+ "is_async_callable": {
+  "definitions": [
+   "starlette._utils.is_async_callable",
+   "starlette._utils.is_async_callable",
+   "starlette._utils.is_async_callable"
+  ],
+  "hits": 7,
+  "candidates": [
+   {
+    "file": "_exception_handler.py",
+    "line": 58,
+    "in": "starlette._exception_handler.wrap_app_handling_exceptions.wrapped_app",
+    "text": "if is_async_callable(handler):"
+   },
+   {
+    "file": "authentication.py",
+    "line": 60,
+    "in": "starlette.authentication.requires.decorator",
+    "text": "elif is_async_callable(func):"
+   },
+   {
+    "file": "background.py",
+    "line": 17,
+    "in": "starlette.background.BackgroundTask.__init__",
+    "text": "self.is_async = is_async_callable(func)"
+   },
+   {
+    "file": "endpoints.py",
+    "line": 42,
+    "in": "starlette.endpoints.HTTPEndpoint.dispatch",
+    "text": "is_async = is_async_callable(handler)"
+   },
+   {
+    "file": "middleware/errors.py",
+    "line": 175,
+    "in": "starlette.middleware.errors.ServerErrorMiddleware.__call__",
+    "text": "if is_async_callable(self.handler):"
+   },
+   {
+    "file": "routing.py",
+    "line": 55,
+    "in": "starlette.routing.request_response",
+    "text": "func if is_async_callable(func) else functools.partial(run_in_threadpool, func)  # type: ignore[assignment, call-arg]"
+   },
+   {
+    "file": "testclient.py",
+    "line": 59,
+    "in": "starlette.testclient._is_asgi3",
+    "text": "return is_async_callable(app)"
+   }
+  ]
+ },
+ "replace_params": {
+  "definitions": [
+   "starlette.routing.replace_params"
+  ],
+  "hits": 6,
+  "candidates": [
+   {
+    "file": "routing.py",
+    "line": 276,
+    "in": "starlette.routing.Route.url_path_for",
+    "text": "path, remaining_params = replace_params(self.path_format, self.param_convertors, path_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 358,
+    "in": "starlette.routing.WebSocketRoute.url_path_for",
+    "text": "path, remaining_params = replace_params(self.path_format, self.param_convertors, path_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 440,
+    "in": "starlette.routing.Mount.url_path_for",
+    "text": "path, remaining_params = replace_params(self.path_format, self.param_convertors, path_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 452,
+    "in": "starlette.routing.Mount.url_path_for",
+    "text": "path_prefix, remaining_params = replace_params(self.path_format, self.param_convertors, path_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 510,
+    "in": "starlette.routing.Host.url_path_for",
+    "text": "host, remaining_params = replace_params(self.host_format, self.param_convertors, path_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 520,
+    "in": "starlette.routing.Host.url_path_for",
+    "text": "host, remaining_params = replace_params(self.host_format, self.param_convertors, path_params)"
+   }
+  ]
+ },
+ "url_path_for": {
+  "definitions": [
+   "starlette.applications.Starlette.url_path_for",
+   "starlette.routing.BaseRoute.url_path_for",
+   "starlette.routing.Route.url_path_for",
+   "starlette.routing.WebSocketRoute.url_path_for",
+   "starlette.routing.Mount.url_path_for",
+   "starlette.routing.Host.url_path_for",
+   "starlette.routing.Router.url_path_for"
+  ],
+  "hits": 6,
+  "candidates": [
+   {
+    "file": "applications.py",
+    "line": 90,
+    "in": "starlette.applications.Starlette.url_path_for",
+    "text": "return self.router.url_path_for(name, **path_params)"
+   },
+   {
+    "file": "requests.py",
+    "line": 203,
+    "in": "starlette.requests.HTTPConnection.url_for",
+    "text": "url_path = url_path_provider.url_path_for(name, **path_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 32,
+    "in": "starlette.routing.<module>",
+    "text": "Raised by `.url_for(name, **path_params)` and `.url_path_for(name, **path_params)`"
+   },
+   {
+    "file": "routing.py",
+    "line": 457,
+    "in": "starlette.routing.Mount.url_path_for",
+    "text": "url = route.url_path_for(remaining_name, **remaining_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 523,
+    "in": "starlette.routing.Host.url_path_for",
+    "text": "url = route.url_path_for(remaining_name, **remaining_params)"
+   },
+   {
+    "file": "routing.py",
+    "line": 647,
+    "in": "starlette.routing.Router.url_path_for",
+    "text": "return route.url_path_for(name, **path_params)"
+   }
+  ]
+ },
+ "_send": {
+  "definitions": [
+   "starlette.middleware.errors.ServerErrorMiddleware.__call__._send"
+  ],
+  "hits": 5,
+  "candidates": [
+   {
+    "file": "requests.py",
+    "line": 352,
+    "in": "starlette.requests.Request.send_push_promise",
+    "text": "await self._send({\"type\": \"http.response.push\", \"path\": path, \"headers\": raw_headers})"
+   },
+   {
+    "file": "requests.py",
+    "line": 357,
+    "in": "starlette.requests.Request.send_early_hints",
+    "text": "await self._send({\"type\": \"http.response.early_hint\", \"links\": raw_links})"
+   },
+   {
+    "file": "websockets.py",
+    "line": 82,
+    "in": "starlette.websockets.WebSocket.send",
+    "text": "await self._send(message)"
+   },
+   {
+    "file": "websockets.py",
+    "line": 92,
+    "in": "starlette.websockets.WebSocket.send",
+    "text": "await self._send(message)"
+   },
+   {
+    "file": "websockets.py",
+    "line": 102,
+    "in": "starlette.websockets.WebSocket.send",
+    "text": "await self._send(message)"
+   }
+  ]
+ },
+ "clear": {
+  "definitions": [
+   "starlette.datastructures.MultiDict.clear",
+   "starlette.middleware.sessions.Session.clear"
+  ],
+  "hits": 5,
+  "candidates": [
+   {
+    "file": "datastructures.py",
+    "line": 369,
+    "in": "starlette.datastructures.MultiDict.clear",
+    "text": "self._dict.clear()"
+   },
+   {
+    "file": "datastructures.py",
+    "line": 370,
+    "in": "starlette.datastructures.MultiDict.clear",
+    "text": "self._list.clear()"
+   },
+   {
+    "file": "formparsers.py",
+    "line": 278,
+    "in": "starlette.formparsers.MultiPartParser.parse",
+    "text": "self._file_parts_to_write.clear()"
+   },
+   {
+    "file": "formparsers.py",
+    "line": 279,
+    "in": "starlette.formparsers.MultiPartParser.parse",
+    "text": "self._file_parts_to_finish.clear()"
+   },
+   {
+    "file": "middleware/sessions.py",
+    "line": 116,
+    "in": "starlette.middleware.sessions.Session.clear",
+    "text": "super().clear()"
+   }
+  ]
+ },
+ "get_route_path": {
+  "definitions": [
+   "starlette._utils.get_route_path"
+  ],
+  "hits": 5,
+  "candidates": [
+   {
+    "file": "routing.py",
+    "line": 254,
+    "in": "starlette.routing.Route.matches",
+    "text": "route_path = get_route_path(scope)"
+   },
+   {
+    "file": "routing.py",
+    "line": 339,
+    "in": "starlette.routing.WebSocketRoute.matches",
+    "text": "route_path = get_route_path(scope)"
+   },
+   {
+    "file": "routing.py",
+    "line": 407,
+    "in": "starlette.routing.Mount.matches",
+    "text": "route_path = get_route_path(scope)"
+   },
+   {
+    "file": "routing.py",
+    "line": 719,
+    "in": "starlette.routing.Router.app",
+    "text": "route_path = get_route_path(scope)"
+   },
+   {
+    "file": "staticfiles.py",
+    "line": 112,
+    "in": "starlette.staticfiles.StaticFiles.get_path",
+    "text": "route_path = get_route_path(scope)"
+   }
+  ]
+ },
+ "getlist": {
+  "definitions": [
+   "starlette.datastructures.ImmutableMultiDict.getlist",
+   "starlette.datastructures.Headers.getlist"
+  ],
+  "hits": 5,
+  "candidates": [
+   {
+    "file": "datastructures.py",
+    "line": 682,
+    "in": "starlette.datastructures.MutableHeaders.add_vary_header",
+    "text": "self[\"vary\"] = \", \".join([*self.getlist(\"vary\"), vary])"
+   },
+   {
+    "file": "middleware/cors.py",
+    "line": 170,
+    "in": "starlette.middleware.cors.CORSMiddleware.send",
+    "text": "headers[\"Vary\"] = \", \".join([*headers.getlist(\"Vary\"), \"Origin\"])"
+   },
+   {
+    "file": "middleware/cors.py",
+    "line": 177,
+    "in": "starlette.middleware.cors.CORSMiddleware.allow_explicit_origin",
+    "text": "headers[\"Vary\"] = \", \".join([*headers.getlist(\"Vary\"), \"Origin\"])"
+   },
+   {
+    "file": "requests.py",
+    "line": 154,
+    "in": "starlette.requests.HTTPConnection.cookies",
+    "text": "cookie_headers = self.headers.getlist(\"cookie\")"
+   },
+   {
+    "file": "requests.py",
+    "line": 350,
+    "in": "starlette.requests.Request.send_push_promise",
+    "text": "for value in self.headers.getlist(name):"
+   }
+  ]
+ },
+ "read": {
+  "definitions": [
+   "starlette.datastructures.UploadFile.read"
+  ],
+  "hits": 5,
+  "candidates": [
+   {
+    "file": "datastructures.py",
+    "line": 487,
+    "in": "starlette.datastructures.UploadFile.read",
+    "text": "return self.file.read(size)"
+   },
+   {
+    "file": "responses.py",
+    "line": 438,
+    "in": "starlette.responses.FileResponse._handle_simple",
+    "text": "chunk = await file.read(self.chunk_size)"
+   },
+   {
+    "file": "responses.py",
+    "line": 456,
+    "in": "starlette.responses.FileResponse._handle_single_range",
+    "text": "chunk = await file.read(min(self.chunk_size, end - start))"
+   },
+   {
+    "file": "responses.py",
+    "line": 485,
+    "in": "starlette.responses.FileResponse._handle_multiple_ranges",
+    "text": "chunk = await file.read(min(self.chunk_size, end - start))"
+   },
+   {
+    "file": "testclient.py",
+    "line": 313,
+    "in": "starlette.testclient._TestClientTransport.handle_request.receive",
+    "text": "body = request.read()"
+   }
+  ]
+ },
+ "stream": {
+  "definitions": [
+   "starlette.requests.Request.stream"
+  ],
+  "hits": 5,
+  "candidates": [
+   {
+    "file": "middleware/base.py",
+    "line": 25,
+    "in": "starlette.middleware.base.<module>",
+    "text": "but if they call Request.stream() then all we do is send an"
+   },
+   {
+    "file": "middleware/base.py",
+    "line": 83,
+    "in": "starlette.middleware.base._CachedRequest.wrapped_receive",
+    "text": "async with aclosing(self.stream()) as stream:"
+   },
+   {
+    "file": "requests.py",
+    "line": 258,
+    "in": "starlette.requests.Request.body",
+    "text": "async with aclosing(self.stream()) as stream:"
+   },
+   {
+    "file": "requests.py",
+    "line": 286,
+    "in": "starlette.requests.Request._get_form",
+    "text": "async with aclosing(self.stream()) as stream:"
+   },
+   {
+    "file": "requests.py",
+    "line": 301,
+    "in": "starlette.requests.Request._get_form",
+    "text": "async with aclosing(self.stream()) as stream:"
+   }
+  ]
+ },
+ "_raise_on_close": {
+  "definitions": [
+   "starlette.testclient.WebSocketTestSession._raise_on_close"
+  ],
+  "hits": 4,
+  "candidates": [
+   {
+    "file": "testclient.py",
+    "line": 116,
+    "in": "starlette.testclient.WebSocketTestSession.__enter__",
+    "text": "self._raise_on_close(message)"
+   },
+   {
+    "file": "testclient.py",
+    "line": 180,
+    "in": "starlette.testclient.WebSocketTestSession.receive_text",
+    "text": "self._raise_on_close(message)"
+   },
+   {
+    "file": "testclient.py",
+    "line": 185,
+    "in": "starlette.testclient.WebSocketTestSession.receive_bytes",
+    "text": "self._raise_on_close(message)"
+   },
+   {
+    "file": "testclient.py",
+    "line": 190,
+    "in": "starlette.testclient.WebSocketTestSession.receive_json",
+    "text": "self._raise_on_close(message)"
+   }
+  ]
+ }
+}

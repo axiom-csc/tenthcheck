@@ -1,0 +1,284 @@
+[
+ {
+  "set": "httpx (tuned-on)",
+  "symbols": 10,
+  "true_callers": 28,
+  "found": 28,
+  "missed": 0,
+  "false_positives": 0,
+  "recall": 1.0,
+  "rows": [
+   {
+    "symbol": "httpx._utils.to_bytes",
+    "true": 6,
+    "found": [
+     "httpx._auth.BasicAuth._build_auth_header",
+     "httpx._auth.DigestAuth.__init__",
+     "httpx._auth.NetRCAuth._build_auth_header",
+     "httpx._multipart.DataField.render_data",
+     "httpx._multipart.FileField.get_length",
+     "httpx._multipart.FileField.render_data"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._utils.primitive_value_to_str",
+    "true": 5,
+    "found": [
+     "httpx._content.encode_urlencoded_data",
+     "httpx._multipart.DataField.__init__",
+     "httpx._urls.QueryParams.__init__",
+     "httpx._urls.QueryParams.add",
+     "httpx._urls.QueryParams.set"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._utils.get_environment_proxies",
+    "true": 1,
+    "found": [
+     "httpx._client.BaseClient._get_proxy_map"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._urlparse.urlparse",
+    "true": 2,
+    "found": [
+     "httpx._urlparse.ParseResult.copy_with",
+     "httpx._urls.URL.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._urlparse.quote",
+    "true": 2,
+    "found": [
+     "httpx._urlparse.encode_host",
+     "httpx._urlparse.urlparse"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._utils.URLPattern.matches",
+    "true": 2,
+    "found": [
+     "httpx._client.AsyncClient._transport_for_url",
+     "httpx._client.Client._transport_for_url"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._models.Response.read",
+    "true": 6,
+    "found": [
+     "httpx._auth.Auth.sync_auth_flow",
+     "httpx._client.Client._send_handling_auth",
+     "httpx._client.Client._send_handling_redirects",
+     "httpx._client.Client.send",
+     "httpx._main.main",
+     "httpx._models.Response.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._client.BaseClient._merge_url",
+    "true": 1,
+    "found": [
+     "httpx._client.BaseClient.build_request"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._client.Client.send",
+    "true": 2,
+    "found": [
+     "httpx._client.Client.request",
+     "httpx._client.Client.stream"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._content.encode_request",
+    "true": 1,
+    "found": [
+     "httpx._models.Request.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   }
+  ]
+ },
+ {
+  "set": "click (held out)",
+  "symbols": 14,
+  "true_callers": 37,
+  "found": 24,
+  "missed": 13,
+  "false_positives": 1,
+  "recall": 0.6486,
+  "rows": [
+   {
+    "symbol": "click.core.Context.fail",
+    "true": 2,
+    "found": [
+     "click.core.Command.parse_args",
+     "click.core.Group.invoke"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.invoke",
+    "true": 5,
+    "found": [],
+    "missed": [
+     "click.core.Command.invoke",
+     "click.core.Context.forward",
+     "click.core.Group.invoke._process_result",
+     "click.decorators.make_pass_decorator.decorator.new_func",
+     "click.decorators.pass_meta_key.decorator.new_func"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Command.make_context",
+    "true": 3,
+    "found": [
+     "click.shell_completion._resolve_context"
+    ],
+    "missed": [
+     "click.core.Command.main",
+     "click.core.Group.invoke"
+    ],
+    "false_positives": [
+     "click.core.Command.main@L1506"
+    ]
+   },
+   {
+    "symbol": "click.core.Parameter.get_default",
+    "true": 3,
+    "found": [],
+    "missed": [
+     "click.core.Context.invoke",
+     "click.core.Option.get_default",
+     "click.core.Parameter.consume_value"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.termui.style",
+    "true": 3,
+    "found": [
+     "click.core.Command.invoke",
+     "click.core.Parameter.handle_parse_result",
+     "click.termui.secho"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.get_help",
+    "true": 2,
+    "found": [
+     "click.decorators.help_option.show_help",
+     "click.exceptions.NoArgsIsHelpError.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Group.resolve_command",
+    "true": 2,
+    "found": [
+     "click.core.Group.invoke"
+    ],
+    "missed": [
+     "click.shell_completion._resolve_context"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.lookup_default",
+    "true": 2,
+    "found": [],
+    "missed": [
+     "click.core.Parameter.consume_value",
+     "click.core.Parameter.get_default"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.formatting.HelpFormatter.write_text",
+    "true": 2,
+    "found": [
+     "click.core.Command.format_epilog",
+     "click.core.Command.format_help_text"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Command.get_usage",
+    "true": 1,
+    "found": [
+     "click.core.Context.get_usage"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.formatting.HelpFormatter.write_usage",
+    "true": 1,
+    "found": [
+     "click.core.Command.format_usage"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.termui.secho",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Command.get_params",
+    "true": 9,
+    "found": [
+     "click.core.Command.collect_usage_pieces",
+     "click.core.Command.format_arguments",
+     "click.core.Command.format_options",
+     "click.core.Command.make_parser",
+     "click.core.Command.parse_args",
+     "click.core.Command.shell_complete",
+     "click.core.Command.to_info_dict",
+     "click.core.Context.command_path",
+     "click.shell_completion._resolve_incomplete"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.find_object",
+    "true": 2,
+    "found": [
+     "click.core.Context.ensure_object",
+     "click.decorators.make_pass_decorator.decorator.new_func"
+    ],
+    "missed": [],
+    "false_positives": []
+   }
+  ]
+ }
+]

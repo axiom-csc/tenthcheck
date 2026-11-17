@@ -1,0 +1,17 @@
+{
+  "package": "httpx",
+  "modules": 23,
+  "static_edges": 79,
+  "runtime_edges": 80,
+  "both": 79,
+  "runtime_only (static misses)": [
+    [
+      "httpx",
+      "httpx._main"
+    ]
+  ],
+  "static_only (not executed at runtime)": [],
+  "edge_recall_vs_runtime": 0.9875,
+  "static_cyclic_components": [],
+  "runtime_cyclic_components": []
+}

@@ -1,0 +1,514 @@
+{
+  "httpx._utils.to_bytes": {
+    "callguard_hop1": [
+      "httpx._auth.BasicAuth._build_auth_header",
+      "httpx._auth.DigestAuth.__init__",
+      "httpx._auth.NetRCAuth._build_auth_header",
+      "httpx._multipart.DataField.render_data",
+      "httpx._multipart.FileField.get_length",
+      "httpx._multipart.FileField.render_data"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_auth.py",
+        "line": 140,
+        "in": "httpx._auth.BasicAuth._build_auth_header",
+        "text": "userpass = b\":\".join((to_bytes(username), to_bytes(password)))"
+      },
+      {
+        "file": "_auth.py",
+        "line": 170,
+        "in": "httpx._auth.NetRCAuth._build_auth_header",
+        "text": "userpass = b\":\".join((to_bytes(username), to_bytes(password)))"
+      },
+      {
+        "file": "_auth.py",
+        "line": 188,
+        "in": "httpx._auth.DigestAuth.__init__",
+        "text": "self._username = to_bytes(username)"
+      },
+      {
+        "file": "_auth.py",
+        "line": 189,
+        "in": "httpx._auth.DigestAuth.__init__",
+        "text": "self._password = to_bytes(password)"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 101,
+        "in": "httpx._multipart.DataField.render_data",
+        "text": "self._data = to_bytes(self.value)"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 175,
+        "in": "httpx._multipart.FileField.get_length",
+        "text": "return len(headers) + len(to_bytes(self.file))"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 205,
+        "in": "httpx._multipart.FileField.render_data",
+        "text": "yield to_bytes(self.file)"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 216,
+        "in": "httpx._multipart.FileField.render_data",
+        "text": "yield to_bytes(chunk)"
+      }
+    ]
+  },
+  "httpx._utils.primitive_value_to_str": {
+    "callguard_hop1": [
+      "httpx._content.encode_urlencoded_data",
+      "httpx._multipart.DataField.__init__",
+      "httpx._urls.QueryParams.__init__",
+      "httpx._urls.QueryParams.add",
+      "httpx._urls.QueryParams.set"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_content.py",
+        "line": 142,
+        "in": "httpx._content.encode_urlencoded_data",
+        "text": "plain_data.extend([(key, primitive_value_to_str(item)) for item in value])"
+      },
+      {
+        "file": "_content.py",
+        "line": 144,
+        "in": "httpx._content.encode_urlencoded_data",
+        "text": "plain_data.append((key, primitive_value_to_str(value)))"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 87,
+        "in": "httpx._multipart.DataField.__init__",
+        "text": "value if isinstance(value, bytes) else primitive_value_to_str(value)"
+      },
+      {
+        "file": "_urls.py",
+        "line": 459,
+        "in": "httpx._urls.QueryParams.__init__",
+        "text": "str(k): [primitive_value_to_str(item) for item in v]"
+      },
+      {
+        "file": "_urls.py",
+        "line": 549,
+        "in": "httpx._urls.QueryParams.set",
+        "text": "q._dict[str(key)] = [primitive_value_to_str(value)]"
+      },
+      {
+        "file": "_urls.py",
+        "line": 564,
+        "in": "httpx._urls.QueryParams.add",
+        "text": "q._dict[str(key)] = q.get_list(key) + [primitive_value_to_str(value)]"
+      }
+    ]
+  },
+  "httpx._utils.get_environment_proxies": {
+    "callguard_hop1": [
+      "httpx._client.BaseClient._get_proxy_map"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_client.py",
+        "line": 246,
+        "in": "httpx._client.BaseClient._get_proxy_map",
+        "text": "for key, url in get_environment_proxies().items()"
+      }
+    ]
+  },
+  "httpx._urlparse.urlparse": {
+    "callguard_hop1": [
+      "httpx._urlparse.ParseResult.copy_with",
+      "httpx._urls.URL.__init__"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_urlparse.py",
+        "line": 198,
+        "in": "httpx._urlparse.ParseResult.copy_with",
+        "text": "return urlparse(\"\", **defaults)"
+      },
+      {
+        "file": "_urls.py",
+        "line": 117,
+        "in": "httpx._urls.URL.__init__",
+        "text": "self._uri_reference = urlparse(url, **kwargs)"
+      }
+    ]
+  },
+  "httpx._urlparse.quote": {
+    "callguard_hop1": [
+      "httpx._urlparse.encode_host",
+      "httpx._urlparse.urlparse"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_urlparse.py",
+        "line": 246,
+        "in": "httpx._urlparse.urlparse",
+        "text": "username = quote(kwargs.pop(\"username\", \"\") or \"\", safe=USERNAME_SAFE)"
+      },
+      {
+        "file": "_urlparse.py",
+        "line": 247,
+        "in": "httpx._urlparse.urlparse",
+        "text": "password = quote(kwargs.pop(\"password\", \"\") or \"\", safe=PASSWORD_SAFE)"
+      },
+      {
+        "file": "_urlparse.py",
+        "line": 319,
+        "in": "httpx._urlparse.urlparse",
+        "text": "parsed_userinfo: str = quote(userinfo, safe=USERINFO_SAFE)"
+      },
+      {
+        "file": "_urlparse.py",
+        "line": 331,
+        "in": "httpx._urlparse.urlparse",
+        "text": "parsed_path: str = quote(path, safe=PATH_SAFE)"
+      },
+      {
+        "file": "_urlparse.py",
+        "line": 332,
+        "in": "httpx._urlparse.urlparse",
+        "text": "parsed_query: str | None = None if query is None else quote(query, safe=QUERY_SAFE)"
+      },
+      {
+        "file": "_urlparse.py",
+        "line": 333,
+        "in": "httpx._urlparse.urlparse",
+        "text": "parsed_frag: str | None = None if frag is None else quote(frag, safe=FRAG_SAFE)"
+      },
+      {
+        "file": "_urlparse.py",
+        "line": 386,
+        "in": "httpx._urlparse.encode_host",
+        "text": "return quote(host.lower(), safe=SUB_DELIMS + WHATWG_SAFE)"
+      }
+    ]
+  },
+  "httpx._utils.URLPattern.matches": {
+    "callguard_hop1": [],
+    "grep_candidates": [
+      {
+        "file": "_client.py",
+        "line": 766,
+        "in": "httpx._client.Client._transport_for_url",
+        "text": "if pattern.matches(url):"
+      },
+      {
+        "file": "_client.py",
+        "line": 1480,
+        "in": "httpx._client.AsyncClient._transport_for_url",
+        "text": "if pattern.matches(url):"
+      },
+      {
+        "file": "_utils.py",
+        "line": 126,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"http://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 131,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 133,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"http://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 138,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 140,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"http://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 142,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://other.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 147,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 149,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"http://example.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 151,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://other.com\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 156,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://example.com:1234\"))"
+      },
+      {
+        "file": "_utils.py",
+        "line": 158,
+        "in": "httpx._utils.<module>",
+        "text": ">>> pattern.matches(httpx.URL(\"https://example.com\"))"
+      }
+    ]
+  },
+  "httpx._models.Response.read": {
+    "callguard_hop1": [
+      "httpx._models.Response.__init__"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_auth.py",
+        "line": 72,
+        "in": "httpx._auth.Auth.sync_auth_flow",
+        "text": "request.read()"
+      },
+      {
+        "file": "_auth.py",
+        "line": 80,
+        "in": "httpx._auth.Auth.sync_auth_flow",
+        "text": "response.read()"
+      },
+      {
+        "file": "_client.py",
+        "line": 922,
+        "in": "httpx._client.Client.send",
+        "text": "response.read()"
+      },
+      {
+        "file": "_client.py",
+        "line": 954,
+        "in": "httpx._client.Client._send_handling_auth",
+        "text": "response.read()"
+      },
+      {
+        "file": "_client.py",
+        "line": 992,
+        "in": "httpx._client.Client._send_handling_redirects",
+        "text": "response.read()"
+      },
+      {
+        "file": "_content.py",
+        "line": 57,
+        "in": "httpx._content.IteratorByteStream.__iter__",
+        "text": "chunk = self._stream.read(self.CHUNK_SIZE)"
+      },
+      {
+        "file": "_content.py",
+        "line": 60,
+        "in": "httpx._content.IteratorByteStream.__iter__",
+        "text": "chunk = self._stream.read(self.CHUNK_SIZE)"
+      },
+      {
+        "file": "_exceptions.py",
+        "line": 340,
+        "in": "httpx._exceptions.<module>",
+        "text": "Attempted to access streaming response content, without having called `read()`."
+      },
+      {
+        "file": "_exceptions.py",
+        "line": 346,
+        "in": "httpx._exceptions.ResponseNotRead.__init__",
+        "text": "\" without having called `read()`.\""
+      },
+      {
+        "file": "_exceptions.py",
+        "line": 353,
+        "in": "httpx._exceptions.<module>",
+        "text": "Attempted to access streaming request content, without having called `read()`."
+      },
+      {
+        "file": "_exceptions.py",
+        "line": 359,
+        "in": "httpx._exceptions.RequestNotRead.__init__",
+        "text": "\" without having called `read()`.\""
+      },
+      {
+        "file": "_main.py",
+        "line": 497,
+        "in": "httpx._main.main",
+        "text": "response.read()"
+      },
+      {
+        "file": "_models.py",
+        "line": 423,
+        "in": "httpx._models.Request.__init__",
+        "text": "self.read()"
+      },
+      {
+        "file": "_models.py",
+        "line": 554,
+        "in": "httpx._models.Response.__init__",
+        "text": "self.read()"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 214,
+        "in": "httpx._multipart.FileField.render_data",
+        "text": "chunk = self.file.read(self.CHUNK_SIZE)"
+      },
+      {
+        "file": "_multipart.py",
+        "line": 217,
+        "in": "httpx._multipart.FileField.render_data",
+        "text": "chunk = self.file.read(self.CHUNK_SIZE)"
+      },
+      {
+        "file": "_transports/base.py",
+        "line": 36,
+        "in": "httpx._transports.base.BaseTransport.handle_request",
+        "text": "`response.stream.read()`, or else the `handle_request` call should"
+      },
+      {
+        "file": "_transports/base.py",
+        "line": 49,
+        "in": "httpx._transports.base.BaseTransport.handle_request",
+        "text": "body = resp.stream.read()"
+      },
+      {
+        "file": "_transports/mock.py",
+        "line": 23,
+        "in": "httpx._transports.mock.MockTransport.handle_request",
+        "text": "request.read()"
+      },
+      {
+        "file": "_transports/wsgi.py",
+        "line": 92,
+        "in": "httpx._transports.wsgi.WSGITransport.handle_request",
+        "text": "request.read()"
+      }
+    ]
+  },
+  "httpx._client.BaseClient._merge_url": {
+    "callguard_hop1": [
+      "httpx._client.BaseClient.build_request"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_client.py",
+        "line": 366,
+        "in": "httpx._client.BaseClient.build_request",
+        "text": "url = self._merge_url(url)"
+      }
+    ]
+  },
+  "httpx._client.Client.send": {
+    "callguard_hop1": [
+      "httpx._client.Client.request",
+      "httpx._client.Client.stream"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_auth.py",
+        "line": 48,
+        "in": "httpx._auth.Auth.auth_flow",
+        "text": "The client will `.send()` the response back into the flow generator. You can"
+      },
+      {
+        "file": "_auth.py",
+        "line": 83,
+        "in": "httpx._auth.Auth.sync_auth_flow",
+        "text": "request = flow.send(response)"
+      },
+      {
+        "file": "_auth.py",
+        "line": 108,
+        "in": "httpx._auth.Auth.async_auth_flow",
+        "text": "request = flow.send(response)"
+      },
+      {
+        "file": "_client.py",
+        "line": 795,
+        "in": "httpx._client.Client.request",
+        "text": "response = client.send(request, ...)"
+      },
+      {
+        "file": "_client.py",
+        "line": 798,
+        "in": "httpx._client.Client.request",
+        "text": "See `Client.build_request()`, `Client.send()` and"
+      },
+      {
+        "file": "_client.py",
+        "line": 825,
+        "in": "httpx._client.Client.request",
+        "text": "return self.send(request, auth=auth, follow_redirects=follow_redirects)"
+      },
+      {
+        "file": "_client.py",
+        "line": 868,
+        "in": "httpx._client.Client.stream",
+        "text": "response = self.send("
+      },
+      {
+        "file": "_client.py",
+        "line": 949,
+        "in": "httpx._client.Client._send_handling_auth",
+        "text": "next_request = auth_flow.send(response)"
+      },
+      {
+        "file": "_client.py",
+        "line": 1509,
+        "in": "httpx._client.AsyncClient.request",
+        "text": "response = await client.send(request, ...)"
+      },
+      {
+        "file": "_client.py",
+        "line": 1512,
+        "in": "httpx._client.AsyncClient.request",
+        "text": "See `AsyncClient.build_request()`, `AsyncClient.send()`"
+      },
+      {
+        "file": "_client.py",
+        "line": 1540,
+        "in": "httpx._client.AsyncClient.request",
+        "text": "return await self.send(request, auth=auth, follow_redirects=follow_redirects)"
+      },
+      {
+        "file": "_client.py",
+        "line": 1583,
+        "in": "httpx._client.AsyncClient.stream",
+        "text": "response = await self.send("
+      },
+      {
+        "file": "_exceptions.py",
+        "line": 228,
+        "in": "httpx._exceptions.<module>",
+        "text": "using `client.send()`."
+      }
+    ]
+  },
+  "httpx._content.encode_request": {
+    "callguard_hop1": [
+      "httpx._models.Request.__init__"
+    ],
+    "grep_candidates": [
+      {
+        "file": "_models.py",
+        "line": 408,
+        "in": "httpx._models.Request.__init__",
+        "text": "headers, stream = encode_request("
+      }
+    ]
+  }
+}

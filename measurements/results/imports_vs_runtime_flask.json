@@ -1,0 +1,36 @@
+{
+  "package": "flask",
+  "modules": 24,
+  "static_edges": 72,
+  "runtime_edges": 72,
+  "both": 72,
+  "runtime_only (static misses)": [],
+  "static_only (not executed at runtime)": [],
+  "edge_recall_vs_runtime": 1.0,
+  "static_cyclic_components": [
+    [
+      "flask",
+      "flask.app",
+      "flask.blueprints",
+      "flask.ctx",
+      "flask.sansio.app",
+      "flask.sansio.blueprints",
+      "flask.sansio.scaffold",
+      "flask.templating",
+      "flask.wrappers"
+    ]
+  ],
+  "runtime_cyclic_components": [
+    [
+      "flask",
+      "flask.app",
+      "flask.blueprints",
+      "flask.ctx",
+      "flask.sansio.app",
+      "flask.sansio.blueprints",
+      "flask.sansio.scaffold",
+      "flask.templating",
+      "flask.wrappers"
+    ]
+  ]
+}

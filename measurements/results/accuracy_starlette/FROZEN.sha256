@@ -1,0 +1,5 @@
+a416dd7ec6c34520869062a3d771be61b58d9432b9dfbc3ec2a50d90576a23d0  results/accuracy_starlette/truth.json
+frozen 2026-11-17 05:15:13: starlette truth set labelled from grep candidates only, before any Tenthcheck output on starlette was seen
+648c152c66806fdd3b999ce67b2b9725414d1cd1352f04fa475718fe70f225e5  src/tenthcheck/parser.py
+75c5f6f8cfbaaf87e239ee25960999ab1e1a05cb070a2acef5788e5e4739228c  src/tenthcheck/typed_calls.py
+frozen 2026-11-17 05:15:13: parser + typed_calls as evaluated (same as product/callguard 839094f apart from the package rename); starlette evaluated once after this

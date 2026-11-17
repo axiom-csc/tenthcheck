@@ -1,0 +1,51 @@
+diff --git a/src/click/core.py b/src/click/core.py
+index e9c2de6..a92f152 100644
+--- a/src/click/core.py
++++ b/src/click/core.py
+@@ -41,6 +41,7 @@ from .parser import _split_opt
+ from .termui import confirm
+ from .termui import prompt
+ from .termui import style
++from .utils import _check_iter
+ from .utils import _detect_program_name
+ from .utils import _expand_args
+ from .utils import _make_default_short_help
+@@ -2219,16 +2220,6 @@ class CommandCollection(Group):
+         return sorted(rv)
+ 
+ 
+-def _check_iter(value: cabc.Iterable[V]) -> cabc.Iterator[V]:
+-    """Check if the value is iterable but not a string. Raises a type
+-    error, or return an iterator over the value.
+-    """
+-    if isinstance(value, str):
+-        raise TypeError
+-
+-    return iter(value)
+-
+-
+ class Parameter(ABC):
+     r"""A parameter to a command comes in two versions: they are either
+     :class:`Option`\s or :class:`Argument`\s.  Other subclasses are currently
+diff --git a/src/click/utils.py b/src/click/utils.py
+index 417c89a..e2943c9 100644
+--- a/src/click/utils.py
++++ b/src/click/utils.py
+@@ -23,6 +23,17 @@ from .globals import resolve_color_default
+ 
+ P = t.ParamSpec("P")
+ R = t.TypeVar("R")
++V = t.TypeVar("V")
++
++
++def _check_iter(value: cabc.Iterable[V]) -> cabc.Iterator[V]:
++    """Check if the value is iterable but not a string. Raises a type
++    error, or return an iterator over the value.
++    """
++    if isinstance(value, str):
++        raise TypeError
++
++    return iter(value)
+ 
+ 
+ def _posixify(name: str) -> str:

@@ -1,0 +1,5 @@
+6c6a369de286ace07bdaef2b47844f02f4a38563b62edef5ab64714f5216169c  results/accuracy_click/truth.json
+frozen 2026-11-12 18:41:32: click truth set labelled before any parser change; parser fixes use the httpx misses only
+a9bc0adb794d590e1f9fa0d1bf127a69d1130ed2f1e3e5506534007337c2f77e  src/callguard/parser.py
+45b7491cc561f4cfb2d548abc3664478e7aca8a8e22e99d855d4eeabc9d5f4fc  src/callguard/typed_calls.py
+frozen 2026-11-12 18:44:09: parser + typed_calls after fixing the 7 httpx misses; click (held out) evaluated once after this

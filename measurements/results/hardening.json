@@ -1,0 +1,110 @@
+{
+  "python": "3.11.18",
+  "max_nodes": 10000,
+  "repos": [
+    {
+      "repo": "httpx",
+      "path": "<corpus>/httpx",
+      "sha": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
+      "py_files": 60,
+      "parse_s": 0.474,
+      "crash": null,
+      "skipped_syntax_files": [],
+      "entities": {
+        "class": 107,
+        "function": 1133,
+        "module": 215
+      },
+      "relations": {
+        "CALLS": 370,
+        "DEFINES": 1240,
+        "IMPORTS": 319,
+        "INHERITS_FROM": 56
+      },
+      "cycles_s": 0.0005,
+      "cyclic_components": 0,
+      "cyclic_component_sizes": [],
+      "example_cycles": [],
+      "dependents_all_defs_s": 0.002,
+      "dependents": {
+        "n_defs": 1240,
+        "with_zero_dependents": 1037,
+        "median": 0,
+        "max": 52,
+        "hit_node_cap": 0
+      }
+    },
+    {
+      "repo": "flask",
+      "path": "<corpus>/flask",
+      "sha": "49943b5a94413a530761350f04e896f76e8d620e",
+      "py_files": 83,
+      "parse_s": 0.456,
+      "crash": null,
+      "skipped_syntax_files": [],
+      "entities": {
+        "class": 154,
+        "function": 1457,
+        "module": 307
+      },
+      "relations": {
+        "CALLS": 231,
+        "DEFINES": 1611,
+        "IMPORTS": 424,
+        "INHERITS_FROM": 18
+      },
+      "cycles_s": 0.0008,
+      "cyclic_components": 1,
+      "cyclic_component_sizes": [
+        9
+      ],
+      "example_cycles": [
+        [
+          "src.flask",
+          "src.flask.app",
+          "src.flask"
+        ]
+      ],
+      "dependents_all_defs_s": 0.002,
+      "dependents": {
+        "n_defs": 1611,
+        "with_zero_dependents": 1469,
+        "median": 0,
+        "max": 22,
+        "hit_node_cap": 0
+      }
+    },
+    {
+      "repo": "pydantic",
+      "path": "<corpus>/pydantic",
+      "sha": "560f0f96a37d6913afdfddb2de22030ef08e68c3",
+      "py_files": 3156,
+      "parse_s": 7.362,
+      "crash": null,
+      "skipped_syntax_files": [],
+      "entities": {
+        "class": 9907,
+        "function": 8241,
+        "module": 5132
+      },
+      "relations": {
+        "CALLS": 1731,
+        "DEFINES": 18148,
+        "IMPORTS": 13187,
+        "INHERITS_FROM": 4814
+      },
+      "cycles_s": 0.0237,
+      "cyclic_components": 0,
+      "cyclic_component_sizes": [],
+      "example_cycles": [],
+      "dependents_all_defs_s": 0.028,
+      "dependents": {
+        "n_defs": 18148,
+        "with_zero_dependents": 17271,
+        "median": 0,
+        "max": 2614,
+        "hit_node_cap": 0
+      }
+    }
+  ]
+}

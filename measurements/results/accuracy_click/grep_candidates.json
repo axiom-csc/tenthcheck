@@ -1,0 +1,404 @@
+{
+ "click.core.Context.fail": [
+  {
+   "file": "core.py",
+   "line": 1411,
+   "in": "click.core.Command.parse_args",
+   "text": "ctx.fail("
+  },
+  {
+   "file": "core.py",
+   "line": 2057,
+   "in": "click.core.Group.invoke",
+   "text": "ctx.fail(_(\"Missing command.\"))"
+  },
+  {
+   "file": "types.py",
+   "line": 279,
+   "in": "click.types.FuncParamType.convert",
+   "text": "self.fail(message, param, ctx)"
+  },
+  {
+   "file": "types.py",
+   "line": 454,
+   "in": "click.types.Choice.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 561,
+   "in": "click.types.DateTime.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 586,
+   "in": "click.types._NumberParamTypeBase.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 660,
+   "in": "click.types._NumberRangeBase.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 846,
+   "in": "click.types.BoolParamType.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 873,
+   "in": "click.types.UUIDParameterType.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 994,
+   "in": "click.types.File.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1152,
+   "in": "click.types.Path.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1161,
+   "in": "click.types.Path.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1169,
+   "in": "click.types.Path.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1178,
+   "in": "click.types.Path.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1187,
+   "in": "click.types.Path.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1196,
+   "in": "click.types.Path.convert",
+   "text": "self.fail("
+  },
+  {
+   "file": "types.py",
+   "line": 1267,
+   "in": "click.types.Tuple.convert",
+   "text": "self.fail("
+  }
+ ],
+ "click.core.Context.invoke": [
+  {
+   "file": "core.py",
+   "line": 953,
+   "in": "click.core.Context.forward",
+   "text": "return self.invoke(cmd, *args, **kwargs)"
+  },
+  {
+   "file": "core.py",
+   "line": 1437,
+   "in": "click.core.Command.invoke",
+   "text": "return ctx.invoke(self.callback, **ctx.params)"
+  },
+  {
+   "file": "core.py",
+   "line": 1583,
+   "in": "click.core.Command.main",
+   "text": "rv = self.invoke(ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 2046,
+   "in": "click.core.Group.invoke._process_result",
+   "text": "value = ctx.invoke(self._result_callback, value, **ctx.params)"
+  },
+  {
+   "file": "core.py",
+   "line": 2055,
+   "in": "click.core.Group.invoke",
+   "text": "rv = super().invoke(ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 2074,
+   "in": "click.core.Group.invoke",
+   "text": "super().invoke(ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 2077,
+   "in": "click.core.Group.invoke",
+   "text": "return _process_result(sub_ctx.command.invoke(sub_ctx))"
+  },
+  {
+   "file": "core.py",
+   "line": 2086,
+   "in": "click.core.Group.invoke",
+   "text": "super().invoke(ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 2108,
+   "in": "click.core.Group.invoke",
+   "text": "rv.append(sub_ctx.command.invoke(sub_ctx))"
+  },
+  {
+   "file": "decorators.py",
+   "line": 63,
+   "in": "click.decorators.make_pass_decorator",
+   "text": "return ctx.invoke(f, obj, *args, **kwargs)"
+  },
+  {
+   "file": "decorators.py",
+   "line": 89,
+   "in": "click.decorators.make_pass_decorator.decorator.new_func",
+   "text": "return ctx.invoke(f, obj, *args, **kwargs)"
+  },
+  {
+   "file": "decorators.py",
+   "line": 115,
+   "in": "click.decorators.pass_meta_key.decorator.new_func",
+   "text": "return ctx.invoke(f, obj, *args, **kwargs)"
+  }
+ ],
+ "click.core.Command.make_context": [
+  {
+   "file": "core.py",
+   "line": 1582,
+   "in": "click.core.Command.main",
+   "text": "with self.make_context(prog_name, args, **extra) as ctx:"
+  },
+  {
+   "file": "core.py",
+   "line": 2075,
+   "in": "click.core.Group.invoke",
+   "text": "sub_ctx = cmd.make_context(cmd_name, args, parent=ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 2095,
+   "in": "click.core.Group.invoke",
+   "text": "sub_ctx = cmd.make_context("
+  },
+  {
+   "file": "shell_completion.py",
+   "line": 706,
+   "in": "click.shell_completion._resolve_context",
+   "text": "with cli.make_context(prog_name, args.copy(), **ctx_args) as ctx:"
+  },
+  {
+   "file": "shell_completion.py",
+   "line": 719,
+   "in": "click.shell_completion._resolve_context",
+   "text": "with cmd.make_context("
+  },
+  {
+   "file": "shell_completion.py",
+   "line": 733,
+   "in": "click.shell_completion._resolve_context",
+   "text": "with cmd.make_context("
+  }
+ ],
+ "click.core.Parameter.get_default": [
+  {
+   "file": "core.py",
+   "line": 918,
+   "in": "click.core.Context.invoke",
+   "text": "default_value = param.get_default(ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 2709,
+   "in": "click.core.Parameter.consume_value",
+   "text": "default_value = self.get_default(ctx)"
+  },
+  {
+   "file": "core.py",
+   "line": 3394,
+   "in": "click.core.Option.get_default",
+   "text": "raw = super().get_default(ctx, call=False)"
+  },
+  {
+   "file": "core.py",
+   "line": 3625,
+   "in": "click.core.Option.get_help_extra",
+   "text": "default_value = self.get_default(ctx, call=False)"
+  },
+  {
+   "file": "core.py",
+   "line": 3692,
+   "in": "click.core.Option.prompt_for_value",
+   "text": "default = self.get_default(ctx)"
+  }
+ ],
+ "click.termui.style": [
+  {
+   "file": "core.py",
+   "line": 1434,
+   "in": "click.core.Command.invoke",
+   "text": "echo(style(message, fg=\"red\"), err=True)"
+  },
+  {
+   "file": "core.py",
+   "line": 2957,
+   "in": "click.core.Parameter.handle_parse_result",
+   "text": "echo(style(message, fg=\"red\"), err=True)"
+  },
+  {
+   "file": "termui.py",
+   "line": 662,
+   "in": "click.termui.style",
+   "text": "click.echo(click.style('Hello World!', fg='green'))"
+  },
+  {
+   "file": "termui.py",
+   "line": 663,
+   "in": "click.termui.style",
+   "text": "click.echo(click.style('ATTENTION!', blink=True))"
+  },
+  {
+   "file": "termui.py",
+   "line": 664,
+   "in": "click.termui.style",
+   "text": "click.echo(click.style('Some things', reverse=True, fg='cyan'))"
+  },
+  {
+   "file": "termui.py",
+   "line": 665,
+   "in": "click.termui.style",
+   "text": "click.echo(click.style('More colors', fg=(255, 12, 128), bg=117))"
+  },
+  {
+   "file": "termui.py",
+   "line": 792,
+   "in": "click.termui.secho",
+   "text": "click.echo(click.style('Hello World!', fg='green'))"
+  },
+  {
+   "file": "termui.py",
+   "line": 809,
+   "in": "click.termui.secho",
+   "text": "message = style(message, **styles)"
+  }
+ ],
+ "click.core.Context.get_help": [
+  {
+   "file": "core.py",
+   "line": 866,
+   "in": "click.core.Context.get_help",
+   "text": "return self.command.get_help(self)"
+  },
+  {
+   "file": "decorators.py",
+   "line": 609,
+   "in": "click.decorators.help_option.show_help",
+   "text": "echo(ctx.get_help(), color=ctx.color)"
+  },
+  {
+   "file": "exceptions.py",
+   "line": 336,
+   "in": "click.exceptions.NoArgsIsHelpError.__init__",
+   "text": "super().__init__(ctx.get_help(), ctx=ctx)"
+  }
+ ],
+ "click.core.Group.resolve_command": [
+  {
+   "file": "core.py",
+   "line": 2071,
+   "in": "click.core.Group.invoke",
+   "text": "cmd_name, cmd, args = self.resolve_command(ctx, args)"
+  },
+  {
+   "file": "core.py",
+   "line": 2093,
+   "in": "click.core.Group.invoke",
+   "text": "cmd_name, cmd, args = self.resolve_command(ctx, args)"
+  },
+  {
+   "file": "shell_completion.py",
+   "line": 714,
+   "in": "click.shell_completion._resolve_context",
+   "text": "name, cmd, args = command.resolve_command(ctx, args)"
+  },
+  {
+   "file": "shell_completion.py",
+   "line": 728,
+   "in": "click.shell_completion._resolve_context",
+   "text": "name, cmd, args = command.resolve_command(ctx, args)"
+  }
+ ],
+ "click.core.Context.lookup_default": [
+  {
+   "file": "core.py",
+   "line": 2655,
+   "in": "click.core.Parameter.get_default",
+   "text": "value = ctx.lookup_default(self.name, call=False)"
+  },
+  {
+   "file": "core.py",
+   "line": 2698,
+   "in": "click.core.Parameter.consume_value",
+   "text": "default_map_value = ctx.lookup_default(self.name)"
+  }
+ ],
+ "click.formatting.HelpFormatter.write_text": [
+  {
+   "file": "core.py",
+   "line": 1317,
+   "in": "click.core.Command.format_help_text",
+   "text": "formatter.write_text(text)"
+  },
+  {
+   "file": "core.py",
+   "line": 1351,
+   "in": "click.core.Command.format_epilog",
+   "text": "formatter.write_text(epilog)"
+  }
+ ],
+ "click.core.Command.get_usage": [
+  {
+   "file": "core.py",
+   "line": 860,
+   "in": "click.core.Context.get_usage",
+   "text": "return self.command.get_usage(self)"
+  },
+  {
+   "file": "exceptions.py",
+   "line": 106,
+   "in": "click.exceptions.UsageError.show",
+   "text": "echo(f\"{self.ctx.get_usage()}\\n{hint}\", file=file, color=color)"
+  }
+ ],
+ "click.formatting.HelpFormatter.write_usage": [
+  {
+   "file": "core.py",
+   "line": 1188,
+   "in": "click.core.Command.format_usage",
+   "text": "formatter.write_usage(ctx.command_path, \" \".join(pieces))"
+  }
+ ],
+ "click.termui.secho": [
+  {
+   "file": "termui.py",
+   "line": 791,
+   "in": "click.termui.secho",
+   "text": "click.secho('Hello World!', fg='green')"
+  }
+ ]
+}
