@@ -130,12 +130,17 @@ def excluded_tests(checkout: Path, patterns: list[str]) -> set[str]:
             continue
         # junit classnames are relative to the tests/ rootdir: "test_align" (module) / "test_x.TestCls" (class)
         mod = ".".join(f.relative_to(checkout / "tests").with_suffix("").parts)
+        # module-level helpers (non-test functions) that contain a pattern: a test calling one is excluded too
+        # (test_table::test_render_table calls Measurement.get through render_tables())
+        helpers = {n.name for n in tree.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+                   and not n.name.startswith("test") and any(p in (ast.get_source_segment(src, n) or "") for p in patterns)}
+        pats = [*patterns, *[f"{h}(" for h in sorted(helpers)]]
         for node in tree.body:
             scopes = [(mod, node)] if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) else []
             if isinstance(node, ast.ClassDef):
                 scopes = [(f"{mod}.{node.name}", n) for n in node.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
             for cls, fn in scopes:
-                if fn.name.startswith("test") and any(p in (ast.get_source_segment(src, fn) or "") for p in patterns):
+                if fn.name.startswith("test") and any(p in (ast.get_source_segment(src, fn) or "") for p in pats):
                     out.add(f"{cls}::{fn.name}")
     return out
 

@@ -1,0 +1,42 @@
+diff --git a/rich/text.py b/rich/text.py
+index 7e087a4e..837f766b 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -1065,7 +1065,7 @@ class Text(JupyterMixin):
+         *,
+         include_separator: bool = False,
+         allow_blank: bool = False,
+-    ) -> Lines:
++    ) -> List["Text"]:
+         """Split rich text in to lines, preserving styles.
+ 
+         Args:
+@@ -1080,11 +1080,13 @@ class Text(JupyterMixin):
+ 
+         text = self.plain
+         if separator not in text:
+-            return Lines([self.copy()])
++            return [self.copy()]
+ 
+         if include_separator:
+-            lines = self.divide(
+-                match.end() for match in re.finditer(re.escape(separator), text)
++            lines = list(
++                self.divide(
++                    match.end() for match in re.finditer(re.escape(separator), text)
++                )
+             )
+         else:
+ 
+@@ -1094,9 +1096,9 @@ class Text(JupyterMixin):
+                     yield start
+                     yield end
+ 
+-            lines = Lines(
++            lines = [
+                 line for line in self.divide(flatten_spans()) if line.plain != separator
+-            )
++            ]
+ 
+         if not allow_blank and text.endswith(separator):
+             lines.pop()
