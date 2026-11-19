@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0.dev0 (branch v0.3, unreleased)
+
+- `tenthcheck hook`: Claude Code hook mode (PostToolUse on Edit/Write, and Stop). Silent unless an edit adds an
+  import cycle, leaves callers of a changed signature not fitting it (`file:line` list), or optionally touches a
+  function with >= N callers. Exit 2 with at most 10 lines; per-file summary cache, 150-280 ms per edit on rich.
+
 ## 0.1.2 (unreleased; built and checked, not uploaded)
 
 - **Classes used without being called now have dependents.** New `REFERENCES` edges (function / class / module ->

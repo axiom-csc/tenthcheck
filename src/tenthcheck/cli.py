@@ -6,6 +6,10 @@
     tenthcheck blast  <repo_dir> <symbol>                       what calls/imports/subclasses <symbol>, by hop
     tenthcheck cycles <repo_dir>                                import cycles from module-level imports
     tenthcheck scope  <before_dir> <after_dir>                  changed symbols and their untouched dependents
+    tenthcheck hook   [--dependents N] [--max-lines 10]         Claude Code hook (PostToolUse on Edit/Write, and
+                                                                Stop): reads the hook JSON on stdin; silent unless
+                                                                an edit adds a cycle or leaves callers of a changed
+                                                                signature broken (exit 2, shown to the agent)
     tenthcheck serve  [repo_dir]                                MCP stdio server for repo_dir (default: current
                                                                 directory; needs `pip install "tenthcheck[mcp]"`)
 """
@@ -83,6 +87,10 @@ def _print_cycles(res: dict) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
+    args = sys.argv[1:] if argv is None else argv
+    if args[:1] == ["hook"]:  # own parser: stdin JSON in, nothing on stdout, exit 0 or 2
+        from tenthcheck.hook import main as hook_main
+        return hook_main(args[1:])
     ap = argparse.ArgumentParser(prog="tenthcheck", description="Tenthcheck, from Tenthlook: see what an AI coding agent's edit could break before it lands.")
     ap.add_argument("--version", action="version", version=f"tenthcheck {__version__}")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -100,6 +108,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("repo_dir"); p.add_argument("--json", action="store_true")
     p = sub.add_parser("scope", help="scope report between two snapshots")
     p.add_argument("before_dir"); p.add_argument("after_dir"); p.add_argument("--json", action="store_true")
+    sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
     p = sub.add_parser("serve", help="run the MCP stdio server (server name: tenthcheck)")
     p.add_argument("repo_dir", nargs="?", default=".")
     a = ap.parse_args(argv)

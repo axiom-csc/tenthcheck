@@ -77,6 +77,67 @@ $ echo $?
 1
 ```
 
+## Hook mode: no MCP server (`tenthcheck hook`, v0.3, unreleased)
+
+Instead of tools the agent may or may not call, Tenthcheck can run as a Claude Code **hook** after every Edit or
+Write. It prints **nothing** unless the edit:
+
+- **(a)** creates a new import cycle;
+- **(b)** changes a function or method signature while some callers no longer fit it: a call that can't bind any more
+  (missing / unexpected argument, too many positional), or, after positional parameters were reordered or renamed, a
+  positional call still passing its arguments as before. One `file:line` per caller;
+- **(c)** optionally (`--dependents N`, off by default) changes a function with at least N direct callers.
+
+On a trip it writes at most 10 lines (`--max-lines`) to stderr and exits 2, which Claude Code shows to the agent
+(PostToolUse can't undo the edit; the agent sees the warning next to the tool result). On a pass: no output, exit 0.
+Its own errors are logged to `.tenthcheck/hook.log` and never interrupt the agent.
+
+Example (rich, the h02 experiment diff replayed file by file with `--exclude 'tests/*'`; the edit to `rich/measure.py`
+reorders `Measurement.get`'s parameters and updates the one caller in that file):
+
+```
+Tenthcheck: signature changed rich.measure.Measurement.get(cls, console, options, renderable) -> get(cls, renderable, console, options); 12 callers not updated:
+  rich/align.py:238 (Align.__rich_measure__): positional arguments unchanged since the parameters were reordered/renamed
+  rich/columns.py:80 (Columns.__rich_console__): positional arguments unchanged since the parameters were reordered/renamed
+  ...
+```
+
+Callers the agent then fixes are cleared silently. Registered as a **Stop** hook too, it blocks the agent from
+finishing once (never twice) while callers of a signature it changed are still not updated.
+
+Setup: put this in `.claude/settings.json` in the repository (needs `tenthcheck` on `PATH`; no `[mcp]` extra):
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {"matcher": "Edit|Write|MultiEdit",
+       "hooks": [{"type": "command", "command": "tenthcheck hook", "timeout": 30}]}
+    ],
+    "Stop": [
+      {"hooks": [{"type": "command", "command": "tenthcheck hook", "timeout": 30}]}
+    ]
+  }
+}
+```
+
+Options go on the command: `tenthcheck hook --exclude 'tests/*'` (callers in those files are not reported, e.g.
+when the agent must not edit tests), `--dependents 20`, `--max-lines 10`, `--root DIR` (default
+`$CLAUDE_PROJECT_DIR`). Names are relative to the project root, as with `tenthcheck serve .`.
+
+How it stays fast: a per-file summary (imports, signatures, call sites) is cached in `.tenthcheck/hook_cache.json`
+(own `.gitignore`) and only files whose mtime or size changed are re-parsed; the cached summary of the edited file
+is its pre-edit state. Measured on rich (213 package files plus tests, battery): first call 1.0 s, then 150-280 ms
+per edit. Before the first cached edit of a file, the pre-edit version comes from the Edit's `old_string` /
+`new_string` (or `git show HEAD:<file>`).
+
+Limits: callers are resolved per call site from that file's imports (bare names, `mod.f`, `Cls.m`, `self.m`,
+constructors, local aliases like `get = Measurement.get`, and `obj.m()` only when `m` is the only method of that
+name in the repo); calls through `*args`/`**kwargs` aren't judged; edits made through Bash don't trigger the hook
+(their changes are picked up, unattributed, on the next edit); `MultiEdit` is in the matcher in case your Claude Code
+has it, but its payload isn't documented. Exit 2 and Stop semantics are from the Claude Code hooks reference
+(code.claude.com/docs/en/hooks), checked 2026-11-18.
+
 ## Measured
 
 All numbers below come from files in `measurements/results/`, produced by the scripts in `measurements/scripts/`. Those files were
