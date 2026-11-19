@@ -170,6 +170,7 @@ def claude_cmd(args, arm: str, prompt: str, cfg: Path, settings: Path | None = N
     allowed = BASE_TOOLS + (MCP_TOOLS if arm == "with" else [])
     return ["claude", "-p", prompt, "--model", args.model, "--output-format", "stream-json", "--verbose",
             "--max-turns", str(args.max_turns), "--permission-mode", "acceptEdits",
+            "--include-hook-events",  # hook output reaches the model either way; this records it in the stream
             "--mcp-config", str(cfg), "--strict-mcp-config",
             *(["--settings", str(settings)] if settings else []),
             "--allowedTools", ",".join(allowed), "--disallowedTools", ",".join(DENIED_TOOLS),
@@ -190,8 +191,8 @@ def parse_stream(path: Path) -> dict:
             for block in ev.get("message", {}).get("content", []):
                 if block.get("type") == "tool_use":
                     out["tool_calls"][block["name"]] = out["tool_calls"].get(block["name"], 0) + 1
-        if ev.get("type") != "assistant" and "Tenthcheck:" in line:  # hook stderr fed back to the agent
-            out["hook_feedback"] += 1
+        if ev.get("type") == "system" and "hook" in str(ev.get("subtype", "")) and "Tenthcheck:" in line:
+            out["hook_feedback"] += 1  # a hook event whose output (fed back to the agent) is a Tenthcheck message
         if ev.get("type") == "result":
             out.update(num_turns=ev.get("num_turns"), duration_ms=ev.get("duration_ms"),
                        reported_cost_usd=ev.get("total_cost_usd"), usage=ev.get("usage"),
@@ -300,6 +301,7 @@ def main() -> None:
     ap.add_argument("--tasks", default="tasks.json", help="tasks file next to run.py (e.g. tasks_hard.json)")
     ap.add_argument("--arms", default="with,without", help="comma list of with (MCP), without, hook")
     ap.add_argument("--repeats", type=int, default=1, help="sessions per (task, arm)")
+    ap.add_argument("--stop-after", type=int, default=None, help="run at most N new sessions, then stop (a pilot)")
     ap.add_argument("--resume", help="run_id to continue")
     ap.add_argument("--extra-claude-arg", action="append", default=[],
                     help="passed to both arms verbatim, e.g. --extra-claude-arg=--setting-sources=project")
@@ -344,8 +346,12 @@ def main() -> None:
     out = run_dir / "results.json"
     if out.exists():
         data = json.loads(out.read_text())
-        if data["config"]["seed"] != args.seed or data["config"]["model"] != args.model:
+        if (data["config"]["seed"] != args.seed or data["config"]["model"] != args.model
+                or data["config"].get("repeats", 1) != args.repeats):
             sys.exit("resume: seed/model differ from the original run")
+        if not args.only:  # a pilot started with --only; the full schedule is what the rest runs in
+            data["config"]["order"] = order
+            data["config"]["pilot_note"] = "sessions run before this resume may have used an --only schedule"
     else:
         cv = subprocess.run(["claude", "--version"], capture_output=True, text=True).stdout.strip()
         data = {"schema": "tenthcheck-with-without/1", "run_id": run_id,
@@ -361,9 +367,14 @@ def main() -> None:
                            "order": order},
                 "runs": []}
     done = {(r["task_id"], r["arm"], r.get("rep", 0)) for r in data["runs"]}
+    new = 0
     for i, (tid, arm, rep) in enumerate(order):
         if (tid, arm, rep) in done:
             continue
+        if args.stop_after is not None and new >= args.stop_after:
+            print(f"stopped after {new} new session(s) (--stop-after)")
+            break
+        new += 1
         started = datetime.now(timezone.utc).isoformat(timespec="seconds")
         print(f"[{i + 1}/{len(order)}] {tid} {arm} rep {rep} ...", flush=True)
         rec = run_one(args, by_id[tid], arm, run_dir, baseline, rep)
