@@ -24,7 +24,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-TASKS = json.loads((HERE / "tasks.json").read_text())
+def _tasks_file() -> Path:
+    """--tasks FILE (default tasks.json) is read before argparse so TARGET is known at import time."""
+    argv = sys.argv[1:]
+    for i, a in enumerate(argv):
+        if a == "--tasks" and i + 1 < len(argv):
+            return (HERE / argv[i + 1]).resolve()
+        if a.startswith("--tasks="):
+            return (HERE / a.split("=", 1)[1]).resolve()
+    return HERE / "tasks.json"
+
+
+TASKS_FILE = _tasks_file()
+TASKS = json.loads(TASKS_FILE.read_text())
 TARGET = TASKS["target"]
 WORK = Path(os.environ.get("WITH_WITHOUT_WORK", Path.home() / "tenthcheck-with-without"))
 MIRROR = WORK / "rich.git"
@@ -100,6 +112,32 @@ def run_tests(checkout: Path, junit: Path) -> tuple[set[str], set[str], Path]:
             if not any(ch.tag in ("failure", "error", "skipped") for ch in tc):
                 passed.add(tid)
     return passed, every, junit
+
+
+def excluded_tests(checkout: Path, patterns: list[str]) -> set[str]:
+    """Test ids (junit classname::name) whose own source contains a pattern: tests that call the changed API
+    directly, which an intended API change breaks no matter how well the callers were updated. Frozen per task
+    in the tasks file; computed on the pristine tests/ (restored before scoring)."""
+    import ast
+    if not patterns:
+        return set()
+    out = set()
+    for f in sorted((checkout / "tests").rglob("test_*.py")):
+        src = f.read_text(encoding="utf-8", errors="replace")
+        try:
+            tree = ast.parse(src)
+        except SyntaxError:
+            continue
+        # junit classnames are relative to the tests/ rootdir: "test_align" (module) / "test_x.TestCls" (class)
+        mod = ".".join(f.relative_to(checkout / "tests").with_suffix("").parts)
+        for node in tree.body:
+            scopes = [(mod, node)] if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) else []
+            if isinstance(node, ast.ClassDef):
+                scopes = [(f"{mod}.{node.name}", n) for n in node.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+            for cls, fn in scopes:
+                if fn.name.startswith("test") and any(p in (ast.get_source_segment(src, fn) or "") for p in patterns):
+                    out.add(f"{cls}::{fn.name}")
+    return out
 
 
 # ---------------------------------------------------------------- one session
@@ -178,7 +216,10 @@ def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict) -> dict:
 
     passed, every, _ = run_tests(co, sess / "junit.xml")
     base_pass = set(baseline["passed"])
-    broken = sorted(base_pass - passed)
+    excl = excluded_tests(co, task.get("excluded_test_patterns", []))
+    # parametrized ids look like name[param]; exclude them by their base name
+    broken_all = sorted(base_pass - passed)
+    broken = [t for t in broken_all if t.split("[", 1)[0] not in excl]
     done = subprocess.run([str(vpy(TARGET_VENV)), "-c", task["done_check"]], cwd=co,
                           capture_output=True, text=True, timeout=120)
     cycles = subprocess.run([str(TOOL_VENV / "bin" / "tenthcheck"), "cycles", str(co / TARGET["package_dir"])],
@@ -191,6 +232,7 @@ def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict) -> dict:
         "files_changed": files, "touched_tests": touched_tests, "diff_lines": diff.count("\n"),
         "tests_collected": len(every), "tests_passed": len(passed),
         "newly_broken": len(broken), "newly_broken_ids": broken,
+        "excluded_tests": len(excl), "newly_broken_incl_excluded": len(broken_all),
         "done_check_passed": done.returncode == 0, "done_check_error": done.stderr[-500:],
         "import_cycles_after": cycles.stdout.strip()[-1000:],
     }
@@ -223,7 +265,9 @@ def main() -> None:
     ap.add_argument("--max-turns", type=int, default=40)
     ap.add_argument("--session-timeout", type=int, default=1800, help="seconds per session")
     ap.add_argument("--seed", type=int, default=20261117)
-    ap.add_argument("--only", action="append", default=[], help="task id(s) to run (default: all 10)")
+    ap.add_argument("--only", action="append", default=[], help="task id(s) to run (default: all in the tasks file)")
+    ap.add_argument("--tasks", default="tasks.json", help="tasks file next to run.py (e.g. tasks_hard.json)")
+    ap.add_argument("--arms", default="with,without", help="comma list; 'without' alone is a breakage dry run")
     ap.add_argument("--resume", help="run_id to continue")
     ap.add_argument("--extra-claude-arg", action="append", default=[],
                     help="passed to both arms verbatim, e.g. --extra-claude-arg=--setting-sources=project")
@@ -235,6 +279,10 @@ def main() -> None:
     task_ids = [t["id"] for t in TASKS["tasks"] if not args.only or t["id"] in args.only]
     by_id = {t["id"]: t for t in TASKS["tasks"]}
     order = schedule(args.seed, task_ids)
+    arms = {a.strip() for a in args.arms.split(",")}
+    if not arms <= set(ARMS):
+        sys.exit(f"--arms must be from {ARMS}")
+    order = [(t, a) for t, a in order if a in arms]
     if args.dry_run:
         print(f"{len(order)} sessions, seed {args.seed}:")
         for i, (tid, arm) in enumerate(order, 1):
@@ -271,6 +319,7 @@ def main() -> None:
                            "extra_claude_args": args.extra_claude_arg, "allowed_tools": BASE_TOOLS,
                            "mcp_tools_with_arm": MCP_TOOLS, "denied_tools": DENIED_TOOLS,
                            "target": TARGET, "common_rules": TASKS["common_rules"],
+                           "tasks_file": TASKS_FILE.name, "arms": sorted(arms),
                            "baseline_passed": baseline["n_passed"], "baseline_collected": baseline["n_collected"],
                            "order": order},
                 "runs": []}
@@ -281,7 +330,7 @@ def main() -> None:
         started = datetime.now(timezone.utc).isoformat(timespec="seconds")
         print(f"[{i + 1}/{len(order)}] {tid} {arm} ...", flush=True)
         rec = run_one(args, by_id[tid], arm, run_dir, baseline)
-        rec["order_in_pair"] = 1 if i % 2 == 0 else 2
+        rec["order_in_pair"] = (1 if i % 2 == 0 else 2) if len(arms) == 2 else None
         rec["started_utc"] = started
         data["runs"].append(rec)
         out.write_text(json.dumps(data, indent=1))
