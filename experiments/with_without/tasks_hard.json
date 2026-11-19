@@ -1,0 +1,61 @@
+{
+  "_note": "Harder tasks (2026-11-18): real API changes across modules, designed so an unaided agent can break things. excluded_test_patterns: tests whose own source contains a pattern call the changed API directly and are not scored (an intended API change breaks them regardless). Not yet run except a single without-arm dry run of one task.",
+  "target": {
+    "repo": "https://github.com/Textualize/rich",
+    "tag": "v15.0.0",
+    "commit": "6ac483cbea39cab124dfd3483bba70ffafb71050",
+    "package_dir": ".",
+    "test_command": [
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "-q",
+      "tests"
+    ],
+    "test_deps": [
+      "pygments>=2.13,<3",
+      "markdown-it-py>=2.2",
+      "pytest>=7,<9",
+      "attrs",
+      "typing-extensions>=4"
+    ]
+  },
+  "common_rules": "Rules for this task: work only inside the current directory. Do not modify, add or delete anything under tests/. Apart from the API change the task asks for, behaviour must not change, and every name that is importable today must stay importable from the module it is imported from today. You cannot run code or tests in this session. Before writing each file, check what the change could break using the tools available to you. When you are done, reply with a short list of the files you changed.",
+  "tasks": [
+    {
+      "id": "h01_style_module",
+      "prompt": "Refactor rich: rich/style.py is long. Move the class Style into a new module rich/_style.py. rich.style must keep exporting everything it exports today (including Style, StyleStack, StyleType and NULL_STYLE), so `from rich.style import Style` still works. Change every import of Style inside the rich package (not tests) to import it from rich._style.",
+      "done_check": "import rich._style as n, rich.style as s; assert n.Style.__module__ == 'rich._style'; assert s.Style is n.Style; from rich.style import NULL_STYLE, StyleStack, StyleType; assert NULL_STYLE == n.Style()",
+      "excluded_test_patterns": [],
+      "trap": "Style uses _Bit, _hash_getter, _id_generator and NULL_STYLE (defined after the class) from style.py; importing them from rich.style in _style.py while rich.style re-exports from rich._style is an import cycle"
+    },
+    {
+      "id": "h02_measurement_get_order",
+      "prompt": "Refactor rich: change the parameter order of Measurement.get in rich/measure.py from get(console, options, renderable) to get(renderable, console, options), so the thing being measured comes first. Update every call inside the rich package (not tests) to the new order. Do not keep the old order working.",
+      "done_check": "import inspect; from rich.measure import Measurement; assert list(inspect.signature(Measurement.get).parameters) == ['renderable', 'console', 'options']",
+      "excluded_test_patterns": [
+        "Measurement.get("
+      ],
+      "trap": "9 positional call sites in 7 modules; a missed one fails only when that renderable is measured"
+    },
+    {
+      "id": "h03_render_lines_options_kwonly",
+      "prompt": "Refactor rich: in rich/console.py make the `options` parameter of Console.render_lines keyword-only and required: def render_lines(self, renderable, *, options, style=None, pad=True, new_lines=False). Callers that relied on the default must pass the console's options explicitly (self.options, or the console's options where self is not a Console). Update every caller inside the rich package (not tests).",
+      "done_check": "import inspect; from rich.console import Console; p = inspect.signature(Console.render_lines).parameters['options']; assert p.kind is inspect.Parameter.KEYWORD_ONLY and p.default is inspect.Parameter.empty",
+      "excluded_test_patterns": [
+        "render_lines("
+      ],
+      "trap": "15 call sites in 11 modules, mostly positional `render_lines(x, options, ...)`, several spanning lines"
+    },
+    {
+      "id": "h04_text_split_list",
+      "prompt": "Refactor rich: Text.split in rich/text.py should return a plain list[Text] instead of a Lines object (Lines is for wrapped, renderable lines). Update the signature and docstring, and every caller inside the rich package (not tests) that relies on the result being a Lines (for example calling Lines methods on it, or rendering it), so behaviour stays the same.",
+      "done_check": "from rich.text import Text; r = Text('a\\nb').split(); assert type(r) is list and [t.plain for t in r] == ['a', 'b']",
+      "excluded_test_patterns": [
+        ".split("
+      ],
+      "trap": "grep for .split( mostly finds str.split; callers that call Lines methods (justify, rstrip_end, ...) or render the result break"
+    }
+  ]
+}

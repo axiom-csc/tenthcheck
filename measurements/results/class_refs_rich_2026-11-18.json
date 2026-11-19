@@ -1,0 +1,65 @@
+{
+ "rich_commit": "6ac483cbea39cab124dfd3483bba70ffafb71050",
+ "rows": [
+  {
+   "class": "rich.console.ConsoleOptions",
+   "direct_dependents": 114,
+   "modules_with_dependent": 27,
+   "modules_naming_it": 28,
+   "grep_only": [
+    "rich.palette"
+   ]
+  },
+  {
+   "class": "rich.console.ConsoleDimensions",
+   "direct_dependents": 14,
+   "modules_with_dependent": 0,
+   "modules_naming_it": 0,
+   "grep_only": []
+  },
+  {
+   "class": "rich.segment.Segment",
+   "direct_dependents": 136,
+   "modules_with_dependent": 20,
+   "modules_naming_it": 22,
+   "grep_only": [
+    "rich.measure",
+    "rich.palette"
+   ]
+  },
+  {
+   "class": "rich.style.Style",
+   "direct_dependents": 184,
+   "modules_with_dependent": 22,
+   "modules_naming_it": 26,
+   "grep_only": [
+    "rich.errors",
+    "rich.progress",
+    "rich.spinner",
+    "rich.status"
+   ]
+  },
+  {
+   "class": "rich.text.Text",
+   "direct_dependents": 252,
+   "modules_with_dependent": 26,
+   "modules_naming_it": 33,
+   "grep_only": [
+    "rich.abc",
+    "rich.box",
+    "rich.cells",
+    "rich.default_styles",
+    "rich.segment",
+    "rich.status",
+    "rich.style"
+   ]
+  },
+  {
+   "class": "rich.measure.Measurement",
+   "direct_dependents": 65,
+   "modules_with_dependent": 18,
+   "modules_naming_it": 18,
+   "grep_only": []
+  }
+ ]
+}

@@ -1,0 +1,530 @@
+[
+ {
+  "set": "httpx (tuned-on)",
+  "symbols": 10,
+  "true_callers": 28,
+  "found": 28,
+  "missed": 0,
+  "false_positives": 0,
+  "recall": 1.0,
+  "rows": [
+   {
+    "symbol": "httpx._utils.to_bytes",
+    "true": 6,
+    "found": [
+     "httpx._auth.BasicAuth._build_auth_header",
+     "httpx._auth.DigestAuth.__init__",
+     "httpx._auth.NetRCAuth._build_auth_header",
+     "httpx._multipart.DataField.render_data",
+     "httpx._multipart.FileField.get_length",
+     "httpx._multipart.FileField.render_data"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._utils.primitive_value_to_str",
+    "true": 5,
+    "found": [
+     "httpx._content.encode_urlencoded_data",
+     "httpx._multipart.DataField.__init__",
+     "httpx._urls.QueryParams.__init__",
+     "httpx._urls.QueryParams.add",
+     "httpx._urls.QueryParams.set"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._utils.get_environment_proxies",
+    "true": 1,
+    "found": [
+     "httpx._client.BaseClient._get_proxy_map"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._urlparse.urlparse",
+    "true": 2,
+    "found": [
+     "httpx._urlparse.ParseResult.copy_with",
+     "httpx._urls.URL.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._urlparse.quote",
+    "true": 2,
+    "found": [
+     "httpx._urlparse.encode_host",
+     "httpx._urlparse.urlparse"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._utils.URLPattern.matches",
+    "true": 2,
+    "found": [
+     "httpx._client.AsyncClient._transport_for_url",
+     "httpx._client.Client._transport_for_url"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._models.Response.read",
+    "true": 6,
+    "found": [
+     "httpx._auth.Auth.sync_auth_flow",
+     "httpx._client.Client._send_handling_auth",
+     "httpx._client.Client._send_handling_redirects",
+     "httpx._client.Client.send",
+     "httpx._main.main",
+     "httpx._models.Response.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._client.BaseClient._merge_url",
+    "true": 1,
+    "found": [
+     "httpx._client.BaseClient.build_request"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._client.Client.send",
+    "true": 2,
+    "found": [
+     "httpx._client.Client.request",
+     "httpx._client.Client.stream"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "httpx._content.encode_request",
+    "true": 1,
+    "found": [
+     "httpx._models.Request.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   }
+  ]
+ },
+ {
+  "set": "click (tuned-on since the overload fixes)",
+  "symbols": 14,
+  "true_callers": 37,
+  "found": 35,
+  "missed": 2,
+  "false_positives": 0,
+  "recall": 0.9459,
+  "rows": [
+   {
+    "symbol": "click.core.Context.fail",
+    "true": 2,
+    "found": [
+     "click.core.Command.parse_args",
+     "click.core.Group.invoke"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.invoke",
+    "true": 5,
+    "found": [
+     "click.core.Command.invoke",
+     "click.core.Context.forward",
+     "click.decorators.make_pass_decorator.decorator.new_func",
+     "click.decorators.pass_meta_key.decorator.new_func"
+    ],
+    "missed": [
+     "click.core.Group.invoke._process_result"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Command.make_context",
+    "true": 3,
+    "found": [
+     "click.core.Command.main",
+     "click.core.Group.invoke",
+     "click.shell_completion._resolve_context"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Parameter.get_default",
+    "true": 3,
+    "found": [
+     "click.core.Context.invoke",
+     "click.core.Option.get_default",
+     "click.core.Parameter.consume_value"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.termui.style",
+    "true": 3,
+    "found": [
+     "click.core.Command.invoke",
+     "click.core.Parameter.handle_parse_result",
+     "click.termui.secho"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.get_help",
+    "true": 2,
+    "found": [
+     "click.decorators.help_option.show_help",
+     "click.exceptions.NoArgsIsHelpError.__init__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Group.resolve_command",
+    "true": 2,
+    "found": [
+     "click.core.Group.invoke"
+    ],
+    "missed": [
+     "click.shell_completion._resolve_context"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.lookup_default",
+    "true": 2,
+    "found": [
+     "click.core.Parameter.consume_value",
+     "click.core.Parameter.get_default"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.formatting.HelpFormatter.write_text",
+    "true": 2,
+    "found": [
+     "click.core.Command.format_epilog",
+     "click.core.Command.format_help_text"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Command.get_usage",
+    "true": 1,
+    "found": [
+     "click.core.Context.get_usage"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.formatting.HelpFormatter.write_usage",
+    "true": 1,
+    "found": [
+     "click.core.Command.format_usage"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.termui.secho",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Command.get_params",
+    "true": 9,
+    "found": [
+     "click.core.Command.collect_usage_pieces",
+     "click.core.Command.format_arguments",
+     "click.core.Command.format_options",
+     "click.core.Command.make_parser",
+     "click.core.Command.parse_args",
+     "click.core.Command.shell_complete",
+     "click.core.Command.to_info_dict",
+     "click.core.Context.command_path",
+     "click.shell_completion._resolve_incomplete"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "click.core.Context.find_object",
+    "true": 2,
+    "found": [
+     "click.core.Context.ensure_object",
+     "click.decorators.make_pass_decorator.decorator.new_func"
+    ],
+    "missed": [],
+    "false_positives": []
+   }
+  ]
+ },
+ {
+  "set": "starlette (held out)",
+  "symbols": 23,
+  "true_callers": 60,
+  "found": 53,
+  "missed": 7,
+  "false_positives": 0,
+  "recall": 0.8833,
+  "rows": [
+   {
+    "symbol": "starlette.datastructures.ImmutableMultiDict.keys",
+    "true": 2,
+    "found": [
+     "starlette.datastructures.ImmutableMultiDict.__iter__",
+     "starlette.datastructures.MultiDict.update"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.datastructures.Headers.keys",
+    "true": 1,
+    "found": [
+     "starlette.datastructures.Headers.__iter__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.datastructures.ImmutableMultiDict.multi_items",
+    "true": 7,
+    "found": [
+     "starlette.datastructures.FormData.close",
+     "starlette.datastructures.ImmutableMultiDict.__init__",
+     "starlette.datastructures.ImmutableMultiDict.__repr__",
+     "starlette.datastructures.MultiDict.update",
+     "starlette.datastructures.URL.append_query_params",
+     "starlette.datastructures.URL.include_query_params",
+     "starlette.datastructures.URL.remove_query_params"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.concurrency.run_in_threadpool",
+    "true": 8,
+    "found": [
+     "starlette._exception_handler.wrap_app_handling_exceptions.wrapped_app",
+     "starlette.background.BackgroundTask.__call__",
+     "starlette.datastructures.UploadFile.close",
+     "starlette.datastructures.UploadFile.read",
+     "starlette.datastructures.UploadFile.seek",
+     "starlette.datastructures.UploadFile.write",
+     "starlette.endpoints.HTTPEndpoint.dispatch",
+     "starlette.middleware.errors.ServerErrorMiddleware.__call__"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.middleware.sessions.Session.mark_modified",
+    "true": 8,
+    "found": [
+     "starlette.middleware.sessions.Session.__delitem__",
+     "starlette.middleware.sessions.Session.__ior__",
+     "starlette.middleware.sessions.Session.__setitem__",
+     "starlette.middleware.sessions.Session.clear",
+     "starlette.middleware.sessions.Session.pop",
+     "starlette.middleware.sessions.Session.popitem",
+     "starlette.middleware.sessions.Session.setdefault",
+     "starlette.middleware.sessions.Session.update"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette._utils.is_async_callable",
+    "true": 7,
+    "found": [
+     "starlette._exception_handler.wrap_app_handling_exceptions.wrapped_app",
+     "starlette.authentication.requires.decorator",
+     "starlette.background.BackgroundTask.__init__",
+     "starlette.endpoints.HTTPEndpoint.dispatch",
+     "starlette.middleware.errors.ServerErrorMiddleware.__call__",
+     "starlette.routing.request_response",
+     "starlette.testclient._is_asgi3"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.replace_params",
+    "true": 4,
+    "found": [
+     "starlette.routing.Host.url_path_for",
+     "starlette.routing.Mount.url_path_for",
+     "starlette.routing.Route.url_path_for",
+     "starlette.routing.WebSocketRoute.url_path_for"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.applications.Starlette.url_path_for",
+    "true": 1,
+    "found": [],
+    "missed": [
+     "starlette.requests.HTTPConnection.url_for"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.Router.url_path_for",
+    "true": 2,
+    "found": [
+     "starlette.requests.HTTPConnection.url_for"
+    ],
+    "missed": [
+     "starlette.applications.Starlette.url_path_for"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.BaseRoute.url_path_for",
+    "true": 3,
+    "found": [],
+    "missed": [
+     "starlette.routing.Host.url_path_for",
+     "starlette.routing.Mount.url_path_for",
+     "starlette.routing.Router.url_path_for"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.Route.url_path_for",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.WebSocketRoute.url_path_for",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.Mount.url_path_for",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.routing.Host.url_path_for",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.middleware.errors.ServerErrorMiddleware.__call__._send",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.datastructures.MultiDict.clear",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.middleware.sessions.Session.clear",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette._utils.get_route_path",
+    "true": 5,
+    "found": [
+     "starlette.routing.Mount.matches",
+     "starlette.routing.Route.matches",
+     "starlette.routing.Router.app",
+     "starlette.routing.WebSocketRoute.matches",
+     "starlette.staticfiles.StaticFiles.get_path"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.datastructures.Headers.getlist",
+    "true": 5,
+    "found": [
+     "starlette.datastructures.MutableHeaders.add_vary_header",
+     "starlette.middleware.cors.CORSMiddleware.allow_explicit_origin",
+     "starlette.middleware.cors.CORSMiddleware.send"
+    ],
+    "missed": [
+     "starlette.requests.HTTPConnection.cookies",
+     "starlette.requests.Request.send_push_promise"
+    ],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.datastructures.ImmutableMultiDict.getlist",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.datastructures.UploadFile.read",
+    "true": 0,
+    "found": [],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.requests.Request.stream",
+    "true": 3,
+    "found": [
+     "starlette.middleware.base._CachedRequest.wrapped_receive",
+     "starlette.requests.Request._get_form",
+     "starlette.requests.Request.body"
+    ],
+    "missed": [],
+    "false_positives": []
+   },
+   {
+    "symbol": "starlette.testclient.WebSocketTestSession._raise_on_close",
+    "true": 4,
+    "found": [
+     "starlette.testclient.WebSocketTestSession.__enter__",
+     "starlette.testclient.WebSocketTestSession.receive_bytes",
+     "starlette.testclient.WebSocketTestSession.receive_json",
+     "starlette.testclient.WebSocketTestSession.receive_text"
+    ],
+    "missed": [],
+    "false_positives": []
+   }
+  ]
+ }
+]

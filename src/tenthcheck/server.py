@@ -28,8 +28,8 @@ AGENTS_INSTRUCTIONS = (
 )
 
 INSTRUCTIONS = (
-    "Structural checks for Python code in one repository, from module-level imports and statically "
-    "resolved calls only. Dynamic dispatch, getattr, super() and calls through variables are not seen, "
+    "Structural checks for Python code in one repository, from module-level imports, statically "
+    "resolved calls, subclassing, and uses of classes (annotations, constructors, isinstance, imports). Dynamic dispatch, getattr, super() and calls through variables are not seen, "
     "so an empty result means 'no resolved dependents', not 'safe'. Nothing here runs code or judges correctness."
 )
 
@@ -55,7 +55,8 @@ def build_server(repo_dir: str | Path, session_id: str | None = None):
 
     @server.tool()
     def check_blast_radius(symbol: str, max_depth: int | None = None) -> dict[str, Any]:
-        """Entities that call, import or subclass `symbol` (transitively), grouped by hop depth.
+        """Entities that call, import, subclass or use `symbol` (transitively), grouped by hop depth. For a class,
+        "use" includes annotations, constructor calls, isinstance checks and imports of it.
 
         `symbol` is a dotted id like `pkg.mod.func` or a unique suffix like `Class.method`.
         """

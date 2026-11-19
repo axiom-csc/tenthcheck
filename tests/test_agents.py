@@ -233,3 +233,16 @@ def test_mcp_two_sessions(repo):
     s = sess.structured_content
     assert s["this_session"] == "B" and [x["session"] for x in s["sessions"]] == ["A", "B"]
     assert (repo / "pkg/api.py").read_text() == API  # tools never write the agent's files
+
+
+def test_class_users_are_inside_the_radius_since_0_1_2(tmp_path):
+    """Merged from 0.1.2: a function that only annotates a class is in the radius of an edit to that class."""
+    repo = _write(tmp_path / "r", {
+        "pkg/__init__.py": "",
+        "pkg/opts.py": "class Options:\n    width: int = 80\n",
+        "pkg/render.py": "from pkg.opts import Options\n\ndef render(o: Options) -> int:\n    return 1\n",
+    })
+    agents.record_edit(repo, "A", "pkg/opts.py", "class Options:\n    width: int = 100\n")
+    [w] = agents.record_edit(repo, "B", "pkg/render.py",
+                             "from pkg.opts import Options\n\ndef render(o: Options) -> int:\n    return 2\n")["warnings"]
+    assert (w["symbol"], w["their_edit"], w["relation"], w["hops"]) == ("pkg.render.render", "pkg.opts.Options", "caller", 1)
