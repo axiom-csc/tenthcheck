@@ -1,0 +1,55 @@
+{
+  "_note": "Efficiency experiment (PLAN_EFFICIENCY.md, 2026-11-18): the four tasks with the most caller-finding work, one shared rules text (tasks_hard.json's, which allows the requested API change). Arms: without / with (MCP) / hook.",
+  "target": {
+    "repo": "https://github.com/Textualize/rich",
+    "tag": "v15.0.0",
+    "commit": "6ac483cbea39cab124dfd3483bba70ffafb71050",
+    "package_dir": ".",
+    "test_command": [
+      "-m",
+      "pytest",
+      "-p",
+      "no:cacheprovider",
+      "-q",
+      "tests"
+    ],
+    "test_deps": [
+      "pygments>=2.13,<3",
+      "markdown-it-py>=2.2",
+      "pytest>=7,<9",
+      "attrs",
+      "typing-extensions>=4"
+    ]
+  },
+  "common_rules": "Rules for this task: work only inside the current directory. Do not modify, add or delete anything under tests/. Apart from the API change the task asks for, behaviour must not change, and every name that is importable today must stay importable from the module it is imported from today. You cannot run code or tests in this session. Before writing each file, check what the change could break using the tools available to you. When you are done, reply with a short list of the files you changed.",
+  "tasks": [
+    {
+      "id": "t08_rename_loop_last",
+      "prompt": "Refactor rich: rename the function loop_last in rich/_loop.py to iter_last and update every use of it inside the rich package to the new name. Keep loop_last available in rich/_loop.py as an alias of iter_last.",
+      "done_check": "from rich._loop import iter_last, loop_last; assert loop_last is iter_last; assert list(iter_last([1, 2])) == [(False, 1), (True, 2)]",
+      "excluded_test_patterns": []
+    },
+    {
+      "id": "h02_measurement_get_order",
+      "prompt": "Refactor rich: change the parameter order of Measurement.get in rich/measure.py from get(console, options, renderable) to get(renderable, console, options), so the thing being measured comes first. Update every call inside the rich package (not tests) to the new order. Do not keep the old order working.",
+      "done_check": "import inspect; from rich.measure import Measurement; assert list(inspect.signature(Measurement.get).parameters) == ['renderable', 'console', 'options']",
+      "excluded_test_patterns": [
+        "Measurement.get("
+      ]
+    },
+    {
+      "id": "h03_render_lines_options_kwonly",
+      "prompt": "Refactor rich: in rich/console.py make the `options` parameter of Console.render_lines keyword-only and required: def render_lines(self, renderable, *, options, style=None, pad=True, new_lines=False). Callers that relied on the default must pass the console's options explicitly (self.options, or the console's options where self is not a Console). Update every caller inside the rich package (not tests).",
+      "done_check": "import inspect; from rich.console import Console; p = inspect.signature(Console.render_lines).parameters['options']; assert p.kind is inspect.Parameter.KEYWORD_ONLY and p.default is inspect.Parameter.empty",
+      "excluded_test_patterns": [
+        "render_lines("
+      ]
+    },
+    {
+      "id": "t06_console_options_module",
+      "prompt": "Refactor rich: rich/console.py is too long. Move the classes NoChange, ConsoleDimensions and ConsoleOptions (and the NO_CHANGE constant, if it exists) into a new module rich/console_options.py. Change the imports of ConsoleOptions and ConsoleDimensions inside the rich package (not tests) to come from rich.console_options. rich.console must keep exporting all of them, so `from rich.console import ConsoleOptions, ConsoleDimensions` still works.",
+      "done_check": "import rich.console as c, rich.console_options as o; assert o.ConsoleOptions.__module__ == 'rich.console_options'; assert c.ConsoleOptions is o.ConsoleOptions and c.ConsoleDimensions is o.ConsoleDimensions",
+      "excluded_test_patterns": []
+    }
+  ]
+}

@@ -47,7 +47,7 @@ BASE_TOOLS = ["Read", "Edit", "Write", "Glob", "Grep"]
 DENIED_TOOLS = ["Bash", "WebFetch", "WebSearch", "Task", "NotebookEdit"]
 MCP_TOOLS = ["mcp__tenthcheck__check_blast_radius", "mcp__tenthcheck__find_import_cycles",
              "mcp__tenthcheck__check_proposed_edit", "mcp__tenthcheck__scope_audit"]
-ARMS = ("with", "without")
+ARMS = ("with", "without", "hook")  # with = tenthcheck MCP server; hook = `tenthcheck hook` (no MCP); without = neither
 
 
 def sh(cmd: list[str], **kw) -> subprocess.CompletedProcess:
@@ -156,18 +156,29 @@ def mcp_config(arm: str, checkout: Path, out: Path) -> Path:
     return out
 
 
-def claude_cmd(args, arm: str, prompt: str, cfg: Path) -> list[str]:
+def hook_settings(checkout: Path, out: Path) -> Path:
+    """The hook arm's extra settings (--settings): `tenthcheck hook` after Edit/Write and on Stop. tests/ callers
+    are excluded because the task forbids editing tests (a Stop block on them would push the agent to break it)."""
+    cmd = f"{TOOL_VENV / 'bin' / 'tenthcheck'} hook --root {checkout} --exclude 'tests/*'"
+    h = [{"type": "command", "command": cmd, "timeout": 30}]
+    out.write_text(json.dumps({"hooks": {"PostToolUse": [{"matcher": "Edit|Write|MultiEdit", "hooks": h}],
+                                         "Stop": [{"hooks": h}]}}, indent=1))
+    return out
+
+
+def claude_cmd(args, arm: str, prompt: str, cfg: Path, settings: Path | None = None) -> list[str]:
     allowed = BASE_TOOLS + (MCP_TOOLS if arm == "with" else [])
     return ["claude", "-p", prompt, "--model", args.model, "--output-format", "stream-json", "--verbose",
             "--max-turns", str(args.max_turns), "--permission-mode", "acceptEdits",
             "--mcp-config", str(cfg), "--strict-mcp-config",
+            *(["--settings", str(settings)] if settings else []),
             "--allowedTools", ",".join(allowed), "--disallowedTools", ",".join(DENIED_TOOLS),
             *args.extra_claude_arg]
 
 
 def parse_stream(path: Path) -> dict:
     out = {"num_turns": None, "duration_ms": None, "reported_cost_usd": None, "usage": None,
-           "is_error": None, "tool_calls": {}, "mcp_servers": None}
+           "is_error": None, "tool_calls": {}, "mcp_servers": None, "hook_feedback": 0}
     for line in path.read_text().splitlines():
         try:
             ev = json.loads(line)
@@ -179,6 +190,8 @@ def parse_stream(path: Path) -> dict:
             for block in ev.get("message", {}).get("content", []):
                 if block.get("type") == "tool_use":
                     out["tool_calls"][block["name"]] = out["tool_calls"].get(block["name"], 0) + 1
+        if ev.get("type") != "assistant" and "Tenthcheck:" in line:  # hook stderr fed back to the agent
+            out["hook_feedback"] += 1
         if ev.get("type") == "result":
             out.update(num_turns=ev.get("num_turns"), duration_ms=ev.get("duration_ms"),
                        reported_cost_usd=ev.get("total_cost_usd"), usage=ev.get("usage"),
@@ -186,12 +199,14 @@ def parse_stream(path: Path) -> dict:
     return out
 
 
-def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict) -> dict:
-    sess = run_dir / f"{task['id']}__{arm}"
+def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict, rep: int = 0) -> dict:
+    tag = f"{task['id']}__{arm}" + (f"__r{rep}" if args.repeats > 1 else "")
+    sess = run_dir / tag
     sess.mkdir(parents=True, exist_ok=True)
     # Checkouts live outside this repo so the agent never sees tenthcheck's own files or results.
-    co = fresh_checkout(WORK / "checkouts" / f"{run_dir.name}__{task['id']}__{arm}")
+    co = fresh_checkout(WORK / "checkouts" / f"{run_dir.name}__{tag}")
     cfg = mcp_config(arm, co, sess / "mcp_config.json")
+    settings = hook_settings(co, sess / "settings.json") if arm == "hook" else None
     prompt = f"{task['prompt']}\n\n{TASKS['common_rules']}"
     env = dict(os.environ)
     # Bill the subscription plan, never an API key that happens to be in the environment.
@@ -200,7 +215,7 @@ def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict) -> dict:
     t0 = time.time()
     with open(sess / "stream.jsonl", "w") as fh:
         try:
-            proc = subprocess.run(claude_cmd(args, arm, prompt, cfg), cwd=co, env=env, stdout=fh,
+            proc = subprocess.run(claude_cmd(args, arm, prompt, cfg, settings), cwd=co, env=env, stdout=fh,
                                   stderr=subprocess.PIPE, text=True, timeout=args.session_timeout)
             rc, stderr = proc.returncode, proc.stderr[-2000:]
         except subprocess.TimeoutExpired:
@@ -231,7 +246,7 @@ def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict) -> dict:
                             capture_output=True, text=True, timeout=600)
     shutil.rmtree(co)  # keep the diff, stream and junit, not the checkout
     return {
-        "task_id": task["id"], "arm": arm, "order_in_pair": None, "started_utc": None,
+        "task_id": task["id"], "arm": arm, "rep": rep, "order_in_pair": None, "started_utc": None,
         "claude_exit": rc, "claude_stderr_tail": stderr, "wall_s": wall, **meta,
         "tenthcheck_calls": sum(v for k, v in meta["tool_calls"].items() if k.startswith("mcp__tenthcheck__")),
         "files_changed": files, "touched_tests": touched_tests, "diff_lines": diff.count("\n"),
@@ -245,17 +260,28 @@ def run_one(args, task: dict, arm: str, run_dir: Path, baseline: dict) -> dict:
 
 # ---------------------------------------------------------------- schedule
 
-def schedule(seed: int, task_ids: list[str]) -> list[tuple[str, str]]:
-    """Shuffle task order; alternate which arm goes first (balanced: half the pairs start with each arm)."""
-    rng = random.Random(seed)
-    ids = task_ids[:]
-    rng.shuffle(ids)
-    firsts = [ARMS[i % 2] for i in range(len(ids))]
-    rng.shuffle(firsts)
+def schedule(seed: int, task_ids: list[str], arms: list[str] | None = None, repeats: int = 1) -> list[tuple]:
+    """(task, arm, rep) in run order. Two arms: as before (tasks shuffled, which arm goes first balanced, the pair
+    back to back). Three arms: per repeat, tasks shuffled and arm order rotated across tasks (a Latin square), so
+    each arm runs first, second and third equally often; all tasks of repeat r run before repeat r + 1."""
+    arms = list(arms or ("with", "without"))
     order = []
-    for tid, first in zip(ids, firsts):
-        second = "without" if first == "with" else "with"
-        order += [(tid, first), (tid, second)]
+    for r in range(repeats):
+        rng = random.Random(seed + r)
+        ids = task_ids[:]
+        rng.shuffle(ids)
+        if len(arms) == 2:
+            firsts = [arms[i % 2] for i in range(len(ids))]
+            rng.shuffle(firsts)
+            for tid, first in zip(ids, firsts):
+                second = arms[1] if first == arms[0] else arms[0]
+                order += [(tid, first, r), (tid, second, r)]
+        else:
+            base = arms[:]
+            rng.shuffle(base)
+            for k, tid in enumerate(ids):
+                shift = (k + r) % len(base)
+                order += [(tid, a, r) for a in base[shift:] + base[:shift]]
     return order
 
 
@@ -272,7 +298,8 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=20261117)
     ap.add_argument("--only", action="append", default=[], help="task id(s) to run (default: all in the tasks file)")
     ap.add_argument("--tasks", default="tasks.json", help="tasks file next to run.py (e.g. tasks_hard.json)")
-    ap.add_argument("--arms", default="with,without", help="comma list; 'without' alone is a breakage dry run")
+    ap.add_argument("--arms", default="with,without", help="comma list of with (MCP), without, hook")
+    ap.add_argument("--repeats", type=int, default=1, help="sessions per (task, arm)")
     ap.add_argument("--resume", help="run_id to continue")
     ap.add_argument("--extra-claude-arg", action="append", default=[],
                     help="passed to both arms verbatim, e.g. --extra-claude-arg=--setting-sources=project")
@@ -283,19 +310,22 @@ def main() -> None:
         return
     task_ids = [t["id"] for t in TASKS["tasks"] if not args.only or t["id"] in args.only]
     by_id = {t["id"]: t for t in TASKS["tasks"]}
-    order = schedule(args.seed, task_ids)
-    arms = {a.strip() for a in args.arms.split(",")}
+    arm_list = [a.strip() for a in args.arms.split(",") if a.strip()]
+    arms = set(arm_list)
     if not arms <= set(ARMS):
         sys.exit(f"--arms must be from {ARMS}")
-    order = [(t, a) for t, a in order if a in arms]
+    order = schedule(args.seed, task_ids, sorted(arm_list), args.repeats) if len(arms) > 1 else \
+        [(t, arm_list[0], r) for r in range(args.repeats) for t in task_ids]
     if args.dry_run:
         print(f"{len(order)} sessions, seed {args.seed}:")
-        for i, (tid, arm) in enumerate(order, 1):
-            print(f"  {i:2d}. {tid:32s} {arm}")
+        for i, (tid, arm, r) in enumerate(order, 1):
+            print(f"  {i:2d}. {tid:34s} {arm:8s} rep {r}")
         demo = argparse.Namespace(**{**vars(args), "model": args.model or "<MODEL>"})
-        print("\nfirst command (cwd = fresh checkout):")
-        print(" ", " ".join(repr(c) if " " in c else c for c in
-                            claude_cmd(demo, order[0][1], "<task prompt + common rules>", Path("<sess>/mcp_config.json"))))
+        for arm in sorted(arms):
+            print(f"\n{arm} command (cwd = fresh checkout):")
+            print(" ", " ".join(repr(c) if " " in c else c for c in
+                                claude_cmd(demo, arm, "<task prompt + common rules>", Path("<sess>/mcp_config.json"),
+                                           Path("<sess>/settings.json") if arm == "hook" else None)))
         return
     if not args.i_approve_plan_usage:
         sys.exit("Refusing to start: this runs %d Claude Code sessions on your Claude plan. Read PLAN.md (cost "
@@ -324,23 +354,26 @@ def main() -> None:
                            "extra_claude_args": args.extra_claude_arg, "allowed_tools": BASE_TOOLS,
                            "mcp_tools_with_arm": MCP_TOOLS, "denied_tools": DENIED_TOOLS,
                            "target": TARGET, "common_rules": TASKS["common_rules"],
-                           "tasks_file": TASKS_FILE.name, "arms": sorted(arms),
+                           "tasks_file": TASKS_FILE.name, "arms": sorted(arms), "repeats": args.repeats,
+                           "tenthcheck_version": subprocess.run([str(TOOL_VENV / "bin" / "tenthcheck"), "--version"],
+                                                                capture_output=True, text=True).stdout.strip(),
                            "baseline_passed": baseline["n_passed"], "baseline_collected": baseline["n_collected"],
                            "order": order},
                 "runs": []}
-    done = {(r["task_id"], r["arm"]) for r in data["runs"]}
-    for i, (tid, arm) in enumerate(order):
-        if (tid, arm) in done:
+    done = {(r["task_id"], r["arm"], r.get("rep", 0)) for r in data["runs"]}
+    for i, (tid, arm, rep) in enumerate(order):
+        if (tid, arm, rep) in done:
             continue
         started = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        print(f"[{i + 1}/{len(order)}] {tid} {arm} ...", flush=True)
-        rec = run_one(args, by_id[tid], arm, run_dir, baseline)
+        print(f"[{i + 1}/{len(order)}] {tid} {arm} rep {rep} ...", flush=True)
+        rec = run_one(args, by_id[tid], arm, run_dir, baseline, rep)
         rec["order_in_pair"] = (1 if i % 2 == 0 else 2) if len(arms) == 2 else None
         rec["started_utc"] = started
         data["runs"].append(rec)
         out.write_text(json.dumps(data, indent=1))
         print(f"    newly_broken={rec['newly_broken']} done_check={rec['done_check_passed']} "
-              f"tenthcheck_calls={rec['tenthcheck_calls']} turns={rec['num_turns']} wall={rec['wall_s']}s")
+              f"tenthcheck_calls={rec['tenthcheck_calls']} hook_feedback={rec['hook_feedback']} "
+              f"turns={rec['num_turns']} wall={rec['wall_s']}s")
     print(f"done: {out}\nnext: python {HERE / 'analyze.py'} {out}")
 
 

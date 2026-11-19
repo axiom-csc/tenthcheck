@@ -203,6 +203,7 @@ RULES = {"t06_console_options_module": t06_sites, "h02_measurement_get_order": h
 
 
 def check(task: str, pristine: Path, diff: Path) -> dict:
+    pristine, diff = Path(pristine).expanduser().resolve(), Path(diff).resolve()  # git apply runs in a temp dir
     with tempfile.TemporaryDirectory() as tmp:
         after = Path(tmp) / "after"
         shutil.copytree(pristine / "rich", after / "rich")
