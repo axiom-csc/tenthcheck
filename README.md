@@ -137,6 +137,41 @@ name in the repo); calls through `*args`/`**kwargs` aren't judged; edits made th
 (their changes are picked up, unattributed, on the next edit); `MultiEdit` is in the matcher in case your Claude Code
 has it, but its payload isn't documented. Exit 2 and Stop semantics are from the Claude Code hooks reference
 (code.claude.com/docs/en/hooks), checked 2026-11-18.
+## Several agents in one repo (`tenthcheck agents`, v0.2, unreleased)
+
+When two or more agent sessions edit the same repository at once, Tenthcheck can warn a session that is about to
+edit something inside another session's **blast radius**: a function or class another session edited, or one of
+its callers or callees (up to 2 hops, along the edges Tenthcheck resolves). **It only warns; it never blocks** an
+edit or changes an exit code, and `check_proposed_edit`'s `ok` is unaffected.
+
+State is a small JSON file, `.tenthcheck/agents.json` (with its own `.gitignore`), listing each live session and
+the functions/classes it has edited. Sessions with no edit for 12 hours are ignored and then dropped.
+
+In Claude Code nothing extra needs setting up: each session starts its own `tenthcheck serve`, and each server
+process is one session (set `TENTHCHECK_SESSION` / `TENTHCHECK_SESSION_LABEL` to name it). Two MCP tools:
+
+- `record_edit(file_path, new_source)`: call it after writing a file (just before also works). It records what this
+  session changed in that file and returns warnings like
+  `pkg.api.calculate is a caller of pkg.core.helper (2 hops), which session mcp-4121-a3f0 edited`.
+- `agent_sessions()`: who else is editing, and what.
+
+`check_proposed_edit` also returns `agent_warnings` for the proposed file (computed only when another session has
+recorded edits, so a single agent pays nothing for it). Ask the agent to call `record_edit` after each write.
+
+From the shell (one `--session` per agent, or `TENTHCHECK_SESSION`):
+
+```
+tenthcheck agents edit  . pkg/core.py proposed_core.py --session A   # record (diffs the proposal against disk)
+tenthcheck agents edit  . --symbol pkg.core.helper --session A       # or name what was edited
+tenthcheck agents check . pkg/api.py proposed_api.py --session B     # warnings only, records nothing
+tenthcheck agents list  .
+tenthcheck agents end   . --session A
+```
+
+Limits: the same static edges as everything else (no warning means "no resolved overlap", not "safe"); a class
+used only in annotations and imports has few resolved dependents (seen on rich's `ConsoleOptions`); and the shell
+`edit` with a source file diffs against the file on disk, so run it before writing, or use `--symbol`. Tested with
+two simulated sessions (`tests/test_agents.py`), not yet with two real agent sessions.
 
 ## Measured
 

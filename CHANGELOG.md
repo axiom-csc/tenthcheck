@@ -5,6 +5,15 @@
 - `tenthcheck hook`: Claude Code hook mode (PostToolUse on Edit/Write, and Stop). Silent unless an edit adds an
   import cycle, leaves callers of a changed signature not fitting it (`file:line` list), or optionally touches a
   function with >= N callers. Exit 2 with at most 10 lines; per-file summary cache, 150-280 ms per edit on rich.
+## 0.2.0.dev0 (branch v0.2, unreleased)
+
+- `tenthcheck agents` (CLI) and the MCP tools `record_edit` and `agent_sessions`: track which functions/classes each
+  running agent session has edited (`.tenthcheck/agents.json`) and warn when a session edits inside another
+  session's blast radius (same symbol, callers or callees, 2 hops by default). Warn only: never blocks, never
+  changes an exit code or `ok`.
+- `check_proposed_edit` returns `agent_warnings` (only computed when another live session has recorded edits).
+- The MCP tool list grows from 4 to 6.
+- Includes 0.1.2 (merged 2026-11-18): agent blast radii now include users of classes.
 
 ## 0.1.2 (unreleased; built and checked, not uploaded)
 
