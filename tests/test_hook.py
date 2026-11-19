@@ -229,3 +229,14 @@ def test_reorder_reports_an_unchanged_caller_in_the_same_file(repo):
     warm(repo)  # the cache now has local() calling add(1, 2) in the old order
     code, _, err = hook(repo, edit(repo, "pkg/core.py", new))
     assert code == 2 and "pkg/core.py:10 (local)" in err
+
+
+def test_hook_and_agents_share_the_state_dir_without_clobbering(repo):
+    """v0.2 (agents) and v0.3 (hook) both keep state in .tenthcheck/; neither touches the other's files."""
+    from tenthcheck import agents
+    agents.record_edit(repo, "A", "pkg/core.py", CORE.replace("x + 1", "x + 5"))
+    before = (repo / ".tenthcheck/agents.json").read_text()
+    assert hook(repo, edit(repo, "pkg/core.py", CORE.replace("x + 1", "x + 6"))) == (0, "", "")
+    assert (repo / ".tenthcheck/agents.json").read_text() == before
+    assert agents.list_sessions(repo)["sessions"][0]["edits"] == ["pkg.core.helper"]
+    assert (repo / ".tenthcheck/hook_cache.json").exists()
