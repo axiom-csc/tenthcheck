@@ -1,0 +1,12 @@
+{
+ "mcpServers": {
+  "tenthcheck": {
+   "type": "stdio",
+   "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck",
+   "args": [
+    "serve",
+    "/Users/narensara/tenthcheck-with-without/checkouts/20261118-205609-eff-sonnet__t08_rename_loop_last__with__r1"
+   ]
+  }
+ }
+}

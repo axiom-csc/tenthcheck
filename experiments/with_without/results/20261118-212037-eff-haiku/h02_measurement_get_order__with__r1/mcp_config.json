@@ -1,0 +1,12 @@
+{
+ "mcpServers": {
+  "tenthcheck": {
+   "type": "stdio",
+   "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck",
+   "args": [
+    "serve",
+    "/Users/narensara/tenthcheck-with-without/checkouts/20261118-212037-eff-haiku__h02_measurement_get_order__with__r1"
+   ]
+  }
+ }
+}

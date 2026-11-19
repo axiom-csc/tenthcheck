@@ -1,0 +1,759 @@
+diff --git a/rich/__main__.py b/rich/__main__.py
+index 864b3aed..102c808d 100644
+--- a/rich/__main__.py
++++ b/rich/__main__.py
+@@ -4,7 +4,8 @@ from time import process_time
+ 
+ from rich import box
+ from rich.color import Color
+-from rich.console import Console, ConsoleOptions, Group, RenderableType, RenderResult
++from rich.console import Console, Group, RenderableType, RenderResult
++from rich.console_options import ConsoleOptions
+ from rich.markdown import Markdown
+ from rich.measure import Measurement
+ from rich.pretty import Pretty
+diff --git a/rich/align.py b/rich/align.py
+index 2fa66b1a..9e084e87 100644
+--- a/rich/align.py
++++ b/rich/align.py
+@@ -8,7 +8,8 @@ from .segment import Segment
+ from .style import StyleType
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderableType, RenderResult
++    from .console import Console, RenderableType, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ AlignMethod = Literal["left", "center", "right"]
+ VerticalAlignMethod = Literal["top", "middle", "bottom"]
+diff --git a/rich/bar.py b/rich/bar.py
+index 022284b5..c0093e0e 100644
+--- a/rich/bar.py
++++ b/rich/bar.py
+@@ -1,7 +1,8 @@
+ from typing import Optional, Union
+ 
+ from .color import Color
+-from .console import Console, ConsoleOptions, RenderResult
++from .console import Console, RenderResult
++from .console_options import ConsoleOptions
+ from .jupyter import JupyterMixin
+ from .measure import Measurement
+ from .segment import Segment
+diff --git a/rich/box.py b/rich/box.py
+index 82555b61..86d9343f 100644
+--- a/rich/box.py
++++ b/rich/box.py
+@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Iterable, List, Literal
+ from ._loop import loop_last
+ 
+ if TYPE_CHECKING:
+-    from rich.console import ConsoleOptions
++    from rich.console_options import ConsoleOptions
+ 
+ 
+ class Box:
+diff --git a/rich/columns.py b/rich/columns.py
+index 669a3a70..83afd6d5 100644
+--- a/rich/columns.py
++++ b/rich/columns.py
+@@ -4,7 +4,8 @@ from operator import itemgetter
+ from typing import Dict, Iterable, List, Optional, Tuple
+ 
+ from .align import Align, AlignMethod
+-from .console import Console, ConsoleOptions, RenderableType, RenderResult
++from .console import Console, RenderableType, RenderResult
++from .console_options import ConsoleOptions
+ from .constrain import Constrain
+ from .measure import Measurement
+ from .padding import Padding, PaddingDimensions
+diff --git a/rich/console.py b/rich/console.py
+index 0bdce769..0e1cf715 100644
+--- a/rich/console.py
++++ b/rich/console.py
+@@ -40,6 +40,14 @@ from ._fileno import get_fileno
+ from ._log_render import FormatTimeCallable, LogRender
+ from .align import Align, AlignMethod
+ from .color import ColorSystem, blend_rgb
++from .console_options import (
++    NO_CHANGE as NO_CHANGE,
++    ConsoleDimensions as ConsoleDimensions,
++    ConsoleOptions as ConsoleOptions,
++    JustifyMethod as JustifyMethod,
++    NoChange as NoChange,
++    OverflowMethod as OverflowMethod,
++)
+ from .control import Control
+ from .emoji import EmojiVariant
+ from .highlighter import NullHighlighter, ReprHighlighter
+@@ -66,15 +74,6 @@ JUPYTER_DEFAULT_LINES = 100
+ WINDOWS = sys.platform == "win32"
+ 
+ HighlighterType = Callable[[Union[str, "Text"]], "Text"]
+-JustifyMethod = Literal["default", "left", "center", "right", "full"]
+-OverflowMethod = Literal["fold", "crop", "ellipsis", "ignore"]
+-
+-
+-class NoChange:
+-    pass
+-
+-
+-NO_CHANGE = NoChange()
+ 
+ try:
+     _STDIN_FILENO = sys.__stdin__.fileno()  # type: ignore[union-attr]
+@@ -100,149 +99,6 @@ _TERM_COLORS = {
+ }
+ 
+ 
+-class ConsoleDimensions(NamedTuple):
+-    """Size of the terminal."""
+-
+-    width: int
+-    """The width of the console in 'cells'."""
+-    height: int
+-    """The height of the console in lines."""
+-
+-
+-@dataclass
+-class ConsoleOptions:
+-    """Options for __rich_console__ method."""
+-
+-    size: ConsoleDimensions
+-    """Size of console."""
+-    legacy_windows: bool
+-    """legacy_windows: flag for legacy windows."""
+-    min_width: int
+-    """Minimum width of renderable."""
+-    max_width: int
+-    """Maximum width of renderable."""
+-    is_terminal: bool
+-    """True if the target is a terminal, otherwise False."""
+-    encoding: str
+-    """Encoding of terminal."""
+-    max_height: int
+-    """Height of container (starts as terminal)"""
+-    justify: Optional[JustifyMethod] = None
+-    """Justify value override for renderable."""
+-    overflow: Optional[OverflowMethod] = None
+-    """Overflow value override for renderable."""
+-    no_wrap: Optional[bool] = False
+-    """Disable wrapping for text."""
+-    highlight: Optional[bool] = None
+-    """Highlight override for render_str."""
+-    markup: Optional[bool] = None
+-    """Enable markup when rendering strings."""
+-    height: Optional[int] = None
+-
+-    @property
+-    def ascii_only(self) -> bool:
+-        """Check if renderables should use ascii only."""
+-        return not self.encoding.startswith("utf")
+-
+-    def copy(self) -> "ConsoleOptions":
+-        """Return a copy of the options.
+-
+-        Returns:
+-            ConsoleOptions: a copy of self.
+-        """
+-        options: ConsoleOptions = ConsoleOptions.__new__(ConsoleOptions)
+-        options.__dict__ = self.__dict__.copy()
+-        return options
+-
+-    def update(
+-        self,
+-        *,
+-        width: Union[int, NoChange] = NO_CHANGE,
+-        min_width: Union[int, NoChange] = NO_CHANGE,
+-        max_width: Union[int, NoChange] = NO_CHANGE,
+-        justify: Union[Optional[JustifyMethod], NoChange] = NO_CHANGE,
+-        overflow: Union[Optional[OverflowMethod], NoChange] = NO_CHANGE,
+-        no_wrap: Union[Optional[bool], NoChange] = NO_CHANGE,
+-        highlight: Union[Optional[bool], NoChange] = NO_CHANGE,
+-        markup: Union[Optional[bool], NoChange] = NO_CHANGE,
+-        height: Union[Optional[int], NoChange] = NO_CHANGE,
+-    ) -> "ConsoleOptions":
+-        """Update values, return a copy."""
+-        options = self.copy()
+-        if not isinstance(width, NoChange):
+-            options.min_width = options.max_width = max(0, width)
+-        if not isinstance(min_width, NoChange):
+-            options.min_width = min_width
+-        if not isinstance(max_width, NoChange):
+-            options.max_width = max_width
+-        if not isinstance(justify, NoChange):
+-            options.justify = justify
+-        if not isinstance(overflow, NoChange):
+-            options.overflow = overflow
+-        if not isinstance(no_wrap, NoChange):
+-            options.no_wrap = no_wrap
+-        if not isinstance(highlight, NoChange):
+-            options.highlight = highlight
+-        if not isinstance(markup, NoChange):
+-            options.markup = markup
+-        if not isinstance(height, NoChange):
+-            if height is not None:
+-                options.max_height = height
+-            options.height = None if height is None else max(0, height)
+-        return options
+-
+-    def update_width(self, width: int) -> "ConsoleOptions":
+-        """Update just the width, return a copy.
+-
+-        Args:
+-            width (int): New width (sets both min_width and max_width)
+-
+-        Returns:
+-            ~ConsoleOptions: New console options instance.
+-        """
+-        options = self.copy()
+-        options.min_width = options.max_width = max(0, width)
+-        return options
+-
+-    def update_height(self, height: int) -> "ConsoleOptions":
+-        """Update the height, and return a copy.
+-
+-        Args:
+-            height (int): New height
+-
+-        Returns:
+-            ~ConsoleOptions: New Console options instance.
+-        """
+-        options = self.copy()
+-        options.max_height = options.height = height
+-        return options
+-
+-    def reset_height(self) -> "ConsoleOptions":
+-        """Return a copy of the options with height set to ``None``.
+-
+-        Returns:
+-            ~ConsoleOptions: New console options instance.
+-        """
+-        options = self.copy()
+-        options.height = None
+-        return options
+-
+-    def update_dimensions(self, width: int, height: int) -> "ConsoleOptions":
+-        """Update the width and height, and return a copy.
+-
+-        Args:
+-            width (int): New width (sets both min_width and max_width).
+-            height (int): New height.
+-
+-        Returns:
+-            ~ConsoleOptions: New console options instance.
+-        """
+-        options = self.copy()
+-        options.min_width = options.max_width = max(0, width)
+-        options.height = options.max_height = height
+-        return options
+-
+-
+ @runtime_checkable
+ class RichCast(Protocol):
+     """An object that may be 'cast' to a console renderable."""
+diff --git a/rich/console_options.py b/rich/console_options.py
+new file mode 100644
+index 00000000..e8d12ea2
+--- /dev/null
++++ b/rich/console_options.py
+@@ -0,0 +1,155 @@
++from dataclasses import dataclass
++from typing import Literal, NamedTuple, Optional, Union
++
++JustifyMethod = Literal["default", "left", "center", "right", "full"]
++OverflowMethod = Literal["fold", "crop", "ellipsis", "ignore"]
++
++
++class NoChange:
++    pass
++
++
++NO_CHANGE = NoChange()
++
++
++class ConsoleDimensions(NamedTuple):
++    """Size of the terminal."""
++
++    width: int
++    """The width of the console in 'cells'."""
++    height: int
++    """The height of the console in lines."""
++
++
++@dataclass
++class ConsoleOptions:
++    """Options for __rich_console__ method."""
++
++    size: ConsoleDimensions
++    """Size of console."""
++    legacy_windows: bool
++    """legacy_windows: flag for legacy windows."""
++    min_width: int
++    """Minimum width of renderable."""
++    max_width: int
++    """Maximum width of renderable."""
++    is_terminal: bool
++    """True if the target is a terminal, otherwise False."""
++    encoding: str
++    """Encoding of terminal."""
++    max_height: int
++    """Height of container (starts as terminal)"""
++    justify: Optional[JustifyMethod] = None
++    """Justify value override for renderable."""
++    overflow: Optional[OverflowMethod] = None
++    """Overflow value override for renderable."""
++    no_wrap: Optional[bool] = False
++    """Disable wrapping for text."""
++    highlight: Optional[bool] = None
++    """Highlight override for render_str."""
++    markup: Optional[bool] = None
++    """Enable markup when rendering strings."""
++    height: Optional[int] = None
++
++    @property
++    def ascii_only(self) -> bool:
++        """Check if renderables should use ascii only."""
++        return not self.encoding.startswith("utf")
++
++    def copy(self) -> "ConsoleOptions":
++        """Return a copy of the options.
++
++        Returns:
++            ConsoleOptions: a copy of self.
++        """
++        options: ConsoleOptions = ConsoleOptions.__new__(ConsoleOptions)
++        options.__dict__ = self.__dict__.copy()
++        return options
++
++    def update(
++        self,
++        *,
++        width: Union[int, NoChange] = NO_CHANGE,
++        min_width: Union[int, NoChange] = NO_CHANGE,
++        max_width: Union[int, NoChange] = NO_CHANGE,
++        justify: Union[Optional[JustifyMethod], NoChange] = NO_CHANGE,
++        overflow: Union[Optional[OverflowMethod], NoChange] = NO_CHANGE,
++        no_wrap: Union[Optional[bool], NoChange] = NO_CHANGE,
++        highlight: Union[Optional[bool], NoChange] = NO_CHANGE,
++        markup: Union[Optional[bool], NoChange] = NO_CHANGE,
++        height: Union[Optional[int], NoChange] = NO_CHANGE,
++    ) -> "ConsoleOptions":
++        """Update values, return a copy."""
++        options = self.copy()
++        if not isinstance(width, NoChange):
++            options.min_width = options.max_width = max(0, width)
++        if not isinstance(min_width, NoChange):
++            options.min_width = min_width
++        if not isinstance(max_width, NoChange):
++            options.max_width = max_width
++        if not isinstance(justify, NoChange):
++            options.justify = justify
++        if not isinstance(overflow, NoChange):
++            options.overflow = overflow
++        if not isinstance(no_wrap, NoChange):
++            options.no_wrap = no_wrap
++        if not isinstance(highlight, NoChange):
++            options.highlight = highlight
++        if not isinstance(markup, NoChange):
++            options.markup = markup
++        if not isinstance(height, NoChange):
++            if height is not None:
++                options.max_height = height
++            options.height = None if height is None else max(0, height)
++        return options
++
++    def update_width(self, width: int) -> "ConsoleOptions":
++        """Update just the width, return a copy.
++
++        Args:
++            width (int): New width (sets both min_width and max_width)
++
++        Returns:
++            ~ConsoleOptions: New console options instance.
++        """
++        options = self.copy()
++        options.min_width = options.max_width = max(0, width)
++        return options
++
++    def update_height(self, height: int) -> "ConsoleOptions":
++        """Update the height, and return a copy.
++
++        Args:
++            height (int): New height
++
++        Returns:
++            ~ConsoleOptions: New Console options instance.
++        """
++        options = self.copy()
++        options.max_height = options.height = height
++        return options
++
++    def reset_height(self) -> "ConsoleOptions":
++        """Return a copy of the options with height set to ``None``.
++
++        Returns:
++            ~ConsoleOptions: New console options instance.
++        """
++        options = self.copy()
++        options.height = None
++        return options
++
++    def update_dimensions(self, width: int, height: int) -> "ConsoleOptions":
++        """Update the width and height, and return a copy.
++
++        Args:
++            width (int): New width (sets both min_width and max_width).
++            height (int): New height.
++
++        Returns:
++            ~ConsoleOptions: New console options instance.
++        """
++        options = self.copy()
++        options.min_width = options.max_width = max(0, width)
++        options.height = options.max_height = height
++        return options
+diff --git a/rich/constrain.py b/rich/constrain.py
+index 65fdf563..44152eba 100644
+--- a/rich/constrain.py
++++ b/rich/constrain.py
+@@ -4,7 +4,8 @@ from .jupyter import JupyterMixin
+ from .measure import Measurement
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderableType, RenderResult
++    from .console import Console, RenderableType, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ 
+ class Constrain(JupyterMixin):
+diff --git a/rich/containers.py b/rich/containers.py
+index 901ff8ba..09b6f08e 100644
+--- a/rich/containers.py
++++ b/rich/containers.py
+@@ -13,12 +13,12 @@ from typing import (
+ if TYPE_CHECKING:
+     from .console import (
+         Console,
+-        ConsoleOptions,
+         JustifyMethod,
+         OverflowMethod,
+         RenderResult,
+         RenderableType,
+     )
++    from .console_options import ConsoleOptions
+     from .text import Text
+ 
+ from .cells import cell_len
+diff --git a/rich/control.py b/rich/control.py
+index 248b0f59..2d8f9862 100644
+--- a/rich/control.py
++++ b/rich/control.py
+@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING, Callable, Dict, Iterable, List, Union, Final
+ from .segment import ControlCode, ControlType, Segment
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderResult
++    from .console import Console, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ STRIP_CONTROL_CODES: Final = [
+     7,  # Bell
+diff --git a/rich/emoji.py b/rich/emoji.py
+index 067f93ce..eb5be875 100644
+--- a/rich/emoji.py
++++ b/rich/emoji.py
+@@ -7,7 +7,8 @@ from .segment import Segment
+ from .style import Style
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderResult
++    from .console import Console, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ 
+ EmojiVariant = Literal["emoji", "text"]
+diff --git a/rich/layout.py b/rich/layout.py
+index 7fa2852e..2293f567 100644
+--- a/rich/layout.py
++++ b/rich/layout.py
+@@ -16,7 +16,8 @@ from typing import (
+ 
+ from ._ratio import ratio_resolve
+ from .align import Align
+-from .console import Console, ConsoleOptions, RenderableType, RenderResult
++from .console import Console, RenderableType, RenderResult
++from .console_options import ConsoleOptions
+ from .highlighter import ReprHighlighter
+ from .panel import Panel
+ from .pretty import Pretty
+diff --git a/rich/live_render.py b/rich/live_render.py
+index e7ec970a..75e372e2 100644
+--- a/rich/live_render.py
++++ b/rich/live_render.py
+@@ -1,7 +1,8 @@
+ from typing import Literal, Optional, Tuple
+ 
+ from ._loop import loop_last
+-from .console import Console, ConsoleOptions, RenderableType, RenderResult
++from .console import Console, RenderableType, RenderResult
++from .console_options import ConsoleOptions
+ from .control import Control
+ from .segment import ControlType, Segment
+ from .style import StyleType
+diff --git a/rich/markdown.py b/rich/markdown.py
+index abbbb07d..ac525c88 100644
+--- a/rich/markdown.py
++++ b/rich/markdown.py
+@@ -12,7 +12,8 @@ from rich.table import Table
+ from . import box
+ from ._loop import loop_first
+ from ._stack import Stack
+-from .console import Console, ConsoleOptions, JustifyMethod, RenderResult
++from .console import Console, JustifyMethod, RenderResult
++from .console_options import ConsoleOptions
+ from .containers import Renderables
+ from .jupyter import JupyterMixin
+ from .rule import Rule
+diff --git a/rich/measure.py b/rich/measure.py
+index a508ffa8..78a60600 100644
+--- a/rich/measure.py
++++ b/rich/measure.py
+@@ -5,7 +5,8 @@ from . import errors
+ from .protocol import is_renderable, rich_cast
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderableType
++    from .console import Console, RenderableType
++    from .console_options import ConsoleOptions
+ 
+ 
+ class Measurement(NamedTuple):
+diff --git a/rich/padding.py b/rich/padding.py
+index d1aa01be..364efcf6 100644
+--- a/rich/padding.py
++++ b/rich/padding.py
+@@ -3,10 +3,10 @@ from typing import TYPE_CHECKING, List, Optional, Tuple, Union
+ if TYPE_CHECKING:
+     from .console import (
+         Console,
+-        ConsoleOptions,
+         RenderableType,
+         RenderResult,
+     )
++    from .console_options import ConsoleOptions
+ 
+ from .jupyter import JupyterMixin
+ from .measure import Measurement
+diff --git a/rich/palette.py b/rich/palette.py
+index f2958794..d76a6438 100644
+--- a/rich/palette.py
++++ b/rich/palette.py
+@@ -76,7 +76,8 @@ if __name__ == "__main__":  # pragma: no cover
+     import colorsys
+     from typing import Iterable
+     from rich.color import Color
+-    from rich.console import Console, ConsoleOptions
++    from rich.console import Console
++    from rich.console_options import ConsoleOptions
+     from rich.segment import Segment
+     from rich.style import Style
+ 
+diff --git a/rich/panel.py b/rich/panel.py
+index 07587e3b..3370343f 100644
+--- a/rich/panel.py
++++ b/rich/panel.py
+@@ -11,7 +11,8 @@ from .style import Style, StyleType
+ from .text import Text, TextType
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderableType, RenderResult
++    from .console import Console, RenderableType, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ 
+ class Panel(JupyterMixin):
+diff --git a/rich/pretty.py b/rich/pretty.py
+index 00abecab..338f0fa7 100644
+--- a/rich/pretty.py
++++ b/rich/pretty.py
+@@ -49,12 +49,12 @@ from .text import Text
+ if TYPE_CHECKING:
+     from .console import (
+         Console,
+-        ConsoleOptions,
+         HighlighterType,
+         JustifyMethod,
+         OverflowMethod,
+         RenderResult,
+     )
++    from .console_options import ConsoleOptions
+ 
+ 
+ def _is_attr_object(obj: Any) -> bool:
+diff --git a/rich/progress_bar.py b/rich/progress_bar.py
+index 41794f76..e3002104 100644
+--- a/rich/progress_bar.py
++++ b/rich/progress_bar.py
+@@ -5,7 +5,8 @@ from typing import Iterable, List, Optional
+ 
+ from .color import Color, blend_rgb
+ from .color_triplet import ColorTriplet
+-from .console import Console, ConsoleOptions, RenderResult
++from .console import Console, RenderResult
++from .console_options import ConsoleOptions
+ from .jupyter import JupyterMixin
+ from .measure import Measurement
+ from .segment import Segment
+diff --git a/rich/rule.py b/rich/rule.py
+index fb3d4327..b044d307 100644
+--- a/rich/rule.py
++++ b/rich/rule.py
+@@ -2,7 +2,8 @@ from typing import Union
+ 
+ from .align import AlignMethod
+ from .cells import cell_len, set_cell_size
+-from .console import Console, ConsoleOptions, RenderResult
++from .console import Console, RenderResult
++from .console_options import ConsoleOptions
+ from .jupyter import JupyterMixin
+ from .measure import Measurement
+ from .style import Style
+diff --git a/rich/screen.py b/rich/screen.py
+index b4f7fd19..44845df8 100644
+--- a/rich/screen.py
++++ b/rich/screen.py
+@@ -8,11 +8,11 @@ from ._loop import loop_last
+ if TYPE_CHECKING:
+     from .console import (
+         Console,
+-        ConsoleOptions,
+         RenderResult,
+         RenderableType,
+         Group,
+     )
++    from .console_options import ConsoleOptions
+ 
+ 
+ class Screen:
+diff --git a/rich/segment.py b/rich/segment.py
+index dd1e8c2a..7ecb6891 100644
+--- a/rich/segment.py
++++ b/rich/segment.py
+@@ -26,7 +26,8 @@ from .repr import Result, rich_repr
+ from .style import Style
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderResult
++    from .console import Console, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ 
+ class ControlType(IntEnum):
+diff --git a/rich/spinner.py b/rich/spinner.py
+index a3a3caf8..67cf145a 100644
+--- a/rich/spinner.py
++++ b/rich/spinner.py
+@@ -6,7 +6,8 @@ from .table import Table
+ from .text import Text
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderableType, RenderResult
++    from .console import Console, RenderableType, RenderResult
++    from .console_options import ConsoleOptions
+     from .style import StyleType
+ 
+ 
+diff --git a/rich/styled.py b/rich/styled.py
+index 27243beb..83441716 100644
+--- a/rich/styled.py
++++ b/rich/styled.py
+@@ -5,7 +5,8 @@ from .segment import Segment
+ from .style import StyleType
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, RenderResult, RenderableType
++    from .console import Console, RenderResult, RenderableType
++    from .console_options import ConsoleOptions
+ 
+ 
+ class Styled:
+diff --git a/rich/syntax.py b/rich/syntax.py
+index 8c8f8315..0b132a2b 100644
+--- a/rich/syntax.py
++++ b/rich/syntax.py
+@@ -40,7 +40,8 @@ from pygments.token import (
+ from pygments.util import ClassNotFound
+ 
+ if TYPE_CHECKING:
+-    from .console import Console, ConsoleOptions, JustifyMethod, RenderResult
++    from .console import Console, JustifyMethod, RenderResult
++    from .console_options import ConsoleOptions
+ 
+ from rich.containers import Lines
+ from rich.padding import Padding, PaddingDimensions
+diff --git a/rich/table.py b/rich/table.py
+index 1e2eb2b4..c3b5a3ba 100644
+--- a/rich/table.py
++++ b/rich/table.py
+@@ -27,12 +27,12 @@ from .text import Text, TextType
+ if TYPE_CHECKING:
+     from .console import (
+         Console,
+-        ConsoleOptions,
+         JustifyMethod,
+         OverflowMethod,
+         RenderableType,
+         RenderResult,
+     )
++    from .console_options import ConsoleOptions
+ 
+ 
+ @dataclass
+diff --git a/rich/text.py b/rich/text.py
+index 7e087a4e..882b3935 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -30,7 +30,8 @@ from .segment import Segment
+ from .style import Style, StyleType
+ 
+ if TYPE_CHECKING:  # pragma: no cover
+-    from .console import Console, ConsoleOptions, JustifyMethod, OverflowMethod
++    from .console import Console, JustifyMethod, OverflowMethod
++    from .console_options import ConsoleOptions
+ 
+ DEFAULT_JUSTIFY: "JustifyMethod" = "default"
+ DEFAULT_OVERFLOW: "OverflowMethod" = "fold"
+diff --git a/rich/traceback.py b/rich/traceback.py
+index 66eaecaa..b3a78473 100644
+--- a/rich/traceback.py
++++ b/rich/traceback.py
+@@ -31,13 +31,13 @@ from ._loop import loop_first_last, loop_last
+ from .columns import Columns
+ from .console import (
+     Console,
+-    ConsoleOptions,
+     ConsoleRenderable,
+     OverflowMethod,
+     Group,
+     RenderResult,
+     group,
+ )
++from .console_options import ConsoleOptions
+ from .constrain import Constrain
+ from .highlighter import RegexHighlighter, ReprHighlighter
+ from .panel import Panel
+diff --git a/rich/tree.py b/rich/tree.py
+index 9a87d60d..6e9f5253 100644
+--- a/rich/tree.py
++++ b/rich/tree.py
+@@ -1,7 +1,8 @@
+ from typing import Iterator, List, Optional, Tuple
+ 
+ from ._loop import loop_first, loop_last
+-from .console import Console, ConsoleOptions, RenderableType, RenderResult
++from .console import Console, RenderableType, RenderResult
++from .console_options import ConsoleOptions
+ from .jupyter import JupyterMixin
+ from .measure import Measurement
+ from .segment import Segment

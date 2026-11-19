@@ -1,0 +1,209 @@
+diff --git a/rich/align.py b/rich/align.py
+index 2fa66b1a..8d541ee3 100644
+--- a/rich/align.py
++++ b/rich/align.py
+@@ -267,7 +267,7 @@ class VerticalCenter(JupyterMixin):
+     ) -> "RenderResult":
+         style = console.get_style(self.style) if self.style is not None else None
+         lines = console.render_lines(
+-            self.renderable, options.update(height=None), pad=False
++            self.renderable, options=options.update(height=None), pad=False
+         )
+         width, _height = Segment.get_shape(lines)
+         new_line = Segment.line()
+diff --git a/rich/console.py b/rich/console.py
+index 0bdce769..4a0ed9bc 100644
+--- a/rich/console.py
++++ b/rich/console.py
+@@ -1345,8 +1345,8 @@ class Console:
+     def render_lines(
+         self,
+         renderable: RenderableType,
+-        options: Optional[ConsoleOptions] = None,
+         *,
++        options: ConsoleOptions,
+         style: Optional[Style] = None,
+         pad: bool = True,
+         new_lines: bool = False,
+@@ -1358,7 +1358,7 @@ class Console:
+ 
+         Args:
+             renderable (RenderableType): Any object renderable in the console.
+-            options (Optional[ConsoleOptions], optional): Console options, or None to use self.options. Default to ``None``.
++            options (ConsoleOptions): Console options (keyword-only, required).
+             style (Style, optional): Optional style to apply to renderables. Defaults to ``None``.
+             pad (bool, optional): Pad lines shorter than render width. Defaults to ``True``.
+             new_lines (bool, optional): Include "\n" characters at end of lines.
+@@ -1367,7 +1367,7 @@ class Console:
+             List[List[Segment]]: A list of lines, where a line is a list of Segment objects.
+         """
+         with self._lock:
+-            render_options = options or self.options
++            render_options = options
+             _rendered = self.render(renderable, render_options)
+             if style:
+                 _rendered = Segment.apply_style(_rendered, style)
+diff --git a/rich/layout.py b/rich/layout.py
+index 7fa2852e..0844caa5 100644
+--- a/rich/layout.py
++++ b/rich/layout.py
+@@ -337,7 +337,7 @@ class Layout:
+             region, _lines = self._render_map[layout]
+             (x, y, width, height) = region
+             lines = console.render_lines(
+-                layout, console.options.update_dimensions(width, height)
++                layout, options=console.options.update_dimensions(width, height)
+             )
+             self._render_map[layout] = LayoutRender(region, lines)
+             console.update_screen_lines(lines, x, y)
+@@ -387,7 +387,8 @@ class Layout:
+ 
+         for layout, region in layout_regions:
+             lines = render_lines(
+-                layout.renderable, update_dimensions(region.width, region.height)
++                layout.renderable,
++                options=update_dimensions(region.width, region.height),
+             )
+             render_map[layout] = LayoutRender(region, lines)
+         return render_map
+diff --git a/rich/live_render.py b/rich/live_render.py
+index e7ec970a..3b2bd5df 100644
+--- a/rich/live_render.py
++++ b/rich/live_render.py
+@@ -88,7 +88,9 @@ class LiveRender:
+     ) -> RenderResult:
+         renderable = self.renderable
+         style = console.get_style(self.style)
+-        lines = console.render_lines(renderable, options, style=style, pad=False)
++        lines = console.render_lines(
++            renderable, options=options, style=style, pad=False
++        )
+         shape = Segment.get_shape(lines)
+ 
+         _, height = shape
+diff --git a/rich/markdown.py b/rich/markdown.py
+index abbbb07d..fac3ab0f 100644
+--- a/rich/markdown.py
++++ b/rich/markdown.py
+@@ -205,7 +205,9 @@ class BlockQuote(TextElement):
+         self, console: Console, options: ConsoleOptions
+     ) -> RenderResult:
+         render_options = options.update(width=options.max_width - 4)
+-        lines = console.render_lines(self.elements, render_options, style=self.style)
++        lines = console.render_lines(
++            self.elements, options=render_options, style=self.style
++        )
+         style = self.style
+         new_line = Segment("\n")
+         padding = Segment("▌ ", style)
+@@ -383,7 +385,9 @@ class ListItem(TextElement):
+ 
+     def render_bullet(self, console: Console, options: ConsoleOptions) -> RenderResult:
+         render_options = options.update(width=options.max_width - 3)
+-        lines = console.render_lines(self.elements, render_options, style=self.style)
++        lines = console.render_lines(
++            self.elements, options=render_options, style=self.style
++        )
+         bullet_style = console.get_style("markdown.item.bullet", default="none")
+ 
+         bullet = Segment(" • ", bullet_style)
+@@ -399,7 +403,9 @@ class ListItem(TextElement):
+     ) -> RenderResult:
+         number_width = len(str(last_number)) + 2
+         render_options = options.update(width=options.max_width - number_width)
+-        lines = console.render_lines(self.elements, render_options, style=self.style)
++        lines = console.render_lines(
++            self.elements, options=render_options, style=self.style
++        )
+         number_style = console.get_style("markdown.item.number", default="none")
+ 
+         new_line = Segment("\n")
+diff --git a/rich/padding.py b/rich/padding.py
+index d1aa01be..67b85a51 100644
+--- a/rich/padding.py
++++ b/rich/padding.py
+@@ -95,7 +95,7 @@ class Padding(JupyterMixin):
+                 height=render_options.height - self.top - self.bottom
+             )
+         lines = console.render_lines(
+-            self.renderable, render_options, style=style, pad=True
++            self.renderable, options=render_options, style=style, pad=True
+         )
+         _Segment = Segment
+ 
+diff --git a/rich/panel.py b/rich/panel.py
+index 07587e3b..41825f50 100644
+--- a/rich/panel.py
++++ b/rich/panel.py
+@@ -226,7 +226,7 @@ class Panel(JupyterMixin):
+         child_options = options.update(
+             width=child_width, height=child_height, highlight=self.highlight
+         )
+-        lines = console.render_lines(renderable, child_options, style=style)
++        lines = console.render_lines(renderable, options=child_options, style=style)
+ 
+         line_start = Segment(box.mid_left, border_style)
+         line_end = Segment(f"{box.mid_right}", border_style)
+diff --git a/rich/screen.py b/rich/screen.py
+index b4f7fd19..a2555a61 100644
+--- a/rich/screen.py
++++ b/rich/screen.py
+@@ -44,7 +44,7 @@ class Screen:
+         style = console.get_style(self.style) if self.style else None
+         render_options = options.update(width=width, height=height)
+         lines = console.render_lines(
+-            self.renderable or "", render_options, style=style, pad=True
++            self.renderable or "", options=render_options, style=style, pad=True
+         )
+         lines = Segment.set_shape(lines, width, height, style=style)
+         new_line = Segment("\n\r") if self.application_mode else Segment.line()
+diff --git a/rich/syntax.py b/rich/syntax.py
+index 8c8f8315..c3f93916 100644
+--- a/rich/syntax.py
++++ b/rich/syntax.py
+@@ -695,7 +695,9 @@ class Syntax(JupyterMixin):
+             else:
+                 syntax_lines = console.render_lines(
+                     text,
+-                    options.update(width=code_width, height=None, justify="left"),
++                    options=options.update(
++                        width=code_width, height=None, justify="left"
++                    ),
+                     style=self.background_style,
+                     pad=True,
+                     new_lines=True,
+@@ -747,7 +749,7 @@ class Syntax(JupyterMixin):
+             if self.word_wrap:
+                 wrapped_lines = console.render_lines(
+                     line,
+-                    render_options.update(height=None, justify="left"),
++                    options=render_options.update(height=None, justify="left"),
+                     style=background_style,
+                     pad=not transparent_background,
+                 )
+diff --git a/rich/table.py b/rich/table.py
+index 1e2eb2b4..3118842f 100644
+--- a/rich/table.py
++++ b/rich/table.py
+@@ -837,7 +837,7 @@ class Table(JupyterMixin):
+                 )
+                 lines = console.render_lines(
+                     cell.renderable,
+-                    render_options,
++                    options=render_options,
+                     style=get_style(cell.style) + row_style,
+                 )
+                 max_height = max(max_height, len(lines))
+diff --git a/rich/tree.py b/rich/tree.py
+index 9a87d60d..01772693 100644
+--- a/rich/tree.py
++++ b/rich/tree.py
+@@ -137,7 +137,7 @@ class Tree(JupyterMixin):
+             prefix = levels[(2 if self.hide_root else 1) :]
+             renderable_lines = console.render_lines(
+                 Styled(node.label, style),
+-                options.update(
++                options=options.update(
+                     width=options.max_width
+                     - sum(level.cell_length for level in prefix),
+                     highlight=self.highlight,

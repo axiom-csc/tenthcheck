@@ -1,0 +1,179 @@
+diff --git a/rich/align.py b/rich/align.py
+index 2fa66b1a..e0d9a3e2 100644
+--- a/rich/align.py
++++ b/rich/align.py
+@@ -235,7 +235,7 @@ class Align(JupyterMixin):
+     def __rich_measure__(
+         self, console: "Console", options: "ConsoleOptions"
+     ) -> Measurement:
+-        measurement = Measurement.get(console, options, self.renderable)
++        measurement = Measurement.get(self.renderable, console, options)
+         return measurement
+ 
+ 
+@@ -292,7 +292,7 @@ class VerticalCenter(JupyterMixin):
+     def __rich_measure__(
+         self, console: "Console", options: "ConsoleOptions"
+     ) -> Measurement:
+-        measurement = Measurement.get(console, options, self.renderable)
++        measurement = Measurement.get(self.renderable, console, options)
+         return measurement
+ 
+ 
+diff --git a/rich/columns.py b/rich/columns.py
+index 669a3a70..fbf5daaf 100644
+--- a/rich/columns.py
++++ b/rich/columns.py
+@@ -77,7 +77,7 @@ class Columns(JupyterMixin):
+ 
+         get_measurement = Measurement.get
+         renderable_widths = [
+-            get_measurement(console, options, renderable).maximum
++            get_measurement(renderable, console, options).maximum
+             for renderable in renderables
+         ]
+         if self.equal:
+diff --git a/rich/console.py b/rich/console.py
+index 0bdce769..885a9c1d 100644
+--- a/rich/console.py
++++ b/rich/console.py
+@@ -1288,7 +1288,7 @@ class Console:
+         Returns:
+             Measurement: A measurement of the renderable.
+         """
+-        measurement = Measurement.get(self, options or self.options, renderable)
++        measurement = Measurement.get(renderable, self, options or self.options)
+         return measurement
+ 
+     def render(
+diff --git a/rich/constrain.py b/rich/constrain.py
+index 65fdf563..2a7e2329 100644
+--- a/rich/constrain.py
++++ b/rich/constrain.py
+@@ -33,5 +33,5 @@ class Constrain(JupyterMixin):
+     ) -> "Measurement":
+         if self.width is not None:
+             options = options.update_width(self.width)
+-        measurement = Measurement.get(console, options, self.renderable)
++        measurement = Measurement.get(self.renderable, console, options)
+         return measurement
+diff --git a/rich/containers.py b/rich/containers.py
+index 901ff8ba..1ebbb2b4 100644
+--- a/rich/containers.py
++++ b/rich/containers.py
+@@ -47,7 +47,7 @@ class Renderables:
+         self, console: "Console", options: "ConsoleOptions"
+     ) -> "Measurement":
+         dimensions = [
+-            Measurement.get(console, options, renderable)
++            Measurement.get(renderable, console, options)
+             for renderable in self._renderables
+         ]
+         if not dimensions:
+diff --git a/rich/measure.py b/rich/measure.py
+index a508ffa8..971946d6 100644
+--- a/rich/measure.py
++++ b/rich/measure.py
+@@ -77,14 +77,17 @@ class Measurement(NamedTuple):
+ 
+     @classmethod
+     def get(
+-        cls, console: "Console", options: "ConsoleOptions", renderable: "RenderableType"
++        cls,
++        renderable: "RenderableType",
++        console: "Console",
++        options: "ConsoleOptions",
+     ) -> "Measurement":
+         """Get a measurement for a renderable.
+ 
+         Args:
++            renderable (RenderableType): An object that may be rendered with Rich.
+             console (~rich.console.Console): Console instance.
+             options (~rich.console.ConsoleOptions): Console options.
+-            renderable (RenderableType): An object that may be rendered with Rich.
+ 
+         Raises:
+             errors.NotRenderableError: If the object is not renderable.
+@@ -142,7 +145,7 @@ def measure_renderables(
+         return Measurement(0, 0)
+     get_measurement = Measurement.get
+     measurements = [
+-        get_measurement(console, options, renderable) for renderable in renderables
++        get_measurement(renderable, console, options) for renderable in renderables
+     ]
+     measured_width = Measurement(
+         max(measurements, key=itemgetter(0)).minimum,
+diff --git a/rich/padding.py b/rich/padding.py
+index d1aa01be..7fa98284 100644
+--- a/rich/padding.py
++++ b/rich/padding.py
+@@ -84,7 +84,7 @@ class Padding(JupyterMixin):
+             width = options.max_width
+         else:
+             width = min(
+-                Measurement.get(console, options, self.renderable).maximum
++                Measurement.get(self.renderable, console, options).maximum
+                 + self.left
+                 + self.right,
+                 options.max_width,
+@@ -129,7 +129,7 @@ class Padding(JupyterMixin):
+         extra_width = self.left + self.right
+         if max_width - extra_width < 1:
+             return Measurement(max_width, max_width)
+-        measure_min, measure_max = Measurement.get(console, options, self.renderable)
++        measure_min, measure_max = Measurement.get(self.renderable, console, options)
+         measurement = Measurement(measure_min + extra_width, measure_max + extra_width)
+         measurement = measurement.with_maximum(max_width)
+         return measurement
+diff --git a/rich/spinner.py b/rich/spinner.py
+index a3a3caf8..850b0a89 100644
+--- a/rich/spinner.py
++++ b/rich/spinner.py
+@@ -56,7 +56,7 @@ class Spinner:
+         self, console: "Console", options: "ConsoleOptions"
+     ) -> Measurement:
+         text = self.render(0)
+-        return Measurement.get(console, options, text)
++        return Measurement.get(text, console, options)
+ 
+     def render(self, time: float) -> "RenderableType":
+         """Render the spinner for a given time.
+diff --git a/rich/styled.py b/rich/styled.py
+index 27243beb..c6d74918 100644
+--- a/rich/styled.py
++++ b/rich/styled.py
+@@ -31,7 +31,7 @@ class Styled:
+     def __rich_measure__(
+         self, console: "Console", options: "ConsoleOptions"
+     ) -> Measurement:
+-        return Measurement.get(console, options, self.renderable)
++        return Measurement.get(self.renderable, console, options)
+ 
+ 
+ if __name__ == "__main__":  # pragma: no cover
+diff --git a/rich/table.py b/rich/table.py
+index 1e2eb2b4..f0b354fa 100644
+--- a/rich/table.py
++++ b/rich/table.py
+@@ -738,7 +738,7 @@ class Table(JupyterMixin):
+         append_max = max_widths.append
+         get_render_width = Measurement.get
+         for cell in self._get_cells(console, column._index, column):
+-            _min, _max = get_render_width(console, options, cell.renderable)
++            _min, _max = get_render_width(cell.renderable, console, options)
+             append_min(_min)
+             append_max(_max)
+ 
+diff --git a/rich/tree.py b/rich/tree.py
+index 9a87d60d..cf638bc9 100644
+--- a/rich/tree.py
++++ b/rich/tree.py
+@@ -191,7 +191,7 @@ class Tree(JupyterMixin):
+                 level -= 1
+                 continue
+             push(iter_tree)
+-            min_measure, max_measure = measure(console, options, tree.label)
++            min_measure, max_measure = measure(tree.label, console, options)
+             indent = level * 4
+             minimum = max(min_measure + indent, minimum)
+             maximum = max(max_measure + indent, maximum)

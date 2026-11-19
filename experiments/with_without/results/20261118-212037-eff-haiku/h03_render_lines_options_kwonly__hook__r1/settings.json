@@ -1,0 +1,27 @@
+{
+ "hooks": {
+  "PostToolUse": [
+   {
+    "matcher": "Edit|Write|MultiEdit",
+    "hooks": [
+     {
+      "type": "command",
+      "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck hook --root /Users/narensara/tenthcheck-with-without/checkouts/20261118-212037-eff-haiku__h03_render_lines_options_kwonly__hook__r1 --exclude 'tests/*'",
+      "timeout": 30
+     }
+    ]
+   }
+  ],
+  "Stop": [
+   {
+    "hooks": [
+     {
+      "type": "command",
+      "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck hook --root /Users/narensara/tenthcheck-with-without/checkouts/20261118-212037-eff-haiku__h03_render_lines_options_kwonly__hook__r1 --exclude 'tests/*'",
+      "timeout": 30
+     }
+    ]
+   }
+  ]
+ }
+}

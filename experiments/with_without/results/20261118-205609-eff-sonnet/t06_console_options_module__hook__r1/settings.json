@@ -1,0 +1,27 @@
+{
+ "hooks": {
+  "PostToolUse": [
+   {
+    "matcher": "Edit|Write|MultiEdit",
+    "hooks": [
+     {
+      "type": "command",
+      "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck hook --root /Users/narensara/tenthcheck-with-without/checkouts/20261118-205609-eff-sonnet__t06_console_options_module__hook__r1 --exclude 'tests/*'",
+      "timeout": 30
+     }
+    ]
+   }
+  ],
+  "Stop": [
+   {
+    "hooks": [
+     {
+      "type": "command",
+      "command": "/Users/narensara/tenthcheck-with-without/venv-tenthcheck/bin/tenthcheck hook --root /Users/narensara/tenthcheck-with-without/checkouts/20261118-205609-eff-sonnet__t06_console_options_module__hook__r1 --exclude 'tests/*'",
+      "timeout": 30
+     }
+    ]
+   }
+  ]
+ }
+}

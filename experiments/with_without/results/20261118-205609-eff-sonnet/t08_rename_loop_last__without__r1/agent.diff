@@ -1,0 +1,291 @@
+diff --git a/rich/_loop.py b/rich/_loop.py
+index 01c6cafb..2ac05147 100644
+--- a/rich/_loop.py
++++ b/rich/_loop.py
+@@ -15,7 +15,7 @@ def loop_first(values: Iterable[T]) -> Iterable[Tuple[bool, T]]:
+         yield False, value
+ 
+ 
+-def loop_last(values: Iterable[T]) -> Iterable[Tuple[bool, T]]:
++def iter_last(values: Iterable[T]) -> Iterable[Tuple[bool, T]]:
+     """Iterate and generate a tuple with a flag for last value."""
+     iter_values = iter(values)
+     try:
+@@ -28,6 +28,9 @@ def loop_last(values: Iterable[T]) -> Iterable[Tuple[bool, T]]:
+     yield True, previous_value
+ 
+ 
++loop_last = iter_last
++
++
+ def loop_first_last(values: Iterable[T]) -> Iterable[Tuple[bool, bool, T]]:
+     """Iterate and generate a tuple with a flag for first and last value."""
+     iter_values = iter(values)
+diff --git a/rich/_wrap.py b/rich/_wrap.py
+index 2e94ff6f..66ad2d0c 100644
+--- a/rich/_wrap.py
++++ b/rich/_wrap.py
+@@ -3,7 +3,7 @@ from __future__ import annotations
+ import re
+ from typing import Iterable
+ 
+-from ._loop import loop_last
++from ._loop import iter_last, loop_last  # noqa: F401
+ from .cells import cell_len, chop_cells
+ 
+ re_word = re.compile(r"\s*\S+\s*")
+@@ -57,7 +57,7 @@ def divide_line(text: str, width: int, fold: bool = True) -> list[int]:
+                 if fold:
+                     # Fold the word across multiple lines.
+                     folded_word = chop_cells(word, width=width)
+-                    for last, line in loop_last(folded_word):
++                    for last, line in iter_last(folded_word):
+                         if start:
+                             append(start)
+                         if last:
+diff --git a/rich/box.py b/rich/box.py
+index 82555b61..51150685 100644
+--- a/rich/box.py
++++ b/rich/box.py
+@@ -1,7 +1,7 @@
+ from typing import TYPE_CHECKING, Iterable, List, Literal
+ 
+ 
+-from ._loop import loop_last
++from ._loop import iter_last, loop_last  # noqa: F401
+ 
+ if TYPE_CHECKING:
+     from rich.console import ConsoleOptions
+@@ -105,7 +105,7 @@ class Box:
+         parts: List[str] = []
+         append = parts.append
+         append(self.top_left)
+-        for last, width in loop_last(widths):
++        for last, width in iter_last(widths):
+             append(self.top * width)
+             if not last:
+                 append(self.top_divider)
+@@ -153,7 +153,7 @@ class Box:
+         append = parts.append
+         if edge:
+             append(left)
+-        for last, width in loop_last(widths):
++        for last, width in iter_last(widths):
+             append(horizontal * width)
+             if not last:
+                 append(cross)
+@@ -174,7 +174,7 @@ class Box:
+         parts: List[str] = []
+         append = parts.append
+         append(self.bottom_left)
+-        for last, width in loop_last(widths):
++        for last, width in iter_last(widths):
+             append(self.bottom * width)
+             if not last:
+                 append(self.bottom_divider)
+diff --git a/rich/live_render.py b/rich/live_render.py
+index e7ec970a..8e0f5c6c 100644
+--- a/rich/live_render.py
++++ b/rich/live_render.py
+@@ -1,6 +1,6 @@
+ from typing import Literal, Optional, Tuple
+ 
+-from ._loop import loop_last
++from ._loop import iter_last, loop_last  # noqa: F401
+ from .console import Console, ConsoleOptions, RenderableType, RenderResult
+ from .control import Control
+ from .segment import ControlType, Segment
+@@ -110,7 +110,7 @@ class LiveRender:
+         self._shape = shape
+ 
+         new_line = Segment.line()
+-        for last, line in loop_last(lines):
++        for last, line in iter_last(lines):
+             yield from line
+             if not last:
+                 yield new_line
+diff --git a/rich/pretty.py b/rich/pretty.py
+index 00abecab..c62e0ed6 100644
+--- a/rich/pretty.py
++++ b/rich/pretty.py
+@@ -37,7 +37,7 @@ except ImportError:  # pragma: no cover
+     _has_attrs = False
+ 
+ from . import get_console
+-from ._loop import loop_last
++from ._loop import iter_last, loop_last  # noqa: F401
+ from ._pick import pick_bool
+ from .abc import RichRenderable
+ from .cells import cell_len
+@@ -531,7 +531,7 @@ class _Line:
+             new_line = yield _Line(text=node.open_brace, whitespace=whitespace)
+         child_whitespace = self.whitespace + " " * indent_size
+         tuple_of_one = node.is_tuple and len(node.children) == 1
+-        for last, child in loop_last(node.children):
++        for last, child in iter_last(node.children):
+             separator = "," if tuple_of_one else node.separator
+             line = _Line(
+                 parent=new_line,
+@@ -692,7 +692,7 @@ def traverse(
+                             children=children,
+                             last=root,
+                         )
+-                    for last, arg in loop_last(args):
++                    for last, arg in iter_last(args):
+                         if _safe_isinstance(arg, tuple):
+                             key, child = arg
+                             child_node = _traverse(child, depth=depth + 1)
+@@ -746,7 +746,7 @@ def traverse(
+                                         attr.repr if callable(attr.repr) else None,
+                                     )
+ 
+-                    for last, (name, value, repr_callable) in loop_last(iter_attrs()):
++                    for last, (name, value, repr_callable) in iter_last(iter_attrs()):
+                         if repr_callable:
+                             child_node = Node(value_repr=str(repr_callable(value)))
+                         else:
+@@ -780,7 +780,7 @@ def traverse(
+                     empty=f"{obj.__class__.__name__}()",
+                 )
+ 
+-                for last, field in loop_last(
++                for last, field in iter_last(
+                     field
+                     for field in fields(obj)
+                     if field.repr and hasattr(obj, field.name)
+@@ -809,7 +809,7 @@ def traverse(
+                     children=children,
+                     empty=f"{class_name}()",
+                 )
+-                for last, (key, value) in loop_last(obj._asdict().items()):
++                for last, (key, value) in iter_last(obj._asdict().items()):
+                     child_node = _traverse(value, depth=depth + 1)
+                     child_node.key_repr = key
+                     child_node.last = last
+diff --git a/rich/screen.py b/rich/screen.py
+index b4f7fd19..1f31422d 100644
+--- a/rich/screen.py
++++ b/rich/screen.py
+@@ -2,7 +2,7 @@ from typing import Optional, TYPE_CHECKING
+ 
+ from .segment import Segment
+ from .style import StyleType
+-from ._loop import loop_last
++from ._loop import iter_last, loop_last  # noqa: F401
+ 
+ 
+ if TYPE_CHECKING:
+@@ -48,7 +48,7 @@ class Screen:
+         )
+         lines = Segment.set_shape(lines, width, height, style=style)
+         new_line = Segment("\n\r") if self.application_mode else Segment.line()
+-        for last, line in loop_last(lines):
++        for last, line in iter_last(lines):
+             yield from line
+             if not last:
+                 yield new_line
+diff --git a/rich/table.py b/rich/table.py
+index 1e2eb2b4..f2c23310 100644
+--- a/rich/table.py
++++ b/rich/table.py
+@@ -12,7 +12,7 @@ from typing import (
+ )
+ 
+ from . import box, errors
+-from ._loop import loop_first_last, loop_last
++from ._loop import loop_first_last, iter_last, loop_last  # noqa: F401
+ from ._pick import pick_bool
+ from ._ratio import ratio_distribute, ratio_reduce
+ from .align import VerticalAlignMethod
+@@ -895,7 +895,7 @@ class Table(JupyterMixin):
+                 for line_no in range(max_height):
+                     if show_edge:
+                         yield left
+-                    for last_cell, rendered_cell in loop_last(cells):
++                    for last_cell, rendered_cell in iter_last(cells):
+                         yield from rendered_cell[line_no]
+                         if not last_cell:
+                             yield divider
+diff --git a/rich/text.py b/rich/text.py
+index 7e087a4e..2b27c9d7 100644
+--- a/rich/text.py
++++ b/rich/text.py
+@@ -16,7 +16,7 @@ from typing import (
+     Union,
+ )
+ 
+-from ._loop import loop_last
++from ._loop import iter_last, loop_last  # noqa: F401
+ from ._pick import pick_bool
+ from ._wrap import divide_line
+ from .align import AlignMethod
+@@ -789,7 +789,7 @@ class Text(JupyterMixin):
+ 
+         def iter_text() -> Iterable["Text"]:
+             if self.plain:
+-                for last, line in loop_last(lines):
++                for last, line in iter_last(lines):
+                     yield line
+                     if not last:
+                         yield self
+diff --git a/rich/traceback.py b/rich/traceback.py
+index 66eaecaa..292b8768 100644
+--- a/rich/traceback.py
++++ b/rich/traceback.py
+@@ -27,7 +27,7 @@ from pygments.token import Token
+ from pygments.util import ClassNotFound
+ 
+ from . import pretty
+-from ._loop import loop_first_last, loop_last
++from ._loop import loop_first_last, iter_last, loop_last  # noqa: F401
+ from .columns import Columns
+ from .console import (
+     Console,
+@@ -700,7 +700,7 @@ class Traceback:
+             if stack.is_group:
+                 for group_no, group_exception in enumerate(stack.exceptions, 1):
+                     grouped_exceptions: List[Group] = []
+-                    for group_last, group_stack in loop_last(group_exception.stacks):
++                    for group_last, group_stack in iter_last(group_exception.stacks):
+                         grouped_exceptions.append(render_stack(group_stack, group_last))
+                     yield ""
+                     yield Constrain(
+@@ -722,7 +722,7 @@ class Traceback:
+                         "\n[i]During handling of the above exception, another exception occurred:\n",
+                     )
+ 
+-        for last, stack in loop_last(reversed(self.trace.stacks)):
++        for last, stack in iter_last(reversed(self.trace.stacks)):
+             yield render_stack(stack, last)
+ 
+     @group()
+diff --git a/rich/tree.py b/rich/tree.py
+index 9a87d60d..0e52731a 100644
+--- a/rich/tree.py
++++ b/rich/tree.py
+@@ -1,6 +1,6 @@
+ from typing import Iterator, List, Optional, Tuple
+ 
+-from ._loop import loop_first, loop_last
++from ._loop import loop_first, iter_last, loop_last  # noqa: F401
+ from .console import Console, ConsoleOptions, RenderableType, RenderResult
+ from .jupyter import JupyterMixin
+ from .measure import Measurement
+@@ -108,7 +108,7 @@ class Tree(JupyterMixin):
+             return _Segment(line, style)
+ 
+         levels: List[Segment] = [make_guide(CONTINUE, guide_style)]
+-        push(iter(loop_last([self])))
++        push(iter(iter_last([self])))
+ 
+         guide_style_stack = StyleStack(get_style(self.guide_style))
+         style_stack = StyleStack(get_style(self.style))
+@@ -170,7 +170,7 @@ class Tree(JupyterMixin):
+                 )
+                 style_stack.push(get_style(node.style))
+                 guide_style_stack.push(get_style(node.guide_style))
+-                push(iter(loop_last(node.children)))
++                push(iter(iter_last(node.children)))
+                 depth += 1
+ 
+     def __rich_measure__(

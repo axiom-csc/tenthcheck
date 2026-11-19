@@ -54,9 +54,11 @@ def metrics(sess: Path) -> dict:
                tool_result_chars=chars, tool_result_chars_total=sum(chars.values()))
     res = sess.parent / "results.json"
     if res.exists():
-        task, arm = sess.name.split("__")
+        parts = sess.name.split("__")  # task__arm or task__arm__r<rep>
+        task, arm = parts[0], parts[1]
+        rep = int(parts[2][1:]) if len(parts) > 2 else 0
         for r in json.loads(res.read_text())["runs"]:
-            if r["task_id"] == task and r["arm"] == arm:
+            if r["task_id"] == task and r["arm"] == arm and r.get("rep", 0) == rep:
                 out["wall_s"] = r["wall_s"]
     return out
 
