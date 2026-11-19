@@ -96,7 +96,9 @@ Re-run 2026-11-12 with the typed-call pass (below); CALLS edges rose from 259 / 
 
 ### Latency (`measurements/scripts/bench_latency.py` -> `measurements/results/latency_2026-11-17_ac.json`)
 
-**Measured 2026-11-17 on the current code, on AC power for the whole run** (`measurements/scripts/ac_bench.sh` checked the power source every 5 s; also recorded in the file's `meta.power`). Apple M4, Python 3.11.18. Milliseconds. **MCP (warm):** one `serve` process per repo, real stdio round trips through the official MCP client, after one untimed call per tool. **CLI (cold):** a fresh process each time, parse included. With n = 5–100 runs, p99 is close to the max; n is shown.
+**This table predates 0.1.2.** 0.1.2's class-edge pass (`REFERENCES`, see [How complete are the edges?](https://github.com/tenthlook/tenthcheck#how-complete-are-the-edges)) adds about 8–10% to parse time (httpx 56 of 578 ms, rich 168 of 1,943 ms, pydantic 837 of 10,710 ms; measured 2026-11-18 on battery), so cold CLI numbers and any call that re-parses changed files are expected to be roughly that much slower. Not re-measured yet.
+
+**Measured 2026-11-17 on the 0.1.1 code, on AC power for the whole run** (`measurements/scripts/ac_bench.sh` checked the power source every 5 s; also recorded in the file's `meta.power`). Apple M4, Python 3.11.18. Milliseconds. **MCP (warm):** one `serve` process per repo, real stdio round trips through the official MCP client, after one untimed call per tool. **CLI (cold):** a fresh process each time, parse included. With n = 5–100 runs, p99 is close to the max; n is shown.
 
 | Repo | Tool | MCP p50 | MCP p99 | n | CLI cold p50 | CLI cold p99 | n |
 |---|---|---|---|---|---|---|---|
