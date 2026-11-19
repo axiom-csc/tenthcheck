@@ -20,6 +20,7 @@ from tenthcheck.parser import (
     _Parsed, _assign_entity_ids, _add_definitions, _add_relations, _SKIP_DIR_NAMES, iter_py_files, module_name_for,
     _match_known_module, _resolve_import_from, _iter_defs, _calls_in_body,
 )
+from tenthcheck.references import add_references
 from tenthcheck.typed_calls import add_typed_calls
 from tenthcheck.topology import blast_radius as compute_blast_radius
 from tenthcheck.graph import Graph
@@ -167,6 +168,7 @@ def _graph_from(modules) -> Graph:
     for mod in parsed_list:
         _add_relations(g, mod, known_modules)
     add_typed_calls(g, parsed_list, known_modules, _match_known_module, _resolve_import_from, _iter_defs, _calls_in_body)
+    add_references(g, parsed_list, known_modules, _match_known_module, _resolve_import_from, _iter_defs)
     return g
 
 

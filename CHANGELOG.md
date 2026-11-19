@@ -1,6 +1,18 @@
 # Changelog
 
-## 0.1.1 (unreleased)
+## 0.1.2 (unreleased; built and checked, not uploaded)
+
+- **Classes used without being called now have dependents.** New `REFERENCES` edges (function / class / module ->
+  class) for annotations (quoted, and names imported under `if TYPE_CHECKING:`), constructor calls, `isinstance`,
+  `alias.Class`, module-level and function-local `from x import C`, following re-exports. `blast`,
+  `check_blast_radius`, `check_proposed_edit` and `scope` follow them. Before, rich's `ConsoleOptions` had a blast
+  radius of 1 (itself); now 114 direct dependents in 27 of the 28 modules that name it.
+- Callers of functions are unchanged (edges target classes only): httpx 28/28, click 35/37, starlette 53/60, 0 false
+  positives, identical per symbol.
+- The new pass adds about 8-10% to parse time.
+- `scripts/sync_from_mind.py` restored (takes the axiom-lab checkout as an argument).
+
+## 0.1.1 (not uploaded)
 
 - First version intended for PyPI; 0.1.0 was never uploaded.
 - README latency table re-measured on AC power for the whole run (`measurements/results/latency_2026-11-17_ac.json`,

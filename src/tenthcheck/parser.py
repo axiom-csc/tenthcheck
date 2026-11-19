@@ -29,6 +29,9 @@ Relations
 - `IMPORTS`: module -> module, from `import` and `from ... import`. `from pkg import sub`, where
   `pkg.sub` is a parsed module, records both `pkg` and `pkg.sub`.
 - `INHERITS_FROM`: class -> class, when the base resolves.
+- `REFERENCES`: function / class / module -> class, when the source names a parsed class without calling or
+  subclassing it: annotations (quoted ones too), constructor calls, `isinstance`, `from x import C` (also under
+  `if TYPE_CHECKING:`), following re-exports. Added by the third pass, `tenthcheck.references`.
 
 What name resolution does
 - Final module-level bindings (defs and imports, last one wins) are used for
@@ -53,7 +56,7 @@ What it does not resolve (no edge, rather than a guessed one)
 - Star imports (`from x import *`): the module edge is recorded, names are not bound.
 - Imports and defs nested under `if` / `try` / loops. Only the module body is scanned.
 - Builtins and any name whose defining module was not parsed.
-- Calls of classes (constructors). `CALLS` is function-to-function.
+- Calls of classes (constructors) as `CALLS`: `CALLS` is function-to-function; a constructor call is a `REFERENCES` edge to the class.
 - Calls in the module body itself (`POOL = experiment_pool()`). There is no function entity on the source side of that call.
 - Lambdas. A module-level lambda is an assignment, not a function.
 - Flow-sensitive rebinding inside a function.
@@ -156,6 +159,7 @@ def _build(specs: list[tuple[str, str, bool]]) -> Graph:
     for mod in parsed:
         _add_relations(g, mod, known_modules)
     add_typed_calls(g, parsed, known_modules, _match_known_module, _resolve_import_from, _iter_defs, _calls_in_body)
+    add_references(g, parsed, known_modules, _match_known_module, _resolve_import_from, _iter_defs)
     return g
 
 
@@ -475,3 +479,4 @@ def _decorator_name(dec: ast.expr) -> str:
 
 
 from tenthcheck.typed_calls import add_typed_calls  # noqa: E402  (second pass; see that module)
+from tenthcheck.references import add_references  # noqa: E402  (third pass; see that module)

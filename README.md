@@ -25,8 +25,8 @@ full list of what isn't resolved is in [What this does not do](https://github.co
 - `tenthcheck check <repo> <file> <proposed_file>`: parse the proposed version of one file in memory and report
   new import cycles plus the dependents of every function or class it changes. Exit code 1 if a new cycle
   appears, 2 on a syntax error in the proposed file.
-- `tenthcheck blast <repo> <symbol>`: the functions, classes and modules that call, subclass or import
-  `<symbol>`, grouped by hop.
+- `tenthcheck blast <repo> <symbol>`: the functions, classes and modules that call, subclass, import or use
+  `<symbol>` (for a class: annotations, constructor calls, `isinstance`, imports), grouped by hop.
 - `tenthcheck cycles <repo>`: import cycles among the repo's modules, each printed as a path.
 - `tenthcheck scope <before_dir> <after_dir>`: changed functions/classes between two snapshots and the
   untouched code that depends on them.
@@ -147,6 +147,30 @@ held-out number (65%) was for the earlier typed-call pass. Starlette's symbols w
 rule and labelled from grep hits without seeing Tenthcheck's output, by Claude, which also wrote the
 fixes. All three checks are small (47 symbols, 125 callers in three libraries) and only cover code with type
 annotations.
+
+**Classes used without being called (0.1.2).** Up to 0.1.1 a class's only dependents were its subclasses, so
+a class used in annotations, constructed, checked with `isinstance` or imported looked unused: in the 2026-11-17
+with/without run, `check_blast_radius("rich.console.ConsoleOptions")` returned only the class itself, although 28
+rich modules name it. 0.1.2 adds `REFERENCES` edges (function / class / module -> class) for annotations (quoted
+ones and `if TYPE_CHECKING:` imports included), constructor calls, `isinstance`, `alias.Class`, module-level and
+function-local imports, following re-exports (`src/tenthcheck/references.py`). On rich 15.0.0
+(`measurements/scripts/class_refs_rich.py` -> `measurements/results/class_refs_rich_2026-11-18.json`):
+
+| class | direct dependents, 0.1.1 -> 0.1.2 | rich modules with a dependent / naming it (grep) |
+|---|---|---|
+| `ConsoleOptions` | 0 -> 114 | 27 / 28 |
+| `Segment` | 0 -> 136 | 20 / 22 |
+| `Style` | 0 -> 184 | 22 / 26 |
+| `Text` | 0 -> 252 | 26 / 33 |
+| `Measurement` | 0 -> 65 | 18 / 18 |
+
+Every grep-only module was read: each is a mention in a docstring or comment, or demo code under
+`if __name__ == "__main__":` (not parsed as entities). This counts modules, not hand-labelled call sites, so it is a
+coverage check, not an accuracy measurement like the table above. The edges point only at classes, so callers of
+functions are unchanged: the three sets above score exactly the same per symbol after the change
+(`measurements/results/accuracy_eval_2026-11-18.json`). Cost: the extra pass is 8-10% of a full parse
+(httpx 56 of 578 ms, rich 168 of 1,943 ms, pydantic 837 of 10,710 ms, on battery); the latency table above was
+measured before it.
 
 **What the 7 round-1 misses were (httpx):** all were methods called on a typed object other than `self`:
 `pattern.matches()` on a loop variable over an annotated dict (2), `response.read()` on a value returned by an

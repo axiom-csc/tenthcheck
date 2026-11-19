@@ -1,9 +1,9 @@
 # Vendored from axiom-lab mind/code/topology.py by scripts/sync_from_mind.py. Edit the source, then re-sync.
 """Blast radius on a code graph.
 
-`blast_radius` walks outward from a start entity along `CALLS`, `IMPORTS`, and
-`INHERITS_FROM` edges (the direction they were stored: caller -> callee,
-importer -> imported module, subclass -> base). `DEFINES` is not followed.
+`blast_radius` walks outward from a start entity along `CALLS`, `IMPORTS`,
+`INHERITS_FROM` and `REFERENCES` edges (the direction they were stored: caller -> callee,
+importer -> imported module, subclass -> base, user -> referenced class). `DEFINES` is not followed.
 
 The reachable set is dependencies of the start node, not the nodes that depend
 on it. A function's callers are not included. Depth 0 is the start node, and
@@ -11,7 +11,7 @@ on it. A function's callers are not included. Depth 0 is the start node, and
 
 A missing start id raises KeyError. Cycles are visited once.
 
-`dependents_radius` walks the same edges reversed (callers, subclasses, importers):
+`dependents_radius` walks the same edges reversed (callers, subclasses, importers, users of a class):
 the entities that can break when the start entity changes.
 """
 from __future__ import annotations
@@ -21,7 +21,7 @@ from collections import deque
 
 from tenthcheck.graph import Graph
 
-EDGE_TYPES = ("CALLS", "IMPORTS", "INHERITS_FROM")
+EDGE_TYPES = ("CALLS", "IMPORTS", "INHERITS_FROM", "REFERENCES")
 
 
 def blast_radius(g: Graph, start_id: str, max_depth: int | None = None) -> dict:
@@ -67,7 +67,7 @@ def blast_radius(g: Graph, start_id: str, max_depth: int | None = None) -> dict:
 
 
 def reverse_adjacency(g: Graph) -> dict[str, list[str]]:
-    """`{dst: [src, ...]}` over `EDGE_TYPES`: who calls / imports / subclasses each entity. Sorted."""
+    """`{dst: [src, ...]}` over `EDGE_TYPES`: who calls / imports / subclasses / references each entity. Sorted."""
     incoming: dict[str, list[str]] = {eid: [] for eid in g.entities}
     for edge_type in EDGE_TYPES:
         for rel in g.rels(edge_type):
@@ -84,7 +84,7 @@ def dependents_radius(
     max_nodes: int | None = None,
     incoming: dict[str, list[str]] | None = None,
 ) -> dict:
-    """BFS along *reversed* `CALLS` / `IMPORTS` / `INHERITS_FROM` edges: what can break if `start_id` changes.
+    """BFS along *reversed* `CALLS` / `IMPORTS` / `INHERITS_FROM` / `REFERENCES` edges: what can break if `start_id` changes.
 
     Depth 1 is the direct callers (and subclasses, and importing modules for a module start); depth 2
     their callers, and so on. This is the opposite direction from `blast_radius`, which lists what the

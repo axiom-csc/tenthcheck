@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tenthcheck"
-version = "0.1.1"
+version = "0.1.2"
 description = "Tenthcheck, from Tenthlook: see what an AI coding agent's edit could break before it lands. Static checks for Python: dependents by hop, import cycles, edit impact. CLI and MCP server."
 readme = "README.md"
 requires-python = ">=3.10"
