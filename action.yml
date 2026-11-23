@@ -21,7 +21,16 @@ runs:
         python-version: ${{ inputs.python-version }}
     - name: Install tenthcheck from this action's checkout
       shell: bash
-      run: pip install "${{ github.action_path }}[receipt]"
+      run: |
+        pip install "${{ github.action_path }}"
+        # Receipts need tenthlook-core, which is not on PyPI yet. If it cannot be installed, skip receipts instead of failing the check.
+        if [ -n "${{ inputs.receipt }}" ]; then
+          if pip install "${{ github.action_path }}[receipt]"; then
+            echo "TENTHCHECK_RECEIPTS=1" >> "$GITHUB_ENV"
+          else
+            echo "::warning title=Tenthcheck receipt skipped::tenthlook-core could not be installed (it is not on PyPI yet), so no signed receipt will be written. The check itself still runs."
+          fi
+        fi
     - name: Run tenthcheck ci
       id: tc
       shell: bash
@@ -29,7 +38,7 @@ runs:
         set +e
         args=(ci . --summary-file "$RUNNER_TEMP/tenthcheck-summary.md")
         [ -n "${{ inputs.base }}" ] && [ "${{ github.event_name }}" = "pull_request" ] && args+=(--base "${{ inputs.base }}")
-        [ -n "${{ inputs.receipt }}" ] && args+=(--receipt "${{ inputs.receipt }}")
+        [ -n "${{ inputs.receipt }}" ] && [ "$TENTHCHECK_RECEIPTS" = "1" ] && args+=(--receipt "${{ inputs.receipt }}")
         tenthcheck "${args[@]}" > /dev/null
         code=$?
         cat "$RUNNER_TEMP/tenthcheck-summary.md" >> "$GITHUB_STEP_SUMMARY"
