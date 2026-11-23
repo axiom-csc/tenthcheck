@@ -18,7 +18,7 @@ Issues = "https://github.com/tenthlook/tenthcheck/issues"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2.3,<3"]
-receipt = ["cryptography>=42"]
+receipt = ["tenthlook-core>=0.1"]
 
 [project.scripts]
 tenthcheck = "tenthcheck.cli:main"

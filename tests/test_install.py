@@ -64,10 +64,30 @@ def test_receipt_sign_verify_and_tamper(tmp_path, monkeypatch):
     assert ok, msgs
     assert any("not that the code is correct" in m for m in msgs)
     data = json.loads(out.read_text())
-    data["payload"]["summary"]["z3_counterexamples"] = 5
+    data["reasons"] = [x.replace("z3_counterexamples=0", "z3_counterexamples=5") for x in data["reasons"]]
     out.write_text(json.dumps(data))
     assert not receipt.verify(out, pub)[0]
     other_priv, other_pub = receipt.keygen()
     monkeypatch.setenv(receipt.KEY_ENV, other_priv)
     receipt.write_receipt(out, tmp_path, {"files_scanned": 3}, None)
     assert not receipt.verify(out, pub)[0]          # pinned key mismatch
+
+
+def test_receipt_is_a_tenthlook_core_receipt_and_needs_a_key(tmp_path, monkeypatch):
+    import json
+    import subprocess
+
+    from tenthlook_core import receipt as core
+    from tenthcheck import receipt
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    subprocess.run(["git", "-C", str(tmp_path), "-c", "user.email=a@b", "-c", "user.name=n", "commit", "-q", "--allow-empty", "-m", "i"], check=True)
+    for v in ("TENTHCHECK_SIGNING_KEY", "TENTHLOOK_SIGNING_KEY", "TENTHLOOK_KEY_FILE"):
+        monkeypatch.delenv(v, raising=False)
+    out = tmp_path / "r.json"
+    assert receipt.write_receipt(out, tmp_path, {"files_scanned": 1}, None) is False and not out.exists()
+    priv, pub = receipt.keygen()
+    monkeypatch.setenv("TENTHLOOK_SIGNING_KEY", priv)           # the core's own variable works too
+    assert receipt.write_receipt(out, tmp_path, {"files_scanned": 1, "accepted_violations": 2}, "x = 1")
+    r = json.loads(out.read_text())
+    assert core.verify(r, pub).ok and r["verdict"] == "BLOCKED" and r["checker"]["name"] == "tenthcheck"
+    assert receipt.verify(out, pub, tmp_path)[0] is False        # tenthcheck.toml absent but config was hashed

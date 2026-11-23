@@ -1,40 +1,35 @@
-"""Signed receipts (Ed25519). A receipt records WHAT was checked, on which commit, with which config, and
-the counts that came out. It does not say the code is correct: it says a check ran and what it reported.
-Needs the optional extra: pip install "tenthcheck[receipt]" (the `cryptography` package)."""
+"""Signed CI receipts, built on tenthlook-core (Ed25519, hash-chained receipt format shared with Panel).
+
+A receipt records WHAT was checked, on which commit, with which config, and the counts that came out. It does not say
+the code is correct. Needs the optional extra: pip install "tenthcheck[receipt]" (pulls in tenthlook-core).
+
+Mapping onto the core schema: subject_type=git_diff; artifact_sha256 = SHA-256 of the checked commit id (utf-8 text);
+policy_sha256 = SHA-256 of tenthcheck.toml (SHA-256 of "" when there is none); trace_sha256 = hash of the canonical
+summary counts; reasons carry commit=, config= and each count as key=value.
+"""
 from __future__ import annotations
 
-import base64
-import hashlib
 import json
 import os
 import subprocess
 from pathlib import Path
 
-KEY_ENV = "TENTHCHECK_SIGNING_KEY"
+KEY_ENV = "TENTHCHECK_SIGNING_KEY"  # legacy name, still honoured; core also reads TENTHLOOK_KEY_FILE / TENTHLOOK_SIGNING_KEY
+CHECKER = "tenthcheck"
 
 
-def _crypto():
+def _core():
     try:
-        from cryptography.exceptions import InvalidSignature
-        from cryptography.hazmat.primitives import serialization
-        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
+        from tenthlook_core import crypto, receipt
     except ImportError as e:  # pragma: no cover
         raise RuntimeError('receipts need the extra: pip install "tenthcheck[receipt]"') from e
-    return InvalidSignature, serialization, Ed25519PrivateKey, Ed25519PublicKey
-
-
-def canonical(obj) -> bytes:
-    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return crypto, receipt
 
 
 def keygen() -> tuple[str, str]:
-    """(private seed b64, public key b64)."""
-    _, ser, Priv, _ = _crypto()
-    k = Priv.generate()
-    raw = lambda x, **kw: base64.b64encode(x).decode()
-    priv = k.private_bytes(ser.Encoding.Raw, ser.PrivateFormat.Raw, ser.NoEncryption())
-    pub = k.public_key().public_bytes(ser.Encoding.Raw, ser.PublicFormat.Raw)
-    return raw(priv), raw(pub)
+    """(private seed b64, public key b64). For CI secrets; `tenthlook keygen` writes a key file instead."""
+    crypto, _ = _core()
+    return crypto.generate_keypair()
 
 
 def _git_head(root: Path) -> str | None:
@@ -42,58 +37,86 @@ def _git_head(root: Path) -> str | None:
     return r.stdout.strip() if r.returncode == 0 else None
 
 
-def build_payload(root: Path, summary: dict, config_text: str | None) -> dict:
+def _artifact_hash(commit: str | None) -> str:
+    crypto, _ = _core()
+    return crypto.sha256_hex(commit or "")
+
+
+def _policy_hash(config_text: str | None) -> str:
+    crypto, _ = _core()
+    return crypto.sha256_hex(config_text or "")
+
+
+def _verdict(summary: dict) -> str:
+    if summary.get("z3_counterexamples", 0) > 0:
+        return "Z3_COUNTEREXAMPLE"
+    if summary.get("accepted_violations", 0) > 0:
+        return "BLOCKED"
+    return "ALLOWED"  # "no violations of accepted invariants found": not "proven"
+
+
+def build_receipt(root: Path, summary: dict, config_text: str | None, signing_key: str) -> dict:
     from tenthcheck import __version__
-    return {"schema": 1, "tool": f"tenthcheck {__version__}", "commit": _git_head(root),
-            "config_sha256": hashlib.sha256(config_text.encode()).hexdigest() if config_text is not None else None,
-            "summary": summary,
-            "statement": "These checks were run and reported these counts. This is not a statement that the code is correct."}
+    crypto, core = _core()
+    commit = _git_head(root)
+    counts = {k: v for k, v in summary.items() if isinstance(v, int) and not isinstance(v, bool)}
+    reasons = [f"commit={commit or 'none'}", f"config={'tenthcheck.toml' if config_text is not None else 'none'}",
+               *(f"{k}={v}" for k, v in summary.items() if not isinstance(v, (list, dict))),
+               "statement: these checks were run and reported these counts; not a statement that the code is correct"]
+    return core.create(subject_type="git_diff", artifact_sha256=_artifact_hash(commit), policy_sha256=_policy_hash(config_text),
+                       checker_name=CHECKER, checker_version=__version__, verdict=_verdict(summary), reasons=reasons,
+                       trace_sha256=crypto.hash_json(counts), signing_key=signing_key)
 
 
-def sign(payload: dict, key_b64: str) -> dict:
-    _, ser, Priv, _ = _crypto()
-    k = Priv.from_private_bytes(base64.b64decode(key_b64))
-    pub = k.public_key().public_bytes(ser.Encoding.Raw, ser.PublicFormat.Raw)
-    return {"payload": payload, "public_key": base64.b64encode(pub).decode(),
-            "signature": base64.b64encode(k.sign(canonical(payload))).decode()}
+def _signing_key() -> str | None:
+    crypto, _ = _core()
+    legacy = (os.environ.get(KEY_ENV) or "").strip()
+    try:
+        if legacy:
+            crypto.public_from_private(legacy)  # validate; do not copy into the process environment
+            return legacy
+        return crypto.load_signing_key()
+    except crypto.KeyMissing:
+        return None
+    except ValueError as e:
+        raise RuntimeError(f"{KEY_ENV} is not a base64 32-byte Ed25519 seed") from e
 
 
 def write_receipt(path: Path, root: Path, summary: dict, config_text: str | None) -> bool:
-    key = os.environ.get(KEY_ENV)
+    """False (nothing written) when no signing key is configured. There is no default key."""
+    key = _signing_key()
     if not key:
         return False
-    path.write_text(json.dumps(sign(build_payload(root, summary, config_text), key), indent=2), encoding="utf-8")
+    path.write_text(json.dumps(build_receipt(root, summary, config_text, key), indent=2), encoding="utf-8")
     return True
 
 
 def verify(receipt_path: Path, public_key_b64: str | None = None, repo: Path | None = None) -> tuple[bool, list[str]]:
     """(ok, messages). With no pinned public key only integrity is shown: anyone can sign with their own key."""
-    InvalidSignature, _, _, Pub = _crypto()
-    msgs: list[str] = []
-    r = json.loads(Path(receipt_path).read_text(encoding="utf-8"))
-    pub = public_key_b64 or r["public_key"]
-    if public_key_b64 and public_key_b64 != r["public_key"]:
-        return False, ["FAIL: receipt was signed by a different key than the pinned one"]
+    _, core = _core()
     try:
-        Pub.from_public_bytes(base64.b64decode(pub)).verify(base64.b64decode(r["signature"]), canonical(r["payload"]))
-    except (InvalidSignature, ValueError):
-        return False, ["FAIL: signature does not match the payload (tampered or wrong key)"]
-    msgs.append("OK: signature valid")
-    if not public_key_b64:
-        msgs.append("note: no --public-key given, so this only shows the file is unmodified, not who signed it")
+        r = json.loads(Path(receipt_path).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        return False, [f"FAIL: cannot read receipt: {e}"]
+    if isinstance(r, dict) and "payload" in r:
+        return False, ["FAIL: this is a pre-tenthlook-core receipt (payload/signature layout); re-run `tenthcheck ci --receipt`"]
+    res = core.verify(r, public_key_b64)
+    if not res.ok:
+        return False, [f"FAIL: {m}" for m in res.errors]
+    msgs = ["OK: signature valid", *[f"note: {m}" for m in res.notes]]
     ok = True
+    if r["checker"]["name"] != CHECKER or r["subject_type"] != "git_diff":
+        ok = False
+        msgs.append(f"FAIL: not a tenthcheck receipt (checker {r['checker']['name']!r}, subject {r['subject_type']!r})")
     if repo is not None:
         head = _git_head(repo)
-        if head != r["payload"].get("commit"):
+        if _artifact_hash(head) != r["artifact_sha256"]:
             ok = False
-            msgs.append(f"FAIL: receipt is for commit {r['payload'].get('commit')}, repo is at {head}")
+            msgs.append(f"FAIL: receipt is for a different commit than the repo's HEAD ({head})")
         cfg = repo / "tenthcheck.toml"
-        want = r["payload"].get("config_sha256")
-        have = hashlib.sha256(cfg.read_text().encode()).hexdigest() if cfg.is_file() else None
-        if want != have:
+        if _policy_hash(cfg.read_text() if cfg.is_file() else None) != r["policy_sha256"]:
             ok = False
             msgs.append("FAIL: tenthcheck.toml differs from the one that was checked")
-    s = r["payload"]["summary"]
-    msgs.append("checked: " + ", ".join(f"{k}={v}" for k, v in s.items() if not isinstance(v, (list, dict))))
+    msgs.append(f"verdict: {r['verdict']}; " + ", ".join(x for x in r["reasons"] if "=" in x and not x.startswith("statement")))
     msgs.append("reminder: a receipt shows what was checked, not that the code is correct")
     return ok, msgs
