@@ -240,3 +240,17 @@ def test_hook_and_agents_share_the_state_dir_without_clobbering(repo):
     assert (repo / ".tenthcheck/agents.json").read_text() == before
     assert agents.list_sessions(repo)["sessions"][0]["edits"] == ["pkg.core.helper"]
     assert (repo / ".tenthcheck/hook_cache.json").exists()
+
+
+# ---- v1: hand-written / accepted invariants feed counterexamples back to the agent
+def test_hook_reports_z3_counterexample_with_file_line(repo):
+    (repo / "tenthcheck.toml").write_text(
+        '[[invariant]]\nfile = "pkg/bank.py"\nfunction = "withdraw"\ncheck = "final_balance >= 0"\n'
+        'assume = ["balance >= 0", "amount > 0", "fee >= 0"]\n')
+    good = "def withdraw(balance, amount, fee):\n    if balance < amount + fee:\n        raise ValueError()\n    final_balance = balance - amount - fee\n    return final_balance\n"
+    rc, _, err = hook(repo, edit(repo, "pkg/bank.py", good))
+    assert rc == 0 and err == ""
+    bad = good.replace("balance < amount + fee", "balance < amount")
+    rc, _, err = hook(repo, edit(repo, "pkg/bank.py", bad))
+    assert rc == 2
+    assert "pkg/bank.py:1" in err and "final_balance >= 0" in err and "Counterexample:" in err and "final_balance=-" in err

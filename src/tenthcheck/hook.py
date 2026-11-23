@@ -552,6 +552,37 @@ def _emit(lines: list[str], max_lines: int) -> int:
     return 2
 
 
+
+def _invariant_lines(root: Path, files: set[str], sess: dict, only_new: bool) -> list[str]:
+    """Accepted mined invariants and hand-written Z3 invariants (tenthcheck.toml) broken in `files`.
+
+    Each line carries the exact counterexample or place, with file:line, so the agent can act on it."""
+    from tenthcheck import config as cfgmod
+    from tenthcheck.enforce import describe_counterexample, describe_violation, enforce
+    if not (root / cfgmod.FILENAME).is_file():
+        return []
+    cfg = cfgmod.load(root)
+    if not cfg.accepted() and not cfg.handwritten:
+        return []
+    enf = enforce(root, cfg, files=files)
+    seen = set(sess.setdefault("inv_reported", []))
+    lines = []
+    for r in enf.counterexamples:
+        key = f"z3:{r.file}:{r.function}:{r.check}"
+        if only_new and key in seen:
+            continue
+        seen.add(key)
+        lines.append("Tenthcheck: " + describe_counterexample(r))
+    for inv, site in enf.mined_violations:
+        key = f"mined:{inv.id}:{site}"
+        if only_new and key in seen:
+            continue
+        seen.add(key)
+        lines.append("Tenthcheck: " + describe_violation(inv, site))
+    sess["inv_reported"] = sorted(seen)
+    return lines
+
+
 def run(payload: dict, root: Path | None = None, dependents: int | None = None, max_lines: int = 10,
         exclude: list[str] = ()) -> int:
     root = Path(root or os.environ.get("CLAUDE_PROJECT_DIR") or payload.get("cwd") or ".").resolve()
@@ -569,10 +600,15 @@ def run(payload: dict, root: Path | None = None, dependents: int | None = None, 
         _save(cache_path, cache)
         sess["pending"] = recheck_pending(after, sess["pending"])
         _save(state_path, state)
-        if payload.get("stop_hook_active") or not sess["pending"]:
+        if payload.get("stop_hook_active"):
             return 0
-        lines = [f"Tenthcheck: {len(sess['pending'])} caller(s) of changed signatures still not updated:"]
-        lines += [f"  {p['rel']}:{p['line']} ({p['fn']}) calls {p['target'][0]}.{p['target'][1]}" for p in sess["pending"]]
+        lines = []
+        if sess["pending"]:
+            lines = [f"Tenthcheck: {len(sess['pending'])} caller(s) of changed signatures still not updated:"]
+            lines += [f"  {p['rel']}:{p['line']} ({p['fn']}) calls {p['target'][0]}.{p['target'][1]}" for p in sess["pending"]]
+        if sess.get("edited"):
+            lines += _invariant_lines(root, set(sess["edited"]), sess, only_new=False)
+        _save(state_path, state)
         return _emit(lines, max_lines)
 
     if payload.get("tool_name") not in EDIT_TOOLS:
@@ -628,6 +664,8 @@ def run(payload: dict, root: Path | None = None, dependents: int | None = None, 
     for p in new_pending:
         pend[(p["rel"], p["fn"], p["func"], p["n"], tuple(p["target"]))] = p
     sess["pending"] = list(pend.values())
+    sess["edited"] = sorted(set(sess.get("edited", [])) | {rel})
+    lines += _invariant_lines(root, {rel}, sess, only_new=True)
     _save(state_path, state)
     return _emit(lines, max_lines)
 

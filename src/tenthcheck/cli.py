@@ -129,6 +129,33 @@ def _agents(a, ap) -> int:
     return 0  # warn only: overlap never changes the exit code
 
 
+def _install(a, ap) -> int:
+    from tenthcheck import install as inst
+    targets = [t for t in ("claude", "cursor") if getattr(a, t)]
+    if not targets:
+        ap.error(f"{a.cmd}: give --claude and/or --cursor")
+    root = Path(a.dir).resolve()
+    un = a.cmd == "uninstall"
+    changes = []
+    for t in targets:
+        changes += inst.plan(root, t, un, mcp=not a.no_mcp, hook=not a.no_hook)
+    shown = False
+    for c in changes:
+        if c.changed:
+            print(c.diff(root)); shown = True
+    if not shown:
+        print("Nothing to change.")
+    if a.dry_run:
+        print("(dry run: nothing written)")
+        return 0
+    for m in inst.apply(root, changes, un):
+        print(m)
+    if not un:
+        for w in inst.preflight_warnings():
+            print("warning:", w)
+    return 0
+
+
 def _verify(a, ap) -> int:
     from tenthcheck import config, z3check
     if "::" in a.target:
@@ -206,6 +233,12 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("impact", help="uncommitted diff -> changed symbols -> dependents -> touched invariants (Z3 re-check)")
     p.add_argument("repo_dir", nargs="?", default="."); p.add_argument("--base", default="HEAD")
     p.add_argument("--json", action="store_true")
+    for name, hlp in (("install", "register the MCP server and/or hook for an agent (backup + diff, idempotent)"),
+                      ("uninstall", "reverse `install`")):
+        p = sub.add_parser(name, help=hlp)
+        p.add_argument("--claude", action="store_true"); p.add_argument("--cursor", action="store_true")
+        p.add_argument("--no-hook", action="store_true", help="MCP server only"); p.add_argument("--no-mcp", action="store_true", help="hook only")
+        p.add_argument("--dry-run", action="store_true"); p.add_argument("--dir", default=".")
     p = sub.add_parser("init", help="write tenthcheck.toml listing mined invariants to accept or reject")
     p.add_argument("repo_dir", nargs="?", default=".")
     sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
@@ -228,6 +261,8 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(args)
 
     try:
+        if a.cmd in ("install", "uninstall"):
+            return _install(a, ap)
         if a.cmd == "impact":
             from tenthcheck.impact import format_impact, impact
             res = impact(a.repo_dir, a.base)
