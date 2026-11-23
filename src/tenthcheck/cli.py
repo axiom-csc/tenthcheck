@@ -129,6 +129,27 @@ def _agents(a, ap) -> int:
     return 0  # warn only: overlap never changes the exit code
 
 
+def _verify(a, ap) -> int:
+    from tenthcheck import config, z3check
+    if "::" in a.target:
+        if not a.check:
+            ap.error("verify FILE::FUNC needs a CHECK expression")
+        f, fn = a.target.split("::", 1)
+        results = [z3check.check_file(f, fn, a.check, a.assume)]
+    else:
+        cfg = config.load(a.target)
+        if not cfg.handwritten:
+            print(f"No [[invariant]] entries in {config.FILENAME}. Add one, or run: tenthcheck verify file.py::func 'expr'")
+            return 0
+        results = z3check.check_handwritten(a.target, cfg)
+    if a.json:
+        print(json.dumps([r.to_dict() for r in results], indent=2))
+    else:
+        for r in results:
+            print(r.format())
+    return 1 if any(r.status == "violated" for r in results) else 0
+
+
 def _scan_cmds(a) -> int:
     from tenthcheck import config, mining, report
     cfg = config.load(a.repo_dir)
@@ -177,6 +198,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--min-support", type=int, default=None); p.add_argument("--min-consistency", type=float, default=None)
     p.add_argument("--include-tests", action="store_true"); p.add_argument("--limit", type=int, default=20)
     p.add_argument("--json", action="store_true")
+    p = sub.add_parser("verify", help="Z3-check numeric invariants: from tenthcheck.toml, or FILE::FUNC CHECK on the command line")
+    p.add_argument("target", nargs="?", default=".", help="repo dir, or path/to/file.py::function")
+    p.add_argument("check", nargs="?", help="invariant in plain Python, e.g. 'final_balance >= 0'")
+    p.add_argument("--assume", action="append", default=[], help="a condition known true on entry (repeatable)")
+    p.add_argument("--json", action="store_true")
     p = sub.add_parser("init", help="write tenthcheck.toml listing mined invariants to accept or reject")
     p.add_argument("repo_dir", nargs="?", default=".")
     sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
@@ -199,6 +225,8 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(args)
 
     try:
+        if a.cmd == "verify":
+            return _verify(a, ap)
         if a.cmd in ("scan", "init"):
             return _scan_cmds(a)
         if a.cmd == "blast":
