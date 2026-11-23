@@ -32,3 +32,37 @@ mealie, netbox, frappe: 0 findings. Wagtail: 2 more patterns mined with 0 except
 1. Class-group members include methods that are not endpoints at all (no route decorator): 10 of 12.
 2. Guard names from one family (`protect`, `protect_read`) counted as different guards: 2 of 12.
 3. `@staticmethod` helper: 1 (counted in 1).
+
+---
+
+# Held-out set 2 (fresh repos 11-15, v1.1, pre-registered in results/scan_repos.md; one run, no tuning afterwards)
+
+Per repo: paperless-ngx 0 findings, authentik 0, pretix 0 (3 patterns mined, no exceptions), airflow 4 sites in 2 patterns, erpnext 1.
+Totals: 4 sites in 2 patterns with exceptions (airflow 2 patterns, erpnext 1 = 3 patterns; 4 sites).
+
+| # | Repo | Site | Label | Reason |
+|---|------|------|-------|--------|
+| 14 | airflow fecbb16 | airflow-core/.../routes/public/connections.py:166 `get_connection_test` | FALSE-POSITIVE | the 8 other handlers use `Depends(requires_access_connection(...))`; this one has no such dependency but authorizes in the body with `get_auth_manager().is_authorized_connection(...)` (lines ~178-185). Guard present, different form |
+| 15 | airflow | same file:441 `enqueue_connection_test` | FALSE-POSITIVE | same: in-body `is_authorized_connection` check at ~line 463 |
+| 16 | airflow | providers/google/.../vertex_ai/feature_store.py:327 `fetch_feature_values` | FALSE-POSITIVE | the "guard" is `self.get_feature_online_store_admin_service_client` (a client factory whose name contains `admin`), not an access check |
+| 17 | erpnext 88fa0a7 | erpnext/manufacturing/doctype/job_card/job_card.py:288 `get_material_shortages` | INTENTIONAL | `@frappe.whitelist()` method without `frappe.has_permission(... "write" ...)` like 6 siblings, but it is read-only (computes shortages) and frappe/handler.py `run_doc_method` enforces read permission before calling it |
+
+Result: 4 findings, 0 TRUE-INCONSISTENCY, 1 INTENTIONAL, 3 FALSE-POSITIVE. Precision counting INTENTIONAL as a correct detection: 1/4 = 25%; unexplained true inconsistencies: 0/4.
+
+## Combined view (honest summary)
+| Set | Version | Findings | True (unexplained) | Intentional | False positive |
+|---|---|---|---|---|---|
+| held-out 1 (superset, mealie, netbox, frappe, wagtail) | v1.0 frozen | 13 | 0 | 1 | 12 |
+| held-out 2 (paperless-ngx, authentik, pretix, airflow, erpnext) | v1.1 | 4 | 0 | 1 | 3 |
+
+Across 10 repos, 5 repos (mealie, netbox, frappe/wagtail on v1.1, paperless-ngx, authentik, pretix) gave nothing.
+**No genuine bug was found in any repo, so nothing is written up for reporting.**
+Mined-pattern quality is not what is measured here; only the exceptions were graded.
+
+## What this says
+- The miners find few patterns (most scans: 0-3 exceptions), so the false-positive count is small in absolute terms but the
+  fraction is high. At 25% (v1.1, 4 findings) the sample is far too small to claim a rate.
+- The route-guard miner is the only one that fired on these repos. call-pair, guard-mutation and sql-scope produced exception
+  sites on **zero** of the 15 repos at default thresholds; they are tested only on synthetic fixtures (tests/test_mining.py).
+- Remaining failure modes seen: equivalent guard in a different form (body check vs decorator/dependency), and a "guard" name
+  that is not an access check (`*admin*` client factory).
