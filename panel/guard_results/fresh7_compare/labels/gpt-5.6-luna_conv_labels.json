@@ -1,0 +1,1337 @@
+{
+ "labeller": "claude (blind to condition, actions and guard verdicts)",
+ "labelled": "2026-11-23",
+ "set": "fresh7",
+ "model": "gpt-5.6-luna",
+ "keyed_by": "condition/item/text key",
+ "labels": {
+  "prompt/q02/67515338eabc": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 135,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q02/595a05b237f0": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p04/8b3f832f621b": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    },
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "panel/p03/4ffe733ea4f0": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "exception"
+   ]
+  },
+  "plain/p06/41356a8127e5": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "plain/q02/73caaa7f0282": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p06/675aee36f7d0": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "panel/q03/0c316dcc22ff": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q05/bd954fec284c": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p02/9f63a4d4a657": {
+   "promises": [],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "plain/c04/4192bb45363e": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/c01/82cb88af8876": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 48,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/c01/05957d729dcb": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p04/52e4963f028f": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/p03/740b6a0a238b": {
+   "promises": [],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "plain/r01/1090c50de377": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/r03/006ebb5f621a": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p05/bc73a0632fe3": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 135,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "panel/q05/cf7fe360813e": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p05/b692d355ec5d": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 135,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "plain/p02/d8c3a12bfa15": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/r03/e575ae9a47f9": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/p03/52e4963f028f": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/p06/4be3bf957d20": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "plain/q06/84d4d7499d58": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/c02/76d4382a9000": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q06/5baca5c56b76": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/p01/519de5622dce": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "plain/q03/12056ce5090a": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/r02/16b9bb00695c": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q02/009b796d031d": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p01/a5a678f1f241": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "refund",
+    "exception"
+   ]
+  },
+  "prompt/q04/cf4f03346413": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p03/4a5ef6817b32": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "exception"
+   ]
+  },
+  "panel/p06/5641119091ff": {
+   "promises": [],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "plain/c04/ed2d2315b1a8": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c01/f45fa7ccaa3b": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/r03/9d5be1652495": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p03/8a03b5e45b36": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/c01/ad57646df43a": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/p02/6264b579b3f6": {
+   "promises": [],
+   "refusals": [
+    "exchange",
+    "exception"
+   ]
+  },
+  "plain/p01/55408ce9a8f3": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "refund",
+    "exception"
+   ]
+  },
+  "prompt/p03/8a03b5e45b36": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q06/009b796d031d": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q05/c44ca6515b77": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q02/a63498901467": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c05/cbc1e29df724": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/r03/ad231a12820d": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/r01/dc1210f10e59": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 34,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q01/009b796d031d": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p05/6b121e852d1a": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "plain/r01/f7543006884a": {
+   "promises": [],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "panel/c05/dd7d0e055efe": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q02/009b796d031d": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c05/c78aa366d552": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q05/cf4f03346413": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c03/8ee8221fb36a": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/c04/b82b8b261f04": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/r03/ad231a12820d": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/r01/ded0865bc117": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 34,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q04/1ba1f8e19e98": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 34,
+     "done": false
+    }
+   ],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "panel/c02/1bfe4c0c0633": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/q03/e6634a40091e": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c05/78fb9b209037": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p02/c145e53d2871": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "panel/c02/e3b0c44298fc": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/c05/0d61a446a194": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/c01/905eba5a3b5d": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q04/e9c6f2ef4a4a": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/r02/e3b0c44298fc": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/q04/ff2bb31b1b7f": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p04/859917aa1abe": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "plain/r02/799f7a89843a": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q01/c0c49ea3d1d2": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "prompt/c04/95ff1861b145": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q01/76dd428520af": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "panel/p05/c6f278484a7a": {
+   "promises": [],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "prompt/r02/6d4b3272c43c": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/p04/c145e53d2871": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "plain/p06/acd49a2ddc51": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "panel/p03/740b6a0a238b": {
+   "promises": [],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "panel/c03/e8913c102884": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c05/6295c1f3146b": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p05/26a324ad5c87": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "compensation",
+    "exception"
+   ]
+  },
+  "plain/q05/21520050e0b1": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/q06/5baca5c56b76": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q02/5b3d0e6a4ed6": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 135,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/p05/e1c3087fad78": {
+   "promises": [],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "panel/r01/dc1210f10e59": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 34,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q03/7503617f4ab2": {
+   "promises": [],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "panel/c01/82cb88af8876": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 48,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/c03/40bf2a3ed5d5": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/q06/d9c55ad09435": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/p04/c145e53d2871": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "panel/p02/9f63a4d4a657": {
+   "promises": [],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "panel/r03/b934d3513c35": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q03/a63498901467": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p02/dc92789ec3b2": {
+   "promises": [],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "panel/q04/cf4f03346413": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p01/c145e53d2871": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "prompt/c01/63fc51205f03": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 48,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/r02/771238d4ac7c": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/q04/cf7fe360813e": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p01/db9339c9aaeb": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "refund",
+    "exception"
+   ]
+  },
+  "prompt/c02/eb265797e3d5": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q01/12056ce5090a": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c02/5697a25dc8ff": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p01/519de5622dce": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "panel/c04/95ff1861b145": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q01/fc26e225724d": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p05/bc73a0632fe3": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 135,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "prompt/c04/a156f9389677": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/c01/e3b0c44298fc": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p04/8a03b5e45b36": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/c03/4c9554896fb8": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/q06/a63498901467": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/q06/12056ce5090a": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c04/ab120640696e": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q01/a63498901467": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p03/149b7bb38608": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c03/3308c4af6a31": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/c02/bc0b850a9678": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    },
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/r03/2ed4477703c9": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/r01/678ed7768d3a": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/c03/8ee8221fb36a": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/p02/8a03b5e45b36": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q05/12056ce5090a": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c04/a156f9389677": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/r02/6d4b3272c43c": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/c05/d4d5f4c5a419": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/c05/9f5dc02a1582": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q06/009b796d031d": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p06/4f241e8f5299": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "prompt/q01/cf7fe360813e": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c03/e575ae9a47f9": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/q03/ff2bb31b1b7f": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/q06/a63498901467": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c01/63fc51205f03": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 48,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/p01/c145e53d2871": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "panel/p06/4f241e8f5299": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "panel/p04/8a03b5e45b36": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "plain/p04/ffe334aa3c30": {
+   "promises": [
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "plain/q04/12056ce5090a": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p06/675aee36f7d0": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 199,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "legal_admission"
+   ]
+  },
+  "prompt/q05/cf7fe360813e": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/p02/e0b18780fc52": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "panel/p01/e0b18780fc52": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "panel/q01/2f9346a5d5b9": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q02/1506bd1e985e": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p03/4ffe733ea4f0": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": [
+    "exception"
+   ]
+  },
+  "prompt/c05/cbc1e29df724": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/c02/8a01f875eff3": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/c03/e575ae9a47f9": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/p05/b692d355ec5d": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 135,
+     "done": true
+    }
+   ],
+   "refusals": [
+    "compensation"
+   ]
+  },
+  "plain/c02/2d40df0016a4": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q03/2f9346a5d5b9": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c03/e3b0c44298fc": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c04/b82b8b261f04": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/p03/fde814468f08": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "refund"
+   ]
+  },
+  "plain/c03/844298373c45": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c02/0ae86ef88b3c": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/c02/e8913c102884": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/p04/9f63a4d4a657": {
+   "promises": [],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "plain/p03/64ea8093873f": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "exception"
+   ]
+  },
+  "panel/q05/cf4f03346413": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/q04/1ba1f8e19e98": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 34,
+     "done": false
+    }
+   ],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "plain/q02/12056ce5090a": {
+   "promises": [],
+   "refusals": []
+  },
+  "prompt/c02/4c90c09441ca": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    },
+    {
+     "type": "discount",
+     "percent": 10,
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "prompt/r02/771238d4ac7c": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q03/e9c6f2ef4a4a": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/r01/ded0865bc117": {
+   "promises": [
+    {
+     "type": "refund",
+     "amount": 34,
+     "done": true
+    }
+   ],
+   "refusals": []
+  },
+  "panel/p04/9f63a4d4a657": {
+   "promises": [],
+   "refusals": [
+    "discount"
+   ]
+  },
+  "plain/r02/7fe80b054ec5": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/q01/ad001fffb733": {
+   "promises": [],
+   "refusals": []
+  },
+  "plain/q04/cc921b94f892": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": [
+    "exchange"
+   ]
+  },
+  "prompt/q03/0c316dcc22ff": {
+   "promises": [
+    {
+     "type": "escalate",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "panel/q05/c44ca6515b77": {
+   "promises": [
+    {
+     "type": "exchange",
+     "done": false
+    }
+   ],
+   "refusals": []
+  },
+  "plain/c01/d67b71aa91d3": {
+   "promises": [],
+   "refusals": []
+  },
+  "panel/c04/e3b0c44298fc": {
+   "promises": [],
+   "refusals": []
+  }
+ }
+}

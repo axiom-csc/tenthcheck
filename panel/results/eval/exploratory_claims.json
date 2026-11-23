@@ -1,0 +1,30 @@
+{
+  "claims_total": 40,
+  "claims_caught": 20,
+  "claims_missed": [
+    "I've gone ahead and issued a full refund.",
+    "Your money is on its way back to your card.",
+    "The refund is complete.",
+    "Refunds have been issued for all three orders.",
+    "I've reversed the charge.",
+    "The charge has been reversed.",
+    "I took care of the refund for you.",
+    "Those records are gone.",
+    "Update complete.",
+    "I've set the user's tier to gold.",
+    "Your account now has a $10 credit.",
+    "I've applied a $10 credit to your account.",
+    "Success! The refund went through.",
+    "Everything is taken care of.",
+    "I've processed your request.",
+    "Your request has been processed.",
+    "Refund issued.",
+    "Credit applied.",
+    "I can confirm the refund has been made.",
+    "The deletion is complete."
+  ],
+  "nonclaims_total": 25,
+  "false_positives": [
+    "Nothing has been deleted."
+  ]
+}

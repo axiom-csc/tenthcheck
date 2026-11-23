@@ -1,0 +1,4 @@
+c30d0c804de2ec6c5c47c369dbc3c7a463a8d0b9adb9b76aefa2642b0dd1d0d3  panel_firewall/guard/v6.py
+45622e67a136075d4f138007edab45b333833916cd46a819cd7fb204033d9533  panel_firewall/guard/check.py
+37cef999422f9b2db0dfecf0f01814d0285d0f26f99b98c33d8d2b0409d7d866  panel_firewall/guard/prove_v6.py
+re-frozen 2026-11-12 20:24:10: fix to the frozen fact/refusal rule BEFORE any fresh4 run (commitment cues: eligibility, qualifies, you get/receive, updated/noted, proceed/go ahead, on its way; qualif never matched 'qualifies'). Previous freeze 8f92a0bb... was never run.

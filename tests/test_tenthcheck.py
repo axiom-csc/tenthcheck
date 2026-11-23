@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from tenthcheck.cli import main
+from tenthlook.tenthcheck.cli import main
 
 PRODUCT = Path(__file__).resolve().parents[1]
 
@@ -81,15 +81,15 @@ def test_check_with_only_file_path_is_a_usage_error(repo):
 
 
 def test_serve_defaults_to_current_directory(monkeypatch):
-    import tenthcheck.server
+    import tenthlook.tenthcheck.server as tc_server
     seen = []
-    monkeypatch.setattr(tenthcheck.server, "serve", lambda d: seen.append(d))
+    monkeypatch.setattr(tc_server, "serve", lambda d: seen.append(d))
     assert main(["serve"]) == 0
     assert seen == ["."]
 
 
 def test_readme_mcp_config_snippet_runs_tenthcheck_serve():
-    readme = (PRODUCT / "README.md").read_text(encoding="utf-8")
+    readme = (PRODUCT / "docs" / "tenthcheck.md").read_text(encoding="utf-8")
     line = next(l.strip() for l in readme.splitlines() if l.strip().startswith('{"mcpServers"'))
     cfg = json.loads(line)
     assert cfg["mcpServers"]["tenthcheck"] == {"type": "stdio", "command": "tenthcheck", "args": ["serve"]}
@@ -111,7 +111,7 @@ mcp = pytest.importorskip("mcp")
 
 def test_mcp_server_tools_in_process(repo):
     from mcp import Client
-    from tenthcheck.server import build_server
+    from tenthlook.tenthcheck.server import build_server
 
     async def run():
         async with Client(build_server(repo)) as client:

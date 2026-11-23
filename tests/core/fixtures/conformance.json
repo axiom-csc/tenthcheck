@@ -1,0 +1,63 @@
+{
+  "_warning": "TEST-ONLY key. Never sign real receipts with it.",
+  "test_seed_b64": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8=",
+  "pubkey": "A6EHv/POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg=",
+  "canonical_vectors": [
+    {
+      "in": {
+        "b": 1,
+        "a": [
+          1,
+          {
+            "d": null,
+            "c": true
+          }
+        ],
+        "s": "é\"\\\n "
+      },
+      "canonical": "{\"a\":[1,{\"c\":true,\"d\":null}],\"b\":1,\"s\":\"é\\\"\\\\\\n \"}",
+      "sha256": "4285c6302920e8b910ac5e596a653114a60d2e27e67008505883b27dd4d52455"
+    },
+    {
+      "in": {
+        "～": 1,
+        "😀": 2
+      },
+      "canonical": "{\"😀\":2,\"～\":1}",
+      "sha256": "c44a324298283d910e4120a2ff3c2d7746b4a5c9f2d9625c67f6abb58748cf31"
+    },
+    {
+      "in": {
+        "n": -7,
+        "z": 0,
+        "big": 9007199254740991,
+        "e": "",
+        "arr": []
+      },
+      "canonical": "{\"arr\":[],\"big\":9007199254740991,\"e\":\"\",\"n\":-7,\"z\":0}",
+      "sha256": "7b86afe3b59e947124d908310bcc11ddf4a8b9baf9115a7f18c567edfd4bcc42"
+    }
+  ],
+  "receipt": {
+    "version": 1,
+    "receipt_id": "00000000-0000-4000-8000-000000000000",
+    "timestamp_utc": "2026-01-02T03:04:05.000000Z",
+    "subject_type": "mcp_tool_call",
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "policy_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "checker": {
+      "name": "conformance",
+      "version": "1"
+    },
+    "verdict": "NEEDS_CONSENT",
+    "reasons": [
+      "é",
+      "two"
+    ],
+    "trace_sha256": null,
+    "prev_receipt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "pubkey": "A6EHv/POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg=",
+    "signature": "kQC6zQOLhAYp+jdq8rrq7lBbA75ZO0xBdeMgunKtHBjKjwh6JhiDAsc2mvMbxWcNARj1lti+crWBG7EfNiWrBw=="
+  },
+  "receipt_sha256": "08a8ee633b92f1c3ddda837c247dd7574256b17a6cd44cafbe1652c88f86eac4"
+}

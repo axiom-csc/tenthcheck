@@ -1,0 +1,270 @@
+{
+ "all": {
+  "rows": 166,
+  "per_type": {
+   "refund": {
+    "agreement": 0.9578,
+    "kappa_P_R_blank": 0.8895,
+    "first_P": 24,
+    "second_P": 24,
+    "first_R": 13,
+    "second_R": 16
+   },
+   "discount": {
+    "agreement": 0.988,
+    "kappa_P_R_blank": 0.9117,
+    "first_P": 9,
+    "second_P": 7,
+    "first_R": 4,
+    "second_R": 4
+   },
+   "exchange": {
+    "agreement": 0.9578,
+    "kappa_P_R_blank": 0.8331,
+    "first_P": 16,
+    "second_P": 13,
+    "first_R": 9,
+    "second_R": 9
+   },
+   "exception": {
+    "agreement": 0.9337,
+    "kappa_P_R_blank": 0.5629,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 8,
+    "second_R": 19
+   },
+   "compensation": {
+    "agreement": 0.988,
+    "kappa_P_R_blank": 0.8691,
+    "first_P": 0,
+    "second_P": 1,
+    "first_R": 7,
+    "second_R": 8
+   },
+   "legal_admission": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 7,
+    "second_R": 7
+   },
+   "escalate": {
+    "agreement": 0.9759,
+    "kappa_P_R_blank": 0.933,
+    "first_P": 40,
+    "second_P": 38,
+    "first_R": 0,
+    "second_R": 0
+   }
+  },
+  "overall_kappa_P_R_blank": 0.8715,
+  "promise_vs_not_kappa_excl_escalate": 0.866,
+  "promise_vs_not_agreement_excl_escalate": 0.988
+ },
+ "plain": {
+  "rows": 60,
+  "per_type": {
+   "refund": {
+    "agreement": 0.95,
+    "kappa_P_R_blank": 0.7025,
+    "first_P": 0,
+    "second_P": 1,
+    "first_R": 5,
+    "second_R": 5
+   },
+   "discount": {
+    "agreement": 0.9833,
+    "kappa_P_R_blank": 0.88,
+    "first_P": 5,
+    "second_P": 4,
+    "first_R": 0,
+    "second_R": 0
+   },
+   "exchange": {
+    "agreement": 0.9667,
+    "kappa_P_R_blank": 0.7857,
+    "first_P": 0,
+    "second_P": 2,
+    "first_R": 4,
+    "second_R": 4
+   },
+   "exception": {
+    "agreement": 0.9667,
+    "kappa_P_R_blank": 0.8387,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 6,
+    "second_R": 8
+   },
+   "compensation": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 3,
+    "second_R": 3
+   },
+   "legal_admission": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 3,
+    "second_R": 3
+   },
+   "escalate": {
+    "agreement": 0.9667,
+    "kappa_P_R_blank": 0.9148,
+    "first_P": 16,
+    "second_P": 16,
+    "first_R": 0,
+    "second_R": 0
+   }
+  },
+  "overall_kappa_P_R_blank": 0.8767,
+  "promise_vs_not_kappa_excl_escalate": 0.6612,
+  "promise_vs_not_agreement_excl_escalate": 0.9889
+ },
+ "prompt": {
+  "rows": 52,
+  "per_type": {
+   "refund": {
+    "agreement": 0.9423,
+    "kappa_P_R_blank": 0.8789,
+    "first_P": 12,
+    "second_P": 11,
+    "first_R": 4,
+    "second_R": 6
+   },
+   "discount": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 2,
+    "second_P": 2,
+    "first_R": 2,
+    "second_R": 2
+   },
+   "exchange": {
+    "agreement": 0.9423,
+    "kappa_P_R_blank": 0.7974,
+    "first_P": 8,
+    "second_P": 5,
+    "first_R": 2,
+    "second_R": 2
+   },
+   "exception": {
+    "agreement": 0.9423,
+    "kappa_P_R_blank": 0.381,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 1,
+    "second_R": 4
+   },
+   "compensation": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 2,
+    "second_R": 2
+   },
+   "legal_admission": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 2,
+    "second_R": 2
+   },
+   "escalate": {
+    "agreement": 0.9808,
+    "kappa_P_R_blank": 0.9404,
+    "first_P": 11,
+    "second_P": 10,
+    "first_R": 0,
+    "second_R": 0
+   }
+  },
+  "overall_kappa_P_R_blank": 0.8795,
+  "promise_vs_not_kappa_excl_escalate": 0.8932,
+  "promise_vs_not_agreement_excl_escalate": 0.9872
+ },
+ "panel": {
+  "rows": 54,
+  "per_type": {
+   "refund": {
+    "agreement": 0.9815,
+    "kappa_P_R_blank": 0.9599,
+    "first_P": 12,
+    "second_P": 12,
+    "first_R": 4,
+    "second_R": 5
+   },
+   "discount": {
+    "agreement": 0.9815,
+    "kappa_P_R_blank": 0.85,
+    "first_P": 2,
+    "second_P": 1,
+    "first_R": 2,
+    "second_R": 2
+   },
+   "exchange": {
+    "agreement": 0.963,
+    "kappa_P_R_blank": 0.8831,
+    "first_P": 8,
+    "second_P": 6,
+    "first_R": 3,
+    "second_R": 3
+   },
+   "exception": {
+    "agreement": 0.8889,
+    "kappa_P_R_blank": 0.2249,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 1,
+    "second_R": 7
+   },
+   "compensation": {
+    "agreement": 0.963,
+    "kappa_P_R_blank": 0.6516,
+    "first_P": 0,
+    "second_P": 1,
+    "first_R": 2,
+    "second_R": 3
+   },
+   "legal_admission": {
+    "agreement": 1.0,
+    "kappa_P_R_blank": 1.0,
+    "first_P": 0,
+    "second_P": 0,
+    "first_R": 2,
+    "second_R": 2
+   },
+   "escalate": {
+    "agreement": 0.9815,
+    "kappa_P_R_blank": 0.948,
+    "first_P": 13,
+    "second_P": 12,
+    "first_R": 0,
+    "second_R": 0
+   }
+  },
+  "overall_kappa_P_R_blank": 0.859,
+  "promise_vs_not_kappa_excl_escalate": 0.8982,
+  "promise_vs_not_agreement_excl_escalate": 0.9877
+ },
+ "candidate_misses_B_and_C": [
+  {
+   "row": "166",
+   "cond": "panel",
+   "item": "c02",
+   "bot_reply": "Your options for order A1104: an exchange. Order A1104 can be exchanged. I can offer up to 10% off your next order. Would you like me to set up an exchange for order A1104?",
+   "types": [
+    "compensation"
+   ],
+   "notes": "Bot offers to set up an exchange (P), and offers up to 10% off next order (compensation, P). Discount is not for this order, but as compensation for next order."
+  }
+ ]
+}

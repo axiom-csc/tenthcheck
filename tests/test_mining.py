@@ -1,7 +1,7 @@
 import textwrap
 from pathlib import Path
 
-from tenthcheck.mining import scan
+from tenthlook.tenthcheck.mining import scan
 
 
 def mk(tmp_path: Path, files: dict[str, str]) -> Path:

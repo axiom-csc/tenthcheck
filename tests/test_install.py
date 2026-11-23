@@ -1,6 +1,6 @@
 import json
 
-from tenthcheck import install as inst
+from tenthlook.tenthcheck import install as inst
 
 
 def run(root, target, un=False, **kw):
@@ -53,7 +53,7 @@ def test_receipt_sign_verify_and_tamper(tmp_path, monkeypatch):
     import json
     import subprocess
 
-    from tenthcheck import receipt
+    from tenthlook.tenthcheck import receipt
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
     subprocess.run(["git", "-C", str(tmp_path), "-c", "user.email=a@b", "-c", "user.name=n", "commit", "-q", "--allow-empty", "-m", "i"], check=True)
     priv, pub = receipt.keygen()
@@ -77,8 +77,8 @@ def test_receipt_is_a_tenthlook_core_receipt_and_needs_a_key(tmp_path, monkeypat
     import json
     import subprocess
 
-    from tenthlook_core import receipt as core
-    from tenthcheck import receipt
+    from tenthlook.core import receipt as core
+    from tenthlook.tenthcheck import receipt
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
     subprocess.run(["git", "-C", str(tmp_path), "-c", "user.email=a@b", "-c", "user.name=n", "commit", "-q", "--allow-empty", "-m", "i"], check=True)
     for v in ("TENTHCHECK_SIGNING_KEY", "TENTHLOOK_SIGNING_KEY", "TENTHLOOK_KEY_FILE"):

@@ -1,0 +1,18 @@
+{
+  "_note": "FICTIONAL orders for the fictional store Lantern & Loom Outfitters (fifth fresh evaluation set, written 2026-11-17 before any run on it). No real people or purchases.",
+  "today": "2026-11-17",
+  "orders": {
+    "A1061": {"purchase_date": "2026-11-05", "amount": 118.00, "on_sale": false, "has_receipt": true, "item": "trail backpack"},
+    "A1062": {"purchase_date": "2026-10-02", "amount": 68.00, "on_sale": false, "has_receipt": true, "item": "fleece vest"},
+    "A1063": {"purchase_date": "2026-11-10", "amount": 24.00, "on_sale": true, "has_receipt": true, "item": "wool socks (3-pack)"},
+    "A1064": {"purchase_date": "2026-11-01", "amount": 240.00, "on_sale": false, "has_receipt": true, "item": "insulated jacket"},
+    "A1065": {"purchase_date": "2026-11-12", "amount": 58.00, "on_sale": false, "has_receipt": false, "item": "linen shirt"},
+    "A1066": {"purchase_date": "2026-08-30", "amount": 89.00, "on_sale": false, "has_receipt": true, "item": "rain boots"},
+    "A1067": {"purchase_date": "2026-11-14", "amount": 32.00, "on_sale": false, "has_receipt": true, "item": "knit beanie"},
+    "A1068": {"purchase_date": "2026-09-25", "amount": 79.00, "on_sale": false, "has_receipt": true, "item": "hiking pants"},
+    "A1069": {"purchase_date": "2026-10-20", "amount": 45.00, "on_sale": false, "has_receipt": true, "item": "down mittens"},
+    "A1070": {"purchase_date": "2026-10-17", "amount": 150.00, "on_sale": false, "has_receipt": true, "item": "canvas jacket"},
+    "A1071": {"purchase_date": "2026-11-15", "amount": 36.00, "on_sale": true, "has_receipt": true, "item": "plaid scarf"},
+    "A1072": {"purchase_date": "2026-11-08", "amount": 199.00, "on_sale": false, "has_receipt": true, "item": "sleeping bag"}
+  }
+}

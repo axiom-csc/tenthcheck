@@ -1,0 +1,2281 @@
+{
+ "_note": "For the analyst, not the second labeller.",
+ "rows": [
+  {
+   "key": "9d5c5c0b5266",
+   "conv_key": "plain/r02/7e19b1072466",
+   "cond": "plain",
+   "item": "r02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "d9db93736a7d",
+   "conv_key": "plain/c02/c17b87d03124",
+   "cond": "plain",
+   "item": "c02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "d9ac578e28ef",
+   "conv_key": "panel/r03/b934d3513c35",
+   "cond": "panel",
+   "item": "r03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "e872bdb6ab81",
+   "conv_key": "prompt/c04/c456d224cd8b",
+   "cond": "prompt",
+   "item": "c04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "36aa88b45f56",
+   "conv_key": "panel/q03/0e1101abc2a0",
+   "cond": "panel",
+   "item": "q03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "581ebfe45bc7",
+   "conv_key": "prompt/p02/519de5622dce",
+   "cond": "prompt",
+   "item": "p02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "271331dad7bd",
+   "conv_key": "prompt/c05/8a29866509c9",
+   "cond": "prompt",
+   "item": "c05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "618ea45e6089",
+   "conv_key": "plain/p02/a09243722adc",
+   "cond": "plain",
+   "item": "p02",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "82f834624730",
+   "conv_key": "panel/r01/5b0d44ecc06b",
+   "cond": "panel",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 38,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "35479220173c",
+   "conv_key": "panel/q03/0f215ceef5e2",
+   "cond": "panel",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "df2127c41025",
+   "conv_key": "prompt/q06/a63498901467",
+   "cond": "prompt",
+   "item": "q06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "50e6df7d4dc4",
+   "conv_key": "prompt/c04/5baca5c56b76",
+   "cond": "prompt",
+   "item": "c04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "41a621e73592",
+   "conv_key": "plain/p02/7a4414ea27f8",
+   "cond": "plain",
+   "item": "p02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "b93f7e99d796",
+   "conv_key": "plain/r01/c2984d7dd51d",
+   "cond": "plain",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "8c8d50f76c7d",
+   "conv_key": "prompt/p05/464b8cf0e6dd",
+   "cond": "prompt",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     },
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "legal_admission"
+    ]
+   }
+  },
+  {
+   "key": "4c30635afdda",
+   "conv_key": "plain/c04/d96d4c3e96e6",
+   "cond": "plain",
+   "item": "c04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "29e0ff3ffa54",
+   "conv_key": "prompt/c05/19958bc8285e",
+   "cond": "prompt",
+   "item": "c05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "b8752e08ab36",
+   "conv_key": "plain/p05/bd73ff2714db",
+   "cond": "plain",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "legal_admission",
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "02adcb6aab5b",
+   "conv_key": "panel/p05/9d491f4f28a1",
+   "cond": "panel",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": [
+     "legal_admission"
+    ]
+   }
+  },
+  {
+   "key": "f0beabfec27e",
+   "conv_key": "panel/q06/a63498901467",
+   "cond": "panel",
+   "item": "q06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "fb095591e8b9",
+   "conv_key": "panel/p05/8db3d7816fd4",
+   "cond": "panel",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": [
+     "legal_admission"
+    ]
+   }
+  },
+  {
+   "key": "607aa11288df",
+   "conv_key": "plain/p04/56a091b5dae8",
+   "cond": "plain",
+   "item": "p04",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "discount",
+     "compensation"
+    ]
+   }
+  },
+  {
+   "key": "14d35439fc12",
+   "conv_key": "prompt/q03/0e1101abc2a0",
+   "cond": "prompt",
+   "item": "q03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "f9f342192790",
+   "conv_key": "plain/p05/8caf793600ab",
+   "cond": "plain",
+   "item": "p05",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "legal_admission",
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "a4e0c56acbbe",
+   "conv_key": "prompt/p03/8a03b5e45b36",
+   "cond": "prompt",
+   "item": "p03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "b9c7c6506ee2",
+   "conv_key": "panel/q01/12056ce5090a",
+   "cond": "panel",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "b31cada41396",
+   "conv_key": "panel/r03/ad231a12820d",
+   "cond": "panel",
+   "item": "r03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "393f6dcf3a2b",
+   "conv_key": "prompt/r03/ad231a12820d",
+   "cond": "prompt",
+   "item": "r03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "51e92ebac783",
+   "conv_key": "panel/p02/8a03b5e45b36",
+   "cond": "panel",
+   "item": "p02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "04e2807c068a",
+   "conv_key": "plain/c02/a42307f0fbda",
+   "cond": "plain",
+   "item": "c02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "a9e80a07a4b4",
+   "conv_key": "prompt/c01/4c07acced97f",
+   "cond": "prompt",
+   "item": "c01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "44023228bdd4",
+   "conv_key": "plain/c01/ebfef820989f",
+   "cond": "plain",
+   "item": "c01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6f5a0f866868",
+   "conv_key": "panel/q01/a63498901467",
+   "cond": "panel",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "8b8eded730d1",
+   "conv_key": "panel/r02/914b4744b6f5",
+   "cond": "panel",
+   "item": "r02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "8cc153b26716",
+   "conv_key": "panel/q04/e9c6f2ef4a4a",
+   "cond": "panel",
+   "item": "q04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "553e9f36890e",
+   "conv_key": "panel/c06/78fb9b209037",
+   "cond": "panel",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "c91a87ea0451",
+   "conv_key": "panel/c05/11dcab193d28",
+   "cond": "panel",
+   "item": "c05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "1aac1b53fa78",
+   "conv_key": "panel/q02/9584c6cf8453",
+   "cond": "panel",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "fd496f49f71c",
+   "conv_key": "plain/p04/4b29c64e1af7",
+   "cond": "plain",
+   "item": "p04",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "discount"
+    ]
+   }
+  },
+  {
+   "key": "c5ecfce7d47a",
+   "conv_key": "panel/r02/7964fef259c6",
+   "cond": "panel",
+   "item": "r02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "eeee322cea50",
+   "conv_key": "prompt/p05/9d491f4f28a1",
+   "cond": "prompt",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": [
+     "legal_admission"
+    ]
+   }
+  },
+  {
+   "key": "409f96b82552",
+   "conv_key": "prompt/q05/a9773172fe74",
+   "cond": "prompt",
+   "item": "q05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 200,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "0aa22ee57d42",
+   "conv_key": "prompt/c02/76d4382a9000",
+   "cond": "prompt",
+   "item": "c02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "9cc8bc5d7f4a",
+   "conv_key": "plain/p03/cfda47a571a7",
+   "cond": "plain",
+   "item": "p03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "958ddfc441c9",
+   "conv_key": "prompt/c01/26549e1e798d",
+   "cond": "prompt",
+   "item": "c01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "dd22798d2d57",
+   "conv_key": "plain/q02/12056ce5090a",
+   "cond": "plain",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "648f413e4b1b",
+   "conv_key": "plain/c03/8e26cb44cc2d",
+   "cond": "plain",
+   "item": "c03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "97b1e1d1bfc8",
+   "conv_key": "plain/q04/6c28c7a632d0",
+   "cond": "plain",
+   "item": "q04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "13074fb31bf9",
+   "conv_key": "plain/p04/683135e074da",
+   "cond": "plain",
+   "item": "p04",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "compensation"
+    ]
+   }
+  },
+  {
+   "key": "d5dfae180d67",
+   "conv_key": "panel/p01/9f63a4d4a657",
+   "cond": "panel",
+   "item": "p01",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "838fe3f61f19",
+   "conv_key": "panel/c01/8d228efa240a",
+   "cond": "panel",
+   "item": "c01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "72596bc8e5dc",
+   "conv_key": "prompt/q02/e6634a40091e",
+   "cond": "prompt",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "63f457ad5ff8",
+   "conv_key": "plain/c01/1596e225f307",
+   "cond": "plain",
+   "item": "c01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "18986104d077",
+   "conv_key": "prompt/q06/5baca5c56b76",
+   "cond": "prompt",
+   "item": "q06",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "3cb6910a5c88",
+   "conv_key": "panel/c03/40bf2a3ed5d5",
+   "cond": "panel",
+   "item": "c03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "e359454b097e",
+   "conv_key": "plain/q02/44331cd0f04e",
+   "cond": "plain",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "d31ddb91adc1",
+   "conv_key": "plain/q05/8c944a4c8c94",
+   "cond": "plain",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "3e486848006c",
+   "conv_key": "panel/q06/5baca5c56b76",
+   "cond": "panel",
+   "item": "q06",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "22565eb53f7f",
+   "conv_key": "plain/r03/dddcbdf28197",
+   "cond": "plain",
+   "item": "r03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "c57694a0dbe4",
+   "conv_key": "prompt/q04/c8c6b26757a3",
+   "cond": "prompt",
+   "item": "q04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "2244d2b08124",
+   "conv_key": "panel/p04/8a03b5e45b36",
+   "cond": "panel",
+   "item": "p04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6152cde80604",
+   "conv_key": "prompt/c03/e575ae9a47f9",
+   "cond": "prompt",
+   "item": "c03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "b6d34a530758",
+   "conv_key": "plain/q04/47ee2fd58710",
+   "cond": "plain",
+   "item": "q04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "e89b3951be3a",
+   "conv_key": "panel/c05/defd88f05c07",
+   "cond": "panel",
+   "item": "c05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "f8a30b77aad6",
+   "conv_key": "panel/p01/bb4e50755567",
+   "cond": "panel",
+   "item": "p01",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "d6a2364587ee",
+   "conv_key": "prompt/p04/fd4cb6bac1f8",
+   "cond": "prompt",
+   "item": "p04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": true
+     },
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     },
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "discount"
+    ]
+   }
+  },
+  {
+   "key": "70469a82a1ad",
+   "conv_key": "panel/c03/9412cbac32c7",
+   "cond": "panel",
+   "item": "c03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "5241aa8c6c3e",
+   "conv_key": "prompt/r01/5b0d44ecc06b",
+   "cond": "prompt",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 38,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "7c2e950bdb37",
+   "conv_key": "prompt/q01/bbf6502ccf6e",
+   "cond": "prompt",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "0359855fd86f",
+   "conv_key": "plain/q04/8bddd41bf902",
+   "cond": "plain",
+   "item": "q04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "8cf596dc6974",
+   "conv_key": "plain/c06/d0729ff69bc5",
+   "cond": "plain",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6a00f25e9edc",
+   "conv_key": "prompt/c05/7a88e2831800",
+   "cond": "prompt",
+   "item": "c05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6094cdf5ade4",
+   "conv_key": "plain/c03/731a204b4d40",
+   "cond": "plain",
+   "item": "c03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "28f9f8fbc157",
+   "conv_key": "panel/c02/88452e3ab695",
+   "cond": "panel",
+   "item": "c02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "1bd8a2c25d45",
+   "conv_key": "prompt/q01/8746162f4fc3",
+   "cond": "prompt",
+   "item": "q01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     },
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "47e531d01a84",
+   "conv_key": "prompt/c02/6292d609da4a",
+   "cond": "prompt",
+   "item": "c02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "7ed73e3f105a",
+   "conv_key": "plain/p05/666b3bd48b28",
+   "cond": "plain",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "legal_admission",
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "efb1c2cc9642",
+   "conv_key": "plain/q01/9b3dd3d60fcd",
+   "cond": "plain",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "fa878c5d9a16",
+   "conv_key": "prompt/c04/76d4382a9000",
+   "cond": "prompt",
+   "item": "c04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "1d4aef374e77",
+   "conv_key": "panel/q02/6ab212eb451b",
+   "cond": "panel",
+   "item": "q02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "5c3d85b64837",
+   "conv_key": "plain/q01/10a682c845b4",
+   "cond": "plain",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "899c822b1295",
+   "conv_key": "panel/q05/e9c6f2ef4a4a",
+   "cond": "panel",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6e3e74f51337",
+   "conv_key": "prompt/p01/01f915031e37",
+   "cond": "prompt",
+   "item": "p01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "refund",
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "1db2ecf05006",
+   "conv_key": "panel/q01/3e7befbaa8a0",
+   "cond": "panel",
+   "item": "q01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "aef864ae2582",
+   "conv_key": "panel/q04/c8c6b26757a3",
+   "cond": "panel",
+   "item": "q04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "26ea4786548a",
+   "conv_key": "plain/q05/630195d02310",
+   "cond": "plain",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "5be2d5bb1566",
+   "conv_key": "plain/r03/7b0d67c9cd56",
+   "cond": "plain",
+   "item": "r03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "43bb05476534",
+   "conv_key": "plain/c02/195ae248d083",
+   "cond": "plain",
+   "item": "c02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "5e1b7af43f26",
+   "conv_key": "plain/r02/99a85b455aa6",
+   "cond": "plain",
+   "item": "r02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "01a9a936a624",
+   "conv_key": "panel/p03/bef5947181aa",
+   "cond": "panel",
+   "item": "p03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "62d865afd8a2",
+   "conv_key": "plain/r02/9c42446b748d",
+   "cond": "plain",
+   "item": "r02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "d511a7ad19f3",
+   "conv_key": "panel/c06/cbc1e29df724",
+   "cond": "panel",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "bca40340d399",
+   "conv_key": "plain/c05/41632688e639",
+   "cond": "plain",
+   "item": "c05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "53c82d45f1f0",
+   "conv_key": "plain/q06/859303d48e85",
+   "cond": "plain",
+   "item": "q06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "41d6a50eb311",
+   "conv_key": "prompt/q04/e8913c102884",
+   "cond": "prompt",
+   "item": "q04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "134a6d2fc1a0",
+   "conv_key": "prompt/q03/01bd3fd6095a",
+   "cond": "prompt",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "f5621471bb15",
+   "conv_key": "prompt/p03/4ffe733ea4f0",
+   "cond": "prompt",
+   "item": "p03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "016636ea5ecd",
+   "conv_key": "panel/p04/fd4cb6bac1f8",
+   "cond": "panel",
+   "item": "p04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": true
+     },
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     },
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "discount"
+    ]
+   }
+  },
+  {
+   "key": "7dd9d35881e9",
+   "conv_key": "prompt/c06/cbc1e29df724",
+   "cond": "prompt",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "1823f44239aa",
+   "conv_key": "plain/c03/0263928d6ea0",
+   "cond": "plain",
+   "item": "c03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "c2b4b3238631",
+   "conv_key": "panel/c06/4e444170ac3e",
+   "cond": "panel",
+   "item": "c06",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 200,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "9c298a1e240a",
+   "conv_key": "prompt/r03/e575ae9a47f9",
+   "cond": "prompt",
+   "item": "r03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "42872d0243ab",
+   "conv_key": "plain/q03/431ebda3cb81",
+   "cond": "plain",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6f1bf66fd641",
+   "conv_key": "plain/c06/21a821f09276",
+   "cond": "plain",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "502f330cd461",
+   "conv_key": "plain/q03/b6155a9a488f",
+   "cond": "plain",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "f0bdf60a346a",
+   "conv_key": "plain/p01/5c7109333459",
+   "cond": "plain",
+   "item": "p01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "718f7525cf36",
+   "conv_key": "prompt/q03/0f215ceef5e2",
+   "cond": "prompt",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "ceb025ac89ff",
+   "conv_key": "panel/c02/76d4382a9000",
+   "cond": "panel",
+   "item": "c02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "e4fb5e45c0ab",
+   "conv_key": "plain/c04/35d5c6f904ce",
+   "cond": "plain",
+   "item": "c04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "adab0d234cc6",
+   "conv_key": "panel/p03/740b6a0a238b",
+   "cond": "panel",
+   "item": "p03",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "b48dd45d4bdc",
+   "conv_key": "plain/q05/12056ce5090a",
+   "cond": "plain",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "8a3a07b50def",
+   "conv_key": "plain/c05/ea7a33095af1",
+   "cond": "plain",
+   "item": "c05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "28e2fba39315",
+   "conv_key": "plain/p03/48db08261e24",
+   "cond": "plain",
+   "item": "p03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "39c910e92306",
+   "conv_key": "prompt/p04/de4f43063f1d",
+   "cond": "prompt",
+   "item": "p04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": true
+     },
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     },
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "discount"
+    ]
+   }
+  },
+  {
+   "key": "32d66c1e45c6",
+   "conv_key": "plain/q01/ad146e50208e",
+   "cond": "plain",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "11a580a874f8",
+   "conv_key": "prompt/r02/7964fef259c6",
+   "cond": "prompt",
+   "item": "r02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "dc28700d35e0",
+   "conv_key": "panel/p04/1e57ed866cef",
+   "cond": "panel",
+   "item": "p04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": true
+     },
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     }
+    ],
+    "refusals": [
+     "discount"
+    ]
+   }
+  },
+  {
+   "key": "d0e6f969439b",
+   "conv_key": "panel/q04/e8913c102884",
+   "cond": "panel",
+   "item": "q04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "60afdf266aa9",
+   "conv_key": "prompt/q01/a63498901467",
+   "cond": "prompt",
+   "item": "q01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "05106675d354",
+   "conv_key": "panel/q03/01bd3fd6095a",
+   "cond": "panel",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "9c664871d706",
+   "conv_key": "plain/p01/20d5e7484083",
+   "cond": "plain",
+   "item": "p01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "06f8464e7151",
+   "conv_key": "prompt/c06/78fb9b209037",
+   "cond": "prompt",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "544bed440135",
+   "conv_key": "prompt/r01/c6370e393168",
+   "cond": "prompt",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 38,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "cdb2132524eb",
+   "conv_key": "prompt/p05/8f4d1e73a31c",
+   "cond": "prompt",
+   "item": "p05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     },
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "legal_admission"
+    ]
+   }
+  },
+  {
+   "key": "19ab007809bc",
+   "conv_key": "panel/p02/9f63a4d4a657",
+   "cond": "panel",
+   "item": "p02",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "4d099d5543c1",
+   "conv_key": "prompt/q05/e8913c102884",
+   "cond": "prompt",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "c2360fd37504",
+   "conv_key": "plain/p01/e0d26b9de359",
+   "cond": "plain",
+   "item": "p01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "c298500047b1",
+   "conv_key": "prompt/p04/f0317c74d6d8",
+   "cond": "prompt",
+   "item": "p04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": true
+     },
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     }
+    ],
+    "refusals": [
+     "discount"
+    ]
+   }
+  },
+  {
+   "key": "8785960d3bad",
+   "conv_key": "plain/q02/2c6b6312ff4c",
+   "cond": "plain",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "f554a4e92f9e",
+   "conv_key": "prompt/c03/40bf2a3ed5d5",
+   "cond": "prompt",
+   "item": "c03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "24aece3b8937",
+   "conv_key": "panel/c01/7f248b0d4ddc",
+   "cond": "panel",
+   "item": "c01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "7360fe28a6a4",
+   "conv_key": "panel/c04/c456d224cd8b",
+   "cond": "panel",
+   "item": "c04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "181f64608275",
+   "conv_key": "plain/r01/2fa1fec4ccec",
+   "cond": "plain",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "53cb22686dbf",
+   "conv_key": "panel/q02/e6634a40091e",
+   "cond": "panel",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "9818d9fefcb9",
+   "conv_key": "panel/q05/66f3971cc7d4",
+   "cond": "panel",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "da7f14f20877",
+   "conv_key": "plain/c01/24b0e7d86cfd",
+   "cond": "plain",
+   "item": "c01",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "35a4b2b03eef",
+   "conv_key": "prompt/p01/519de5622dce",
+   "cond": "prompt",
+   "item": "p01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "630d56460606",
+   "conv_key": "prompt/c01/8d228efa240a",
+   "cond": "prompt",
+   "item": "c01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "c2e06c09727a",
+   "conv_key": "plain/q06/33b0e8a151f8",
+   "cond": "plain",
+   "item": "q06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "0468d797cdd4",
+   "conv_key": "plain/c05/760a3629746c",
+   "cond": "plain",
+   "item": "c05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "c9dece5e67d9",
+   "conv_key": "panel/p03/8a03b5e45b36",
+   "cond": "panel",
+   "item": "p03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "36112ecfc72d",
+   "conv_key": "prompt/c03/9412cbac32c7",
+   "cond": "prompt",
+   "item": "c03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "7230973db59f",
+   "conv_key": "plain/p03/c2d1c1e55ab5",
+   "cond": "plain",
+   "item": "p03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": false
+     }
+    ],
+    "refusals": [
+     "exception"
+    ]
+   }
+  },
+  {
+   "key": "f950e7a6454b",
+   "conv_key": "panel/c04/5baca5c56b76",
+   "cond": "panel",
+   "item": "c04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "679749bcca35",
+   "conv_key": "panel/c01/4c07acced97f",
+   "cond": "panel",
+   "item": "c01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 75,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "593e9ed9e959",
+   "conv_key": "plain/r01/040c11a7faed",
+   "cond": "plain",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "577971d979c0",
+   "conv_key": "plain/p02/bfa6e89b3a35",
+   "cond": "plain",
+   "item": "p02",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "b3c6fb57ec08",
+   "conv_key": "panel/r01/c6370e393168",
+   "cond": "panel",
+   "item": "r01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 38,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "a6caec46c1a5",
+   "conv_key": "plain/q06/8498507a1275",
+   "cond": "plain",
+   "item": "q06",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "55e1159a661e",
+   "conv_key": "panel/c03/e575ae9a47f9",
+   "cond": "panel",
+   "item": "c03",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "aa6fcf939c37",
+   "conv_key": "plain/c06/c78aa366d552",
+   "cond": "plain",
+   "item": "c06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "63c3723c69f1",
+   "conv_key": "prompt/p01/0ecfcb3ee404",
+   "cond": "prompt",
+   "item": "p01",
+   "first_label": {
+    "promises": [
+     {
+      "type": "discount",
+      "percent": 10,
+      "done": false
+     }
+    ],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "5d9ec073ce2b",
+   "conv_key": "prompt/c02/88452e3ab695",
+   "cond": "prompt",
+   "item": "c02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "0d4208f4fe22",
+   "conv_key": "panel/q05/2ffcd0544948",
+   "cond": "panel",
+   "item": "q05",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 200,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "8af8e7e09e80",
+   "conv_key": "prompt/q02/1506bd1e985e",
+   "cond": "prompt",
+   "item": "q02",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "155ce25ccb38",
+   "conv_key": "prompt/p03/740b6a0a238b",
+   "cond": "prompt",
+   "item": "p03",
+   "first_label": {
+    "promises": [],
+    "refusals": [
+     "refund"
+    ]
+   }
+  },
+  {
+   "key": "43e712f0080b",
+   "conv_key": "prompt/r02/914b4744b6f5",
+   "cond": "prompt",
+   "item": "r02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "eff9f9686f86",
+   "conv_key": "prompt/q02/d3a9b83e5f2d",
+   "cond": "prompt",
+   "item": "q02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 148,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "d1116eedc549",
+   "conv_key": "plain/q03/988025258f52",
+   "cond": "plain",
+   "item": "q03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "4c2354929a86",
+   "conv_key": "plain/c04/b6d65e9fc700",
+   "cond": "plain",
+   "item": "c04",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "a5b3193448d0",
+   "conv_key": "prompt/q04/e9c6f2ef4a4a",
+   "cond": "prompt",
+   "item": "q04",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "18f1dc63f649",
+   "conv_key": "panel/c02/6292d609da4a",
+   "cond": "panel",
+   "item": "c02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "exchange",
+      "done": true
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "6c3154a4f821",
+   "conv_key": "plain/r03/213f337c3261",
+   "cond": "plain",
+   "item": "r03",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "dd070d155326",
+   "conv_key": "prompt/q05/009b796d031d",
+   "cond": "prompt",
+   "item": "q05",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "d65b6a780557",
+   "conv_key": "prompt/c06/4e444170ac3e",
+   "cond": "prompt",
+   "item": "c06",
+   "first_label": {
+    "promises": [
+     {
+      "type": "refund",
+      "amount": 200,
+      "done": false
+     }
+    ],
+    "refusals": []
+   }
+  },
+  {
+   "key": "f4b9fcc9143f",
+   "conv_key": "prompt/q06/e8913c102884",
+   "cond": "prompt",
+   "item": "q06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  },
+  {
+   "key": "673d57b5d914",
+   "conv_key": "prompt/p02/c145e53d2871",
+   "cond": "prompt",
+   "item": "p02",
+   "first_label": {
+    "promises": [
+     {
+      "type": "escalate",
+      "done": true
+     }
+    ],
+    "refusals": [
+     "exchange"
+    ]
+   }
+  },
+  {
+   "key": "aaa7870bb6a8",
+   "conv_key": "panel/q06/76d4382a9000",
+   "cond": "panel",
+   "item": "q06",
+   "first_label": {
+    "promises": [],
+    "refusals": []
+   }
+  }
+ ]
+}

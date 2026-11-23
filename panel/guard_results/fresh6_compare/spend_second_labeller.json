@@ -1,0 +1,14 @@
+{
+ "cap_usd": 5.0,
+ "spent_usd": 0.449506,
+ "steps": {
+  "second_labeller:gpt-4.1": {
+   "calls": 174,
+   "input_tokens": 202193,
+   "output_tokens": 5640,
+   "spent_usd": 0.449506,
+   "usd_per_m_input": 2.0,
+   "usd_per_m_output": 8.0
+  }
+ }
+}

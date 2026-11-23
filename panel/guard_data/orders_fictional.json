@@ -1,0 +1,16 @@
+{
+  "_note": "FICTIONAL orders for the fictional store Lantern & Loom Outfitters. No real people or purchases.",
+  "today": "2026-11-12",
+  "orders": {
+    "A1001": {"purchase_date": "2026-09-28", "amount": 89.00, "on_sale": false, "has_receipt": true, "item": "wool scarf"},
+    "A1002": {"purchase_date": "2026-11-01", "amount": 64.50, "on_sale": false, "has_receipt": true, "item": "canvas tote"},
+    "A1003": {"purchase_date": "2026-10-30", "amount": 145.00, "on_sale": true, "has_receipt": true, "item": "rain jacket"},
+    "A1004": {"purchase_date": "2026-10-20", "amount": 260.00, "on_sale": false, "has_receipt": true, "item": "down parka"},
+    "A1005": {"purchase_date": "2026-11-05", "amount": 38.00, "on_sale": false, "has_receipt": false, "item": "beanie"},
+    "A1006": {"purchase_date": "2026-08-15", "amount": 120.00, "on_sale": false, "has_receipt": true, "item": "hiking boots"},
+    "A1007": {"purchase_date": "2026-10-25", "amount": 175.00, "on_sale": false, "has_receipt": true, "item": "wool sweater"},
+    "A1008": {"purchase_date": "2026-09-20", "amount": 72.00, "on_sale": false, "has_receipt": true, "item": "flannel shirt"},
+    "A1009": {"purchase_date": "2026-11-08", "amount": 210.00, "on_sale": true, "has_receipt": true, "item": "leather boots"},
+    "A1010": {"purchase_date": "2026-10-28", "amount": 49.00, "on_sale": false, "has_receipt": true, "item": "gloves"}
+  }
+}

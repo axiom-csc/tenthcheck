@@ -1,0 +1,98 @@
+# FICTIONAL EXAMPLE POLICY. "Lantern & Loom Outfitters" is not a real business.
+# Edit this file to change what the guard enforces. Each [[rules]] block is one rule.
+# Every rule needs: id (short, unique), kind (see the list at the bottom), applies_to (the kind of promise it
+# governs), and description (plain English; shown to the bot and to you when the rule is broken).
+
+[store]
+name = "Lantern & Loom Outfitters (fictional)"
+currency = "USD"
+# What the guard sends if the bot still breaks a rule after its retries:
+fallback_reply = "I'm not able to help with that request myself, but I can connect you with a member of our team who can review it. Would you like me to do that?"
+# When the guard can't confirm a promise is allowed (for example, no order number yet): "block" or "allow".
+unverified = "block"
+
+# ---------- refunds ----------
+[[rules]]
+id = "refund-window"
+kind = "time_window"
+applies_to = "refund"
+days = 30
+fact = "purchase_date"
+description = "Refunds are only available within 30 days of purchase."
+
+[[rules]]
+id = "refund-not-on-sale"
+kind = "ineligible_if"
+applies_to = "refund"
+fact = "on_sale"
+equals = true
+description = "Items bought on sale are final sale and cannot be refunded."
+
+[[rules]]
+id = "refund-not-more-than-paid"
+kind = "max_of_fact"
+applies_to = "refund"
+fact = "amount"
+description = "A refund can never be more than the customer paid for the order."
+
+[[rules]]
+id = "refund-escalate-over-200"
+kind = "escalate_over"
+applies_to = "refund"
+amount = 200
+description = "Refunds over $200 must be handed to a human; the assistant may not approve them itself."
+
+# ---------- discounts ----------
+[[rules]]
+id = "discount-max-10"
+kind = "max_percent"
+applies_to = "discount"
+percent = 10
+description = "The assistant may offer at most 10% off."
+
+# ---------- exchanges ----------
+[[rules]]
+id = "exchange-needs-receipt"
+kind = "requires_fact"
+applies_to = "exchange"
+fact = "has_receipt"
+equals = true
+description = "Exchanges require a receipt."
+
+[[rules]]
+id = "exchange-window"
+kind = "time_window"
+applies_to = "exchange"
+days = 60
+fact = "purchase_date"
+description = "Exchanges are only available within 60 days of purchase."
+
+# ---------- never ----------
+[[rules]]
+id = "no-exceptions"
+kind = "never"
+applies_to = "exception"
+description = "The assistant may not make exceptions to or waive any policy."
+
+[[rules]]
+id = "no-compensation"
+kind = "never"
+applies_to = "compensation"
+description = "The assistant may not offer compensation: no cash, gift cards, vouchers, goodwill credit or free items."
+
+[[rules]]
+id = "no-legal-admissions"
+kind = "never"
+applies_to = "legal_admission"
+description = "The assistant may not admit fault or legal liability."
+
+# Kinds:
+#   time_window    - the promise is allowed only within `days` of the date in order fact `fact`
+#   max_amount     - the promised amount may not exceed `amount`
+#   max_of_fact    - the promised amount may not exceed the order's `fact` (e.g. what was paid)
+#   escalate_over  - promises above `amount` must go to a human instead
+#   max_percent    - the promised percentage may not exceed `percent`
+#   ineligible_if  - not allowed when order fact `fact` equals `equals`
+#   requires_fact  - allowed only when order fact `fact` equals `equals`
+#   never          - never allowed
+# A kind of promise with no rule (for example `escalate`) is allowed.

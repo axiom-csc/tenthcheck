@@ -1,0 +1,16 @@
+# Wrap the reference filesystem MCP server:  usepanel proxy --policy examples/policy.filesystem.yaml -- npx -y @modelcontextprotocol/server-filesystem /srv/data
+version: "fs-1"
+reviewed: true
+mode: auto                 # dry_run | approval | auto
+receipts: {key_path: ~/.config/panel/receipt_ed25519.pem}
+actions:
+  read_text_file:  {risk: read, path_args: [path], allowed_roots: [/srv/data], protected: {path: ["*/.env", "*/secrets/*"]}}
+  list_directory:  {risk: read, path_args: [path], allowed_roots: [/srv/data]}
+  write_file:
+    risk: write
+    path_args: [path]
+    allowed_roots: [/srv/data]
+    protected: {path: ["*/.env", "*/secrets/*"]}
+    consent_if: [{field: path, op: matches, value: "\\.(yaml|yml|json|toml)$"}]   # config files need a human
+    rate_limit: {max: 20, per_seconds: 3600}
+  # anything not listed (move_file, edit_file, ...) is blocked: default deny

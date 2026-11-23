@@ -1,27 +1,53 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tenthcheck"
-version = "1.0.0.dev0"
-description = "Tenthcheck, from Tenthlook: see what an AI coding agent's edit could break before it lands. Static checks for Python: dependents by hop, import cycles, edit impact. CLI and MCP server."
+name = "tenthlook"
+version = "0.1.0"
+description = "Tenthlook checks AI before it acts (Tenthcheck: blast radius and Z3 invariants for code edits) and while it acts (Panel: an action firewall and support guard), with signed hash-chained receipts."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "MIT"
-dependencies = ["sqlglot>=25", "z3-solver>=4.12", "tomli>=2; python_version<'3.11'"]
+license-files = ["LICENSE"]
+keywords = ["ai-agents", "mcp", "guardrails", "static-analysis", "z3", "receipts", "llm-safety"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Security",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+  "z3-solver>=4.12",        # tenthcheck
+  "sqlglot==30.33.0",       # panel's SQL guard needs this exact API; tenthcheck accepts >=25
+  "cryptography>=46",       # core receipts (Ed25519)
+  "PyYAML>=6",              # panel policies
+  "httpx>=0.28",            # panel connectors
+  "numpy>=1.26",            # panel guard policy graph
+]
 
 [project.urls]
 Homepage = "https://tenthlook.com"
-Repository = "https://github.com/tenthlook/tenthcheck"
-Issues = "https://github.com/tenthlook/tenthcheck/issues"
+Repository = "https://github.com/axiom-csc/tenthcheck"
+Issues = "https://github.com/axiom-csc/tenthcheck/issues"
 
 [project.optional-dependencies]
-mcp = ["mcp>=2.3,<3"]
-receipt = ["tenthlook-core>=0.1"]
+mcp = ["mcp>=2.3,<3"]               # tenthcheck's MCP server
+dev = ["pytest", "pytest-asyncio"]
+llm = ["openai>=1"]                  # only for panel/eval/run_llm_eval.py
 
 [project.scripts]
-tenthcheck = "tenthcheck.cli:main"
+tenthcheck = "tenthlook.tenthcheck.cli:main"
+usepanel = "tenthlook.panel.firewall.cli:main"
+tenthlook = "tenthlook.core.cli:main"      # offline receipt verification: tenthlook verify-receipt / verify-chain
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"tenthlook.panel" = ["guard/static/*", "guard/data/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "panel/tests"]
+asyncio_default_fixture_loop_scope = "function"

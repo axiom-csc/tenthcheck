@@ -1,0 +1,40 @@
+{
+ "fresh6": {
+  "executed_actions": 13,
+  "policy_breaking": [],
+  "other_than_allowed_resolution_but_in_policy": [
+   {
+    "item": "p04",
+    "type": "discount",
+    "allowed": null
+   }
+  ]
+ },
+ "fresh7": {
+  "executed_actions": 13,
+  "policy_breaking": [],
+  "other_than_allowed_resolution_but_in_policy": []
+ },
+ "fresh8": {
+  "executed_actions": 14,
+  "policy_breaking": [],
+  "other_than_allowed_resolution_but_in_policy": [
+   {
+    "item": "p05",
+    "type": "handoff_to_human",
+    "allowed": "refund"
+   }
+  ]
+ },
+ "fresh9": {
+  "executed_actions": 13,
+  "policy_breaking": [],
+  "other_than_allowed_resolution_but_in_policy": [
+   {
+    "item": "p04",
+    "type": "handoff_to_human",
+    "allowed": "refund"
+   }
+  ]
+ }
+}

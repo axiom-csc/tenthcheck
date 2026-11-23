@@ -1,0 +1,1714 @@
+{
+ "sets": {
+  "tuned_on": "original 18 conversations; extractor v3 was tuned on these replies",
+  "fresh": "first fresh set: held out for v3.1; seen and used to tune v4",
+  "fresh2": "second fresh set: written and frozen before v4; run once with the frozen v4 guard (held out for v4)"
+ },
+ "replay": {
+  "tuned_on:llama3.1-8b": {
+   "v2-oldchecker": {
+    "unique_replies": 81,
+    "false_block": {
+     "k": 11,
+     "n": 74,
+     "rate": 0.1486,
+     "ci95": [
+      0.0851,
+      0.2469
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 7,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.3543
+     ]
+    },
+    "promise_recall": {
+     "k": 28,
+     "n": 39,
+     "rate": 0.7179,
+     "ci95": [
+      0.5622,
+      0.8346
+     ]
+    },
+    "promise_precision": {
+     "k": 28,
+     "n": 39,
+     "rate": 0.7179,
+     "ci95": [
+      0.5622,
+      0.8346
+     ]
+    }
+   },
+   "v2": {
+    "unique_replies": 81,
+    "false_block": {
+     "k": 6,
+     "n": 74,
+     "rate": 0.0811,
+     "ci95": [
+      0.0377,
+      0.1658
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 7,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.3543
+     ]
+    },
+    "promise_recall": {
+     "k": 28,
+     "n": 39,
+     "rate": 0.7179,
+     "ci95": [
+      0.5622,
+      0.8346
+     ]
+    },
+    "promise_precision": {
+     "k": 28,
+     "n": 39,
+     "rate": 0.7179,
+     "ci95": [
+      0.5622,
+      0.8346
+     ]
+    }
+   },
+   "v3.1": {
+    "unique_replies": 81,
+    "false_block": {
+     "k": 1,
+     "n": 74,
+     "rate": 0.0135,
+     "ci95": [
+      0.0024,
+      0.0727
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 7,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.3543
+     ]
+    },
+    "promise_recall": {
+     "k": 37,
+     "n": 39,
+     "rate": 0.9487,
+     "ci95": [
+      0.8311,
+      0.9858
+     ]
+    },
+    "promise_precision": {
+     "k": 37,
+     "n": 40,
+     "rate": 0.925,
+     "ci95": [
+      0.8014,
+      0.9742
+     ]
+    }
+   },
+   "v4": {
+    "unique_replies": 81,
+    "false_block": {
+     "k": 2,
+     "n": 74,
+     "rate": 0.027,
+     "ci95": [
+      0.0074,
+      0.0933
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 7,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.3543
+     ]
+    },
+    "promise_recall": {
+     "k": 38,
+     "n": 39,
+     "rate": 0.9744,
+     "ci95": [
+      0.8682,
+      0.9955
+     ]
+    },
+    "promise_precision": {
+     "k": 38,
+     "n": 42,
+     "rate": 0.9048,
+     "ci95": [
+      0.7793,
+      0.9623
+     ]
+    }
+   }
+  },
+  "tuned_on:mistral-7b": {
+   "v2-oldchecker": {
+    "unique_replies": 63,
+    "false_block": {
+     "k": 15,
+     "n": 63,
+     "rate": 0.2381,
+     "ci95": [
+      0.1499,
+      0.3564
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci95": null
+    },
+    "promise_recall": {
+     "k": 5,
+     "n": 6,
+     "rate": 0.8333,
+     "ci95": [
+      0.4365,
+      0.9699
+     ]
+    },
+    "promise_precision": {
+     "k": 5,
+     "n": 29,
+     "rate": 0.1724,
+     "ci95": [
+      0.076,
+      0.3455
+     ]
+    }
+   },
+   "v2": {
+    "unique_replies": 63,
+    "false_block": {
+     "k": 12,
+     "n": 63,
+     "rate": 0.1905,
+     "ci95": [
+      0.1125,
+      0.3041
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci95": null
+    },
+    "promise_recall": {
+     "k": 5,
+     "n": 6,
+     "rate": 0.8333,
+     "ci95": [
+      0.4365,
+      0.9699
+     ]
+    },
+    "promise_precision": {
+     "k": 5,
+     "n": 29,
+     "rate": 0.1724,
+     "ci95": [
+      0.076,
+      0.3455
+     ]
+    }
+   },
+   "v3.1": {
+    "unique_replies": 63,
+    "false_block": {
+     "k": 0,
+     "n": 63,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.0575
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci95": null
+    },
+    "promise_recall": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "ci95": [
+      0.6097,
+      1.0
+     ]
+    },
+    "promise_precision": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "ci95": [
+      0.6097,
+      1.0
+     ]
+    }
+   },
+   "v4": {
+    "unique_replies": 63,
+    "false_block": {
+     "k": 0,
+     "n": 63,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.0575
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci95": null
+    },
+    "promise_recall": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "ci95": [
+      0.6097,
+      1.0
+     ]
+    },
+    "promise_precision": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "ci95": [
+      0.6097,
+      1.0
+     ]
+    }
+   }
+  },
+  "fresh:llama3.1-8b": {
+   "v2-oldchecker": {
+    "unique_replies": 70,
+    "false_block": {
+     "k": 10,
+     "n": 66,
+     "rate": 0.1515,
+     "ci95": [
+      0.0844,
+      0.2569
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "promise_recall": {
+     "k": 26,
+     "n": 36,
+     "rate": 0.7222,
+     "ci95": [
+      0.5601,
+      0.8415
+     ]
+    },
+    "promise_precision": {
+     "k": 26,
+     "n": 34,
+     "rate": 0.7647,
+     "ci95": [
+      0.6,
+      0.8756
+     ]
+    }
+   },
+   "v2": {
+    "unique_replies": 70,
+    "false_block": {
+     "k": 4,
+     "n": 66,
+     "rate": 0.0606,
+     "ci95": [
+      0.0238,
+      0.1457
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "promise_recall": {
+     "k": 26,
+     "n": 36,
+     "rate": 0.7222,
+     "ci95": [
+      0.5601,
+      0.8415
+     ]
+    },
+    "promise_precision": {
+     "k": 26,
+     "n": 34,
+     "rate": 0.7647,
+     "ci95": [
+      0.6,
+      0.8756
+     ]
+    }
+   },
+   "v3.1": {
+    "unique_replies": 70,
+    "false_block": {
+     "k": 1,
+     "n": 66,
+     "rate": 0.0152,
+     "ci95": [
+      0.0027,
+      0.081
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "promise_recall": {
+     "k": 27,
+     "n": 36,
+     "rate": 0.75,
+     "ci95": [
+      0.5893,
+      0.8625
+     ]
+    },
+    "promise_precision": {
+     "k": 27,
+     "n": 29,
+     "rate": 0.931,
+     "ci95": [
+      0.7804,
+      0.9809
+     ]
+    }
+   },
+   "v4": {
+    "unique_replies": 70,
+    "false_block": {
+     "k": 1,
+     "n": 66,
+     "rate": 0.0152,
+     "ci95": [
+      0.0027,
+      0.081
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 4,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.4899
+     ]
+    },
+    "promise_recall": {
+     "k": 34,
+     "n": 36,
+     "rate": 0.9444,
+     "ci95": [
+      0.8186,
+      0.9846
+     ]
+    },
+    "promise_precision": {
+     "k": 34,
+     "n": 36,
+     "rate": 0.9444,
+     "ci95": [
+      0.8186,
+      0.9846
+     ]
+    }
+   }
+  },
+  "fresh:mistral-7b": {
+   "v2-oldchecker": {
+    "unique_replies": 53,
+    "false_block": {
+     "k": 8,
+     "n": 49,
+     "rate": 0.1633,
+     "ci95": [
+      0.0851,
+      0.2904
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "promise_recall": {
+     "k": 14,
+     "n": 20,
+     "rate": 0.7,
+     "ci95": [
+      0.481,
+      0.8545
+     ]
+    },
+    "promise_precision": {
+     "k": 14,
+     "n": 17,
+     "rate": 0.8235,
+     "ci95": [
+      0.5897,
+      0.9381
+     ]
+    }
+   },
+   "v2": {
+    "unique_replies": 53,
+    "false_block": {
+     "k": 1,
+     "n": 49,
+     "rate": 0.0204,
+     "ci95": [
+      0.0036,
+      0.1069
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "promise_recall": {
+     "k": 14,
+     "n": 20,
+     "rate": 0.7,
+     "ci95": [
+      0.481,
+      0.8545
+     ]
+    },
+    "promise_precision": {
+     "k": 14,
+     "n": 17,
+     "rate": 0.8235,
+     "ci95": [
+      0.5897,
+      0.9381
+     ]
+    }
+   },
+   "v3.1": {
+    "unique_replies": 53,
+    "false_block": {
+     "k": 0,
+     "n": 49,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.0727
+     ]
+    },
+    "missed_violation": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1
+     ]
+    },
+    "promise_recall": {
+     "k": 6,
+     "n": 20,
+     "rate": 0.3,
+     "ci95": [
+      0.1455,
+      0.519
+     ]
+    },
+    "promise_precision": {
+     "k": 6,
+     "n": 8,
+     "rate": 0.75,
+     "ci95": [
+      0.4093,
+      0.9285
+     ]
+    }
+   },
+   "v4": {
+    "unique_replies": 53,
+    "false_block": {
+     "k": 0,
+     "n": 49,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.0727
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "promise_recall": {
+     "k": 13,
+     "n": 20,
+     "rate": 0.65,
+     "ci95": [
+      0.4329,
+      0.8188
+     ]
+    },
+    "promise_precision": {
+     "k": 13,
+     "n": 15,
+     "rate": 0.8667,
+     "ci95": [
+      0.6212,
+      0.9626
+     ]
+    }
+   }
+  },
+  "fresh2:llama3.1-8b": {
+   "v2-oldchecker": {
+    "unique_replies": 68,
+    "false_block": {
+     "k": 7,
+     "n": 60,
+     "rate": 0.1167,
+     "ci95": [
+      0.0577,
+      0.2218
+     ]
+    },
+    "missed_violation": {
+     "k": 1,
+     "n": 8,
+     "rate": 0.125,
+     "ci95": [
+      0.0224,
+      0.4709
+     ]
+    },
+    "promise_recall": {
+     "k": 18,
+     "n": 25,
+     "rate": 0.72,
+     "ci95": [
+      0.5242,
+      0.8572
+     ]
+    },
+    "promise_precision": {
+     "k": 18,
+     "n": 24,
+     "rate": 0.75,
+     "ci95": [
+      0.551,
+      0.88
+     ]
+    }
+   },
+   "v2": {
+    "unique_replies": 68,
+    "false_block": {
+     "k": 4,
+     "n": 60,
+     "rate": 0.0667,
+     "ci95": [
+      0.0262,
+      0.1593
+     ]
+    },
+    "missed_violation": {
+     "k": 1,
+     "n": 8,
+     "rate": 0.125,
+     "ci95": [
+      0.0224,
+      0.4709
+     ]
+    },
+    "promise_recall": {
+     "k": 18,
+     "n": 25,
+     "rate": 0.72,
+     "ci95": [
+      0.5242,
+      0.8572
+     ]
+    },
+    "promise_precision": {
+     "k": 18,
+     "n": 24,
+     "rate": 0.75,
+     "ci95": [
+      0.551,
+      0.88
+     ]
+    }
+   },
+   "v3.1": {
+    "unique_replies": 68,
+    "false_block": {
+     "k": 2,
+     "n": 60,
+     "rate": 0.0333,
+     "ci95": [
+      0.0092,
+      0.1136
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 8,
+     "rate": 0.25,
+     "ci95": [
+      0.0715,
+      0.5907
+     ]
+    },
+    "promise_recall": {
+     "k": 20,
+     "n": 25,
+     "rate": 0.8,
+     "ci95": [
+      0.6087,
+      0.9114
+     ]
+    },
+    "promise_precision": {
+     "k": 20,
+     "n": 22,
+     "rate": 0.9091,
+     "ci95": [
+      0.7218,
+      0.9747
+     ]
+    }
+   },
+   "v4": {
+    "unique_replies": 68,
+    "false_block": {
+     "k": 1,
+     "n": 60,
+     "rate": 0.0167,
+     "ci95": [
+      0.0029,
+      0.0886
+     ]
+    },
+    "missed_violation": {
+     "k": 1,
+     "n": 8,
+     "rate": 0.125,
+     "ci95": [
+      0.0224,
+      0.4709
+     ]
+    },
+    "promise_recall": {
+     "k": 21,
+     "n": 25,
+     "rate": 0.84,
+     "ci95": [
+      0.6535,
+      0.936
+     ]
+    },
+    "promise_precision": {
+     "k": 21,
+     "n": 22,
+     "rate": 0.9545,
+     "ci95": [
+      0.782,
+      0.9919
+     ]
+    }
+   },
+   "v4+L2": {
+    "unique_replies": 68,
+    "false_block": {
+     "k": 11,
+     "n": 60,
+     "rate": 0.1833,
+     "ci95": [
+      0.1056,
+      0.2992
+     ]
+    },
+    "missed_violation": {
+     "k": 0,
+     "n": 8,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.3244
+     ]
+    },
+    "promise_recall": {
+     "k": 24,
+     "n": 25,
+     "rate": 0.96,
+     "ci95": [
+      0.8046,
+      0.9929
+     ]
+    },
+    "promise_precision": {
+     "k": 24,
+     "n": 42,
+     "rate": 0.5714,
+     "ci95": [
+      0.4221,
+      0.7088
+     ]
+    }
+   }
+  },
+  "fresh2:mistral-7b": {
+   "v2-oldchecker": {
+    "unique_replies": 52,
+    "false_block": {
+     "k": 3,
+     "n": 43,
+     "rate": 0.0698,
+     "ci95": [
+      0.024,
+      0.1861
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 9,
+     "rate": 0.2222,
+     "ci95": [
+      0.0632,
+      0.5474
+     ]
+    },
+    "promise_recall": {
+     "k": 13,
+     "n": 21,
+     "rate": 0.619,
+     "ci95": [
+      0.4088,
+      0.7925
+     ]
+    },
+    "promise_precision": {
+     "k": 13,
+     "n": 17,
+     "rate": 0.7647,
+     "ci95": [
+      0.5274,
+      0.9045
+     ]
+    }
+   },
+   "v2": {
+    "unique_replies": 52,
+    "false_block": {
+     "k": 0,
+     "n": 43,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.082
+     ]
+    },
+    "missed_violation": {
+     "k": 2,
+     "n": 9,
+     "rate": 0.2222,
+     "ci95": [
+      0.0632,
+      0.5474
+     ]
+    },
+    "promise_recall": {
+     "k": 13,
+     "n": 21,
+     "rate": 0.619,
+     "ci95": [
+      0.4088,
+      0.7925
+     ]
+    },
+    "promise_precision": {
+     "k": 13,
+     "n": 17,
+     "rate": 0.7647,
+     "ci95": [
+      0.5274,
+      0.9045
+     ]
+    }
+   },
+   "v3.1": {
+    "unique_replies": 52,
+    "false_block": {
+     "k": 0,
+     "n": 43,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.082
+     ]
+    },
+    "missed_violation": {
+     "k": 4,
+     "n": 9,
+     "rate": 0.4444,
+     "ci95": [
+      0.1888,
+      0.7334
+     ]
+    },
+    "promise_recall": {
+     "k": 11,
+     "n": 21,
+     "rate": 0.5238,
+     "ci95": [
+      0.3237,
+      0.7166
+     ]
+    },
+    "promise_precision": {
+     "k": 11,
+     "n": 14,
+     "rate": 0.7857,
+     "ci95": [
+      0.5241,
+      0.9243
+     ]
+    }
+   },
+   "v4": {
+    "unique_replies": 52,
+    "false_block": {
+     "k": 0,
+     "n": 43,
+     "rate": 0.0,
+     "ci95": [
+      0,
+      0.082
+     ]
+    },
+    "missed_violation": {
+     "k": 4,
+     "n": 9,
+     "rate": 0.4444,
+     "ci95": [
+      0.1888,
+      0.7334
+     ]
+    },
+    "promise_recall": {
+     "k": 11,
+     "n": 21,
+     "rate": 0.5238,
+     "ci95": [
+      0.3237,
+      0.7166
+     ]
+    },
+    "promise_precision": {
+     "k": 11,
+     "n": 13,
+     "rate": 0.8462,
+     "ci95": [
+      0.5776,
+      0.9567
+     ]
+    }
+   },
+   "v4+L2": {
+    "unique_replies": 52,
+    "false_block": {
+     "k": 7,
+     "n": 43,
+     "rate": 0.1628,
+     "ci95": [
+      0.0812,
+      0.2997
+     ]
+    },
+    "missed_violation": {
+     "k": 1,
+     "n": 9,
+     "rate": 0.1111,
+     "ci95": [
+      0.0199,
+      0.435
+     ]
+    },
+    "promise_recall": {
+     "k": 19,
+     "n": 21,
+     "rate": 0.9048,
+     "ci95": [
+      0.7109,
+      0.9735
+     ]
+    },
+    "promise_precision": {
+     "k": 19,
+     "n": 38,
+     "rate": 0.5,
+     "ci95": [
+      0.3485,
+      0.6515
+     ]
+    }
+   }
+  }
+ },
+ "live_fresh": {
+  "llama3.1-8b": {
+   "violation_rate_off": {
+    "k": 7,
+    "n": 54,
+    "rate": 0.1296,
+    "ci95": [
+     0.0642,
+     0.2442
+    ]
+   },
+   "wrongful_refusal_rate_off": {
+    "k": 4,
+    "n": 54,
+    "rate": 0.0741,
+    "ci95": [
+     0.0292,
+     0.1755
+    ]
+   },
+   "violation_rate_on": {
+    "k": 1,
+    "n": 54,
+    "rate": 0.0185,
+    "ci95": [
+     0.0033,
+     0.0977
+    ]
+   },
+   "wrongful_refusal_rate_on": {
+    "k": 4,
+    "n": 54,
+    "rate": 0.0741,
+    "ci95": [
+     0.0292,
+     0.1755
+    ]
+   },
+   "wrongful_refusal_flags": {
+    "precision": {
+     "k": 3,
+     "n": 4,
+     "rate": 0.75,
+     "ci95": [
+      0.3006,
+      0.9544
+     ]
+    },
+    "recall": {
+     "k": 3,
+     "n": 4,
+     "rate": 0.75,
+     "ci95": [
+      0.3006,
+      0.9544
+     ]
+    }
+   },
+   "false_block_rate": {
+    "k": 1,
+    "n": 54,
+    "rate": 0.0185,
+    "ci95": [
+     0.0033,
+     0.0977
+    ]
+   },
+   "missed_violation_rate": {
+    "k": 1,
+    "n": 6,
+    "rate": 0.1667,
+    "ci95": [
+     0.0301,
+     0.5635
+    ]
+   },
+   "fallback_rate": {
+    "k": 0,
+    "n": 54,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.0664
+    ]
+   },
+   "added_latency_s": {
+    "p50": 0.002,
+    "p99": 7.429,
+    "n_turns": 54
+   },
+   "check_only_ms": {
+    "p50": 2.0,
+    "p99": 6.0
+   }
+  },
+  "mistral-7b": {
+   "violation_rate_off": {
+    "k": 6,
+    "n": 54,
+    "rate": 0.1111,
+    "ci95": [
+     0.0519,
+     0.2219
+    ]
+   },
+   "wrongful_refusal_rate_off": {
+    "k": 8,
+    "n": 54,
+    "rate": 0.1481,
+    "ci95": [
+     0.077,
+     0.266
+    ]
+   },
+   "violation_rate_on": {
+    "k": 4,
+    "n": 54,
+    "rate": 0.0741,
+    "ci95": [
+     0.0292,
+     0.1755
+    ]
+   },
+   "wrongful_refusal_rate_on": {
+    "k": 8,
+    "n": 54,
+    "rate": 0.1481,
+    "ci95": [
+     0.077,
+     0.266
+    ]
+   },
+   "wrongful_refusal_flags": {
+    "precision": {
+     "k": 7,
+     "n": 14,
+     "rate": 0.5,
+     "ci95": [
+      0.268,
+      0.732
+     ]
+    },
+    "recall": {
+     "k": 7,
+     "n": 8,
+     "rate": 0.875,
+     "ci95": [
+      0.5291,
+      0.9776
+     ]
+    }
+   },
+   "false_block_rate": {
+    "k": 0,
+    "n": 48,
+    "rate": 0.0,
+    "ci95": [
+     0,
+     0.0741
+    ]
+   },
+   "missed_violation_rate": {
+    "k": 4,
+    "n": 10,
+    "rate": 0.4,
+    "ci95": [
+     0.1682,
+     0.6873
+    ]
+   },
+   "fallback_rate": {
+    "k": 2,
+    "n": 54,
+    "rate": 0.037,
+    "ci95": [
+     0.0102,
+     0.1254
+    ]
+   },
+   "added_latency_s": {
+    "p50": 0.003,
+    "p99": 32.766,
+    "n_turns": 54
+   },
+   "check_only_ms": {
+    "p50": 4.0,
+    "p99": 6.0
+   }
+  }
+ },
+ "targets": {
+  "false_block_below": 0.05,
+  "recall_above": 0.85,
+  "evaluated_on": "fresh2 (v4)"
+ },
+ "pooled": {
+  "tuned_on:v2-oldchecker": {
+   "promise_recall": {
+    "k": 33,
+    "n": 45,
+    "rate": 0.7333,
+    "ci95": [
+     0.5896,
+     0.8404
+    ]
+   },
+   "promise_precision": {
+    "k": 33,
+    "n": 68,
+    "rate": 0.4853,
+    "ci95": [
+     0.3705,
+     0.6017
+    ]
+   },
+   "false_block": {
+    "k": 26,
+    "n": 137,
+    "rate": 0.1898,
+    "ci95": [
+     0.1329,
+     0.2636
+    ]
+   },
+   "missed_violation": {
+    "k": 0,
+    "n": 7,
+    "rate": 0.0,
+    "ci95": [
+     0,
+     0.3543
+    ]
+   }
+  },
+  "tuned_on:v2": {
+   "promise_recall": {
+    "k": 33,
+    "n": 45,
+    "rate": 0.7333,
+    "ci95": [
+     0.5896,
+     0.8404
+    ]
+   },
+   "promise_precision": {
+    "k": 33,
+    "n": 68,
+    "rate": 0.4853,
+    "ci95": [
+     0.3705,
+     0.6017
+    ]
+   },
+   "false_block": {
+    "k": 18,
+    "n": 137,
+    "rate": 0.1314,
+    "ci95": [
+     0.0847,
+     0.1981
+    ]
+   },
+   "missed_violation": {
+    "k": 0,
+    "n": 7,
+    "rate": 0.0,
+    "ci95": [
+     0,
+     0.3543
+    ]
+   }
+  },
+  "tuned_on:v3.1": {
+   "promise_recall": {
+    "k": 43,
+    "n": 45,
+    "rate": 0.9556,
+    "ci95": [
+     0.8517,
+     0.9877
+    ]
+   },
+   "promise_precision": {
+    "k": 43,
+    "n": 46,
+    "rate": 0.9348,
+    "ci95": [
+     0.825,
+     0.9776
+    ]
+   },
+   "false_block": {
+    "k": 1,
+    "n": 137,
+    "rate": 0.0073,
+    "ci95": [
+     0.0013,
+     0.0402
+    ]
+   },
+   "missed_violation": {
+    "k": 0,
+    "n": 7,
+    "rate": 0.0,
+    "ci95": [
+     0,
+     0.3543
+    ]
+   }
+  },
+  "tuned_on:v4": {
+   "promise_recall": {
+    "k": 44,
+    "n": 45,
+    "rate": 0.9778,
+    "ci95": [
+     0.8843,
+     0.9961
+    ]
+   },
+   "promise_precision": {
+    "k": 44,
+    "n": 48,
+    "rate": 0.9167,
+    "ci95": [
+     0.8045,
+     0.9671
+    ]
+   },
+   "false_block": {
+    "k": 2,
+    "n": 137,
+    "rate": 0.0146,
+    "ci95": [
+     0.004,
+     0.0517
+    ]
+   },
+   "missed_violation": {
+    "k": 0,
+    "n": 7,
+    "rate": 0.0,
+    "ci95": [
+     0,
+     0.3543
+    ]
+   }
+  },
+  "fresh:v2-oldchecker": {
+   "promise_recall": {
+    "k": 40,
+    "n": 56,
+    "rate": 0.7143,
+    "ci95": [
+     0.5852,
+     0.8158
+    ]
+   },
+   "promise_precision": {
+    "k": 40,
+    "n": 51,
+    "rate": 0.7843,
+    "ci95": [
+     0.6537,
+     0.8751
+    ]
+   },
+   "false_block": {
+    "k": 18,
+    "n": 115,
+    "rate": 0.1565,
+    "ci95": [
+     0.1014,
+     0.2339
+    ]
+   },
+   "missed_violation": {
+    "k": 4,
+    "n": 8,
+    "rate": 0.5,
+    "ci95": [
+     0.2152,
+     0.7848
+    ]
+   }
+  },
+  "fresh:v2": {
+   "promise_recall": {
+    "k": 40,
+    "n": 56,
+    "rate": 0.7143,
+    "ci95": [
+     0.5852,
+     0.8158
+    ]
+   },
+   "promise_precision": {
+    "k": 40,
+    "n": 51,
+    "rate": 0.7843,
+    "ci95": [
+     0.6537,
+     0.8751
+    ]
+   },
+   "false_block": {
+    "k": 5,
+    "n": 115,
+    "rate": 0.0435,
+    "ci95": [
+     0.0187,
+     0.0978
+    ]
+   },
+   "missed_violation": {
+    "k": 4,
+    "n": 8,
+    "rate": 0.5,
+    "ci95": [
+     0.2152,
+     0.7848
+    ]
+   }
+  },
+  "fresh:v3.1": {
+   "promise_recall": {
+    "k": 33,
+    "n": 56,
+    "rate": 0.5893,
+    "ci95": [
+     0.4588,
+     0.7083
+    ]
+   },
+   "promise_precision": {
+    "k": 33,
+    "n": 37,
+    "rate": 0.8919,
+    "ci95": [
+     0.7529,
+     0.9571
+    ]
+   },
+   "false_block": {
+    "k": 1,
+    "n": 115,
+    "rate": 0.0087,
+    "ci95": [
+     0.0015,
+     0.0476
+    ]
+   },
+   "missed_violation": {
+    "k": 6,
+    "n": 8,
+    "rate": 0.75,
+    "ci95": [
+     0.4093,
+     0.9285
+    ]
+   }
+  },
+  "fresh:v4": {
+   "promise_recall": {
+    "k": 47,
+    "n": 56,
+    "rate": 0.8393,
+    "ci95": [
+     0.7219,
+     0.9131
+    ]
+   },
+   "promise_precision": {
+    "k": 47,
+    "n": 51,
+    "rate": 0.9216,
+    "ci95": [
+     0.815,
+     0.9691
+    ]
+   },
+   "false_block": {
+    "k": 1,
+    "n": 115,
+    "rate": 0.0087,
+    "ci95": [
+     0.0015,
+     0.0476
+    ]
+   },
+   "missed_violation": {
+    "k": 2,
+    "n": 8,
+    "rate": 0.25,
+    "ci95": [
+     0.0715,
+     0.5907
+    ]
+   }
+  },
+  "fresh2:v2-oldchecker": {
+   "promise_recall": {
+    "k": 31,
+    "n": 46,
+    "rate": 0.6739,
+    "ci95": [
+     0.5297,
+     0.7913
+    ]
+   },
+   "promise_precision": {
+    "k": 31,
+    "n": 41,
+    "rate": 0.7561,
+    "ci95": [
+     0.6066,
+     0.8618
+    ]
+   },
+   "false_block": {
+    "k": 10,
+    "n": 103,
+    "rate": 0.0971,
+    "ci95": [
+     0.0536,
+     0.1696
+    ]
+   },
+   "missed_violation": {
+    "k": 3,
+    "n": 17,
+    "rate": 0.1765,
+    "ci95": [
+     0.0619,
+     0.4103
+    ]
+   }
+  },
+  "fresh2:v2": {
+   "promise_recall": {
+    "k": 31,
+    "n": 46,
+    "rate": 0.6739,
+    "ci95": [
+     0.5297,
+     0.7913
+    ]
+   },
+   "promise_precision": {
+    "k": 31,
+    "n": 41,
+    "rate": 0.7561,
+    "ci95": [
+     0.6066,
+     0.8618
+    ]
+   },
+   "false_block": {
+    "k": 4,
+    "n": 103,
+    "rate": 0.0388,
+    "ci95": [
+     0.0152,
+     0.0956
+    ]
+   },
+   "missed_violation": {
+    "k": 3,
+    "n": 17,
+    "rate": 0.1765,
+    "ci95": [
+     0.0619,
+     0.4103
+    ]
+   }
+  },
+  "fresh2:v3.1": {
+   "promise_recall": {
+    "k": 31,
+    "n": 46,
+    "rate": 0.6739,
+    "ci95": [
+     0.5297,
+     0.7913
+    ]
+   },
+   "promise_precision": {
+    "k": 31,
+    "n": 36,
+    "rate": 0.8611,
+    "ci95": [
+     0.7134,
+     0.9392
+    ]
+   },
+   "false_block": {
+    "k": 2,
+    "n": 103,
+    "rate": 0.0194,
+    "ci95": [
+     0.0053,
+     0.0681
+    ]
+   },
+   "missed_violation": {
+    "k": 6,
+    "n": 17,
+    "rate": 0.3529,
+    "ci95": [
+     0.1731,
+     0.587
+    ]
+   }
+  },
+  "fresh2:v4": {
+   "promise_recall": {
+    "k": 32,
+    "n": 46,
+    "rate": 0.6957,
+    "ci95": [
+     0.5519,
+     0.8092
+    ]
+   },
+   "promise_precision": {
+    "k": 32,
+    "n": 35,
+    "rate": 0.9143,
+    "ci95": [
+     0.7762,
+     0.9704
+    ]
+   },
+   "false_block": {
+    "k": 1,
+    "n": 103,
+    "rate": 0.0097,
+    "ci95": [
+     0.0017,
+     0.053
+    ]
+   },
+   "missed_violation": {
+    "k": 5,
+    "n": 17,
+    "rate": 0.2941,
+    "ci95": [
+     0.1328,
+     0.5313
+    ]
+   }
+  },
+  "fresh2:v4+L2": {
+   "promise_recall": {
+    "k": 43,
+    "n": 46,
+    "rate": 0.9348,
+    "ci95": [
+     0.825,
+     0.9776
+    ]
+   },
+   "promise_precision": {
+    "k": 43,
+    "n": 80,
+    "rate": 0.5375,
+    "ci95": [
+     0.429,
+     0.6425
+    ]
+   },
+   "false_block": {
+    "k": 18,
+    "n": 103,
+    "rate": 0.1748,
+    "ci95": [
+     0.1135,
+     0.2594
+    ]
+   },
+   "missed_violation": {
+    "k": 1,
+    "n": 17,
+    "rate": 0.0588,
+    "ci95": [
+     0.0105,
+     0.2698
+    ]
+   }
+  }
+ }
+}

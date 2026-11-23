@@ -6,7 +6,7 @@ the class itself, although ~29 rich modules import it under TYPE_CHECKING and us
 import json
 from pathlib import Path
 
-from tenthcheck.cli import main
+from tenthlook.tenthcheck.cli import main
 
 
 def _write(root: Path, files: dict[str, str]) -> Path:

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 (package `tenthlook`, unreleased)
+
+- One package, `tenthlook`, replaces separate `tenthcheck`, `tenthlook-core` and `panel-firewall` distributions: `tenthlook.core` (signed receipts),
+  `tenthlook.tenthcheck` (this project's code, history kept), `tenthlook.panel` (the Panel action firewall and support guard, copied in without history).
+- Commands: `tenthcheck`, `usepanel`, and `tenthlook` (offline receipt verification). `pip install tenthlook`; extras `[mcp]`, `[dev]`, `[llm]`.
+- Import paths changed: `tenthcheck.*` -> `tenthlook.tenthcheck.*`, `tenthlook_core` -> `tenthlook.core`, `panel_firewall` -> `tenthlook.panel`.
+- The `[receipt]` extra is gone (receipts are built in). Python >= 3.11 (was >= 3.10 for tenthcheck). `sqlglot` is pinned to 30.33.0 (Panel's SQL guard needs it).
+
 ## 0.3.0.dev0 (branch v0.3, unreleased)
 
 - `tenthcheck hook`: Claude Code hook mode (PostToolUse on Edit/Write, and Stop). Silent unless an edit adds an

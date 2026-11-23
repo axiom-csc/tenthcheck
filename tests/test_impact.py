@@ -1,7 +1,7 @@
 import subprocess
 import textwrap
 
-from tenthcheck.impact import format_impact, impact
+from tenthlook.tenthcheck.impact import format_impact, impact
 
 
 def git(p, *a):
@@ -44,7 +44,7 @@ def test_impact_untouched_invariant_not_rechecked(tmp_path):
 
 
 def test_graph_cache_hits_and_invalidates(tmp_path):
-    from tenthcheck.graphcache import load_graph
+    from tenthlook.tenthcheck.graphcache import load_graph
     (tmp_path / "a.py").write_text("def f():\n    return 1\n")
     (tmp_path / "b.py").write_text("from a import f\n\ndef g():\n    return f()\n")
     g1, hit1 = load_graph(tmp_path)

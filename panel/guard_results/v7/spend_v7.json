@@ -1,0 +1,10 @@
+{
+ "cap_usd": 0.25,
+ "spent_usd": 0.021939,
+ "calls": 66,
+ "input_tokens": 95402,
+ "output_tokens": 2382,
+ "reasoning_tokens": 0,
+ "usd_per_m_input": 0.2,
+ "usd_per_m_output": 1.2
+}

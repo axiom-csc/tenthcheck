@@ -1,7 +1,7 @@
 import textwrap
 
-from tenthcheck import ci, config
-from tenthcheck.cli import main
+from tenthlook.tenthcheck import ci, config
+from tenthlook.tenthcheck.cli import main
 
 
 def project(tmp_path):

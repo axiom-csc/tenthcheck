@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel Guard Playground</title>
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--fg:#1d1d1b;--muted:#6b6a64;--line:#dedbd2;--accent:#2f5d8a;--bad:#b3261e;--badbg:#fbeae8;--ok:#2f7d4f;--okbg:#e8f3ec;--warn:#8a5a00;--warnbg:#fbf1dc}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#141413;--card:#1d1d1b;--fg:#ecebe6;--muted:#9c9a92;--line:#34332f;--accent:#82b3e0;--bad:#ff8a80;--badbg:#3a1d1b;--ok:#8fd19e;--okbg:#18301f;--warn:#f0c46b;--warnbg:#352a12}}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,sans-serif}
+header,main{max-width:1180px;margin:auto;padding:16px} h1{font-size:21px;margin:0 0 2px} .muted{color:var(--muted)}
+.setup{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:3px} input,select,textarea{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:7px;background:transparent;color:inherit;font:inherit}
+textarea.policy{font:12.5px ui-monospace,Menlo,monospace;min-height:140px}
+button{padding:8px 13px;border:0;border-radius:7px;background:var(--accent);color:#fff;font:inherit;cursor:pointer} button.alt{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+.turn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:12px}
+.cust{font-weight:600;margin-bottom:8px} .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px} @media (max-width:760px){.cols{grid-template-columns:1fr}}
+.col h3{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 6px}
+.att{border-left:3px solid var(--line);padding:4px 8px;margin-bottom:8px;white-space:pre-wrap}
+.att.bad{border-color:var(--bad);background:var(--badbg)} .att.warn{border-color:var(--warn);background:var(--warnbg)} .att.ok{border-color:var(--ok);background:var(--okbg)}
+.rule{font:12px ui-monospace,Menlo,monospace;color:var(--bad);margin-top:4px} .unv{font:12px ui-monospace,Menlo,monospace;color:var(--warn);margin-top:4px}
+.sent{white-space:pre-wrap;border-left:3px solid var(--accent);padding:4px 8px} .tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);margin-left:6px}
+.composer{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap} .composer input{flex:1 1 320px}
+.pressure{display:flex;gap:6px;align-items:end;flex-wrap:wrap;margin-top:8px} .pressure > div{flex:0 1 auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Panel Guard playground</h1>
+  <div class="muted">Chat as a customer. Left: what the bot tried to send, with any rule it broke. Right: what the guard let through.
+  The store and orders are fictional. Only connect a bot you own.</div>
+</header>
+<main>
+  <div class="setup">
+    <div style="grid-column:1/-1"><label>Policy (edit freely; this is what gets enforced)</label>
+      <select id="policyName" style="margin-bottom:6px"></select><textarea id="policy" class="policy"></textarea></div>
+    <div><label>Bot endpoint (OpenAI-compatible)</label><input id="base" value="http://127.0.0.1:11434/v1"></div>
+    <div><label>Model</label><input id="model" value="llama3.1:8b"></div>
+    <div><label>API key (blank for local Ollama; kept in memory only)</label><input id="key" type="password" autocomplete="off"></div>
+    <div><label>Extra system prompt (optional, v4 only)</label><input id="extra" placeholder="e.g. Sign off as Maya."></div>
+    <div><label>Guard</label><select id="guard"><option value="1">On</option><option value="0">Off (see what the bot does alone)</option></select></div>
+    <div><label>Guard version</label><select id="gver"><option value="v6">v6 allow-list (reported)</option><option value="v4">v4 promise extractor (older)</option></select></div>
+    <div style="align-self:end"><button id="start">Start conversation</button> <span id="status" class="muted"></span></div>
+  </div>
+  <div id="chat"></div>
+  <div class="composer"><input id="msg" placeholder="Try: I'd like a refund for order A1001." disabled><button id="send" disabled>Send</button></div>
+  <div class="pressure">
+    <div><label>Pressure type</label><select id="ptype"><option>disagreement</option><option>false_authority</option><option>emotional</option><option>repetition</option></select></div>
+    <div><label>Push for</label><input id="demand" value="a full refund"></div>
+    <div><button class="alt" id="pressure" disabled>Pressure me</button></div>
+  </div>
+  <p class="muted" style="font-size:13px"><a href="/policy">Set up a policy with the form</a>. Fictional orders you can mention: A1001 (45 days old), A1002 (11 days), A1003 (on sale), A1004 ($260), A1005 (no receipt), A1006 (89 days), A1007 ($175).</p>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let session = null, pturn = 0;
+async function loadPolicy(name){ $("policy").value = await (await fetch("/api/policy-text?name=" + encodeURIComponent(name))).text(); }
+(async () => { const names = await (await fetch("/api/policies")).json();
+  $("policyName").innerHTML = names.map(n => `<option>${esc(n)}</option>`).join("");
+  let fromForm = null;
+  if (new URLSearchParams(location.search).get("policy") === "form") { try { fromForm = localStorage.getItem("panelGuardFormPolicy"); } catch (e) {} }
+  if (fromForm) { $("policyName").insertAdjacentHTML("afterbegin", "<option>(from the policy form)</option>"); $("policyName").value = "(from the policy form)";
+    $("policy").value = fromForm; $("status").textContent = "Policy loaded from the setup form. Start a conversation to test it."; }
+  else await loadPolicy(names[0]); })();
+$("policyName").onchange = (e) => { if (e.target.value !== "(from the policy form)") loadPolicy(e.target.value); };
+$("start").onclick = async () => {
+  $("status").textContent = "starting…";
+  const r = await fetch("/api/session", {method:"POST", body: JSON.stringify({policy: $("policy").value, base_url: $("base").value,
+    model: $("model").value, api_key: $("key").value, guard_on: $("guard").value === "1", guard: $("gver").value, extra_system: $("extra").value})});
+  const d = await r.json();
+  if (!r.ok) { $("status").textContent = d.error; return; }
+  session = d.session; pturn = 0; $("chat").innerHTML = "";
+  $("status").textContent = `${d.store}: ${d.rules} rules loaded, guard ${d.guard} ${$("guard").value === "1" ? "on" : "off"}.`;
+  for (const id of ["msg","send","pressure"]) $(id).disabled = false; $("msg").focus();
+};
+$("pressure").onclick = async () => {
+  const d = await (await fetch(`/api/pressure?type=${$("ptype").value}&turn=${pturn++ % 2}&demand=${encodeURIComponent($("demand").value)}`)).json();
+  $("msg").value = d.text; $("msg").focus();
+};
+async function send(){
+  const text = $("msg").value.trim(); if (!text || !session) return;
+  $("msg").value = ""; $("send").disabled = true;
+  const box = document.createElement("div"); box.className = "turn";
+  box.innerHTML = `<div class="cust">Customer: ${esc(text)}</div><div class="muted">bot is replying…</div>`; $("chat").appendChild(box);
+  const r = await fetch("/api/chat", {method:"POST", body: JSON.stringify({session, message: text})}); const d = await r.json();
+  $("send").disabled = false;
+  if (!r.ok) { box.lastChild.textContent = d.error; return; }
+  const t = d.turn;
+  const atts = t.attempts.map((a, i) => {
+    const cls = a.ok === null || a.ok === undefined ? "" : a.ok ? "ok" : (a.violations.length ? "bad" : "warn");
+    const claims = (a.claims || []).map(c => (c.type ?? "?") + (c.amount != null ? ` $${c.amount}` : "") + (c.percent != null ? ` ${c.percent}%` : "")).join(", ");
+    return `<div class="att ${cls}"><b>Attempt ${i + 1}</b>${a.ok === false ? " · blocked" : a.ok ? " · passed" : ""}\n${esc(a.text)}`
+      + (claims ? `<div class="muted" style="font-size:12px">${t.actions ? "actions proposed" : "promises found"}: ${esc(claims)}</div>` : "")
+      + a.violations.map(v => `<div class="rule">✗ ${esc(v.rule)}: ${esc(v.reason)}</div>`).join("")
+      + a.unverified.map(u => `<div class="unv">? unverified: ${esc(u)}</div>`).join("")
+      + (a.blocked_sentences || []).map(u => `<div class="unv">✗ ${esc(u)}</div>`).join("") + `</div>`; }).join("");
+  const label = {passed:"passed", passed_after_regeneration:"passed after regeneration", fallback:"fallback + handoff", unguarded:"guard off"}[t.outcome];
+  box.innerHTML = `<div class="cust">Customer: ${esc(text)}</div><div class="cols"><div class="col"><h3>Bot tried</h3>${atts}</div>`
+    + `<div class="col"><h3>Guard sent <span class="tag">${esc(label)}</span>${t.added_s ? `<span class="tag">+${t.added_s.toFixed(1)} s</span>` : ""}</h3><div class="sent">${esc(t.sent)}</div>${t.actions && t.actions.length ? `<div class="muted" style="font-size:12px">actions approved: ${esc(t.actions.map(x => x.type + (x.amount != null ? " $" + x.amount : "") + (x.percent != null ? " " + x.percent + "%" : "")).join(", "))}</div>` : ""}</div></div>`;
+}
+$("send").onclick = send; $("msg").addEventListener("keydown", (e) => { if (e.key === "Enter") send(); });
+</script>
+</body>
+</html>

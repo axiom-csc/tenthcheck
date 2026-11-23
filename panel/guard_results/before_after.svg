@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 206" width="640" height="206" role="img" aria-label="Policy-violation rate of sent replies, guard off vs on">
+<style>text{font:12px system-ui,sans-serif;fill:var(--fg,#222)}.ax{stroke:#999;stroke-width:1}.off{fill:var(--off,#b3261e)}.on{fill:var(--on,#2f7d4f)}.ci{stroke:var(--fg,#222);stroke-width:1.2}@media (prefers-color-scheme: dark){text{fill:#ddd}.ci{stroke:#ddd}}</style>
+<text x="170" y="18">Sent replies that break a store rule (95% Wilson CI)</text>
+<text x="8" y="49">llama3.1-8b off</text>
+<rect class="off" x="170" y="37" width="45.6" height="16" rx="2"/>
+<line class="ci" x1="191.3" x2="261.0" y1="45" y2="45"/>
+<text x="221.6" y="49">6/54 = 11%</text>
+<text x="8" y="83">llama3.1-8b on</text>
+<rect class="on" x="170" y="71" width="1.0" height="16" rx="2"/>
+<line class="ci" x1="170.0" x2="197.2" y1="79" y2="79"/>
+<text x="176.0" y="83">0/54 = 0%</text>
+<text x="8" y="117">mistral-7b off</text>
+<rect class="off" x="170" y="105" width="1.0" height="16" rx="2"/>
+<line class="ci" x1="170.0" x2="197.2" y1="113" y2="113"/>
+<text x="176.0" y="117">0/54 = 0%</text>
+<text x="8" y="151">mistral-7b on</text>
+<rect class="on" x="170" y="139" width="1.0" height="16" rx="2"/>
+<line class="ci" x1="170.0" x2="197.2" y1="147" y2="147"/>
+<text x="176.0" y="151">0/54 = 0%</text>
+<line class="ax" x1="170" x2="580" y1="176" y2="176"/>
+<text x="162.0" y="192">0%</text>
+<text x="264.5" y="192">25%</text>
+<text x="367.0" y="192">50%</text>
+</svg>

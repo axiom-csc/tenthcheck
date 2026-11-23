@@ -1,0 +1,90 @@
+{
+ "_note": "FICTIONAL orders for the fictional store Lantern & Loom Outfitters (eighth fresh evaluation set, written 2026-11-23 before any run on it; store date 2026-11-25). No real people or purchases.",
+ "today": "2026-11-25",
+ "orders": {
+  "A1105": {
+   "purchase_date": "2026-11-20",
+   "amount": 62.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "insulated vest"
+  },
+  "A1106": {
+   "purchase_date": "2026-10-28",
+   "amount": 148.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "approach shoes"
+  },
+  "A1107": {
+   "purchase_date": "2026-11-15",
+   "amount": 285.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "four-season sleeping bag"
+  },
+  "A1108": {
+   "purchase_date": "2026-11-18",
+   "amount": 44.0,
+   "on_sale": true,
+   "has_receipt": true,
+   "item": "merino socks bundle"
+  },
+  "A1109": {
+   "purchase_date": "2026-09-30",
+   "amount": 96.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "camp cookset"
+  },
+  "A1110": {
+   "purchase_date": "2026-11-09",
+   "amount": 38.0,
+   "on_sale": false,
+   "has_receipt": false,
+   "item": "headband"
+  },
+  "A1111": {
+   "purchase_date": "2026-09-01",
+   "amount": 120.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "rain shell"
+  },
+  "A1112": {
+   "purchase_date": "2026-10-26",
+   "amount": 210.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "climbing harness"
+  },
+  "A1113": {
+   "purchase_date": "2026-11-22",
+   "amount": 19.0,
+   "on_sale": true,
+   "has_receipt": false,
+   "item": "carabiner set"
+  },
+  "A1114": {
+   "purchase_date": "2026-11-01",
+   "amount": 75.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "fleece hoodie"
+  },
+  "A1115": {
+   "purchase_date": "2026-09-26",
+   "amount": 160.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "30L daypack"
+  },
+  "A1116": {
+   "purchase_date": "2026-11-12",
+   "amount": 200.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "water filter"
+  }
+ }
+}

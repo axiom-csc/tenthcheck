@@ -5,8 +5,8 @@ import multiprocessing as mp
 
 import pytest
 
-from tenthcheck import agents
-from tenthcheck.cli import main
+from tenthlook.tenthcheck import agents
+from tenthlook.tenthcheck.cli import main
 
 CORE = "def helper(x):\n    return x + 1\n\ndef add(a, b):\n    return a + helper(b)\n"
 API = "from pkg.core import add\n\ndef calculate(x, y):\n    return add(x, y)\n"
@@ -124,7 +124,7 @@ def test_expired_and_ended_sessions_stop_warning(repo):
 
 def test_after_the_write_with_a_snapshot_only_this_files_changes_count(repo):
     """The MCP flow: diff against the session's snapshot; another session's edit to another file isn't ours."""
-    from tenthcheck.parser import parse_package
+    from tenthlook.tenthcheck.parser import parse_package
     snap = parse_package(str(repo), skip_syntax_errors=True)
     (repo / "pkg/api.py").write_text(edit_calculate())   # someone else's edit, other file
     (repo / "pkg/core.py").write_text(edit_helper())     # ours, already written
@@ -206,7 +206,7 @@ def test_state_dir_is_not_parsed_as_code(repo, capsys):
 def test_mcp_two_sessions(repo):
     pytest.importorskip("mcp")
     from mcp import Client
-    from tenthcheck.server import build_server
+    from tenthlook.tenthcheck.server import build_server
 
     srv_a, srv_b = build_server(repo, session_id="A"), build_server(repo, session_id="B")
 

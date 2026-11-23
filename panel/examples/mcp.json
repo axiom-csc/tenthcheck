@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "filesystem-via-panel": {
+      "command": "/ABS/PATH/TO/.venv/bin/panel",
+      "args": ["proxy", "--policy", "/ABS/PATH/policy.filesystem.yaml", "--", "npx", "-y", "@modelcontextprotocol/server-filesystem", "/srv/data"]
+    },
+    "internal-db-and-stripe-via-panel": {
+      "command": "/ABS/PATH/TO/.venv/bin/panel",
+      "args": ["serve", "--policy", "/ABS/PATH/policy.native.yaml"]
+    }
+  }
+}

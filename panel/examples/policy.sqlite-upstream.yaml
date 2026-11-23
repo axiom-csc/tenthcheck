@@ -1,0 +1,10 @@
+# Wrap the reference sqlite MCP server:  usepanel proxy --policy examples/policy.sqlite-upstream.yaml -- mcp-server-sqlite --db-path ./app.db
+version: "sqlite-1"
+mode: auto
+database: ./app.db            # Panel counts affected rows here (read-only) before a write runs
+sql: {protected_tables: [secrets, audit_log]}
+actions:
+  read_query:     {risk: read, sql_arg: query}
+  list_tables:    {risk: read}
+  describe_table: {risk: read}
+  write_query:    {risk: write, sql_arg: query, max_rows: 100, consent_over_rows: 10}

@@ -1,6 +1,6 @@
 import pytest
 
-from tenthcheck.z3check import check_source
+from tenthlook.tenthcheck.z3check import check_source
 
 BANK = '''
 def withdraw(balance, amount, fee):

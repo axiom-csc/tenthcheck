@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lantern & Loom Demo</title>
+<style>
+:root{--bg:#faf7f0;--fg:#2a241c;--muted:#7a6f60;--line:#e6dfd2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17150f;--fg:#efe8da;--muted:#a89c88;--line:#3a352a}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Georgia,serif}
+.banner{background:#8a5a00;color:#fff;font:600 13px system-ui,sans-serif;padding:8px 16px;text-align:center}
+main{max-width:860px;margin:auto;padding:32px 16px 120px} h1{font-size:34px;margin:0} .muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px;margin-top:22px}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px} .price{font:600 15px system-ui,sans-serif}
+</style>
+</head>
+<body>
+<div class="banner">FICTIONAL DEMO STORE: Lantern &amp; Loom is not a real business. Orders A1001–A1010 are made up.</div>
+<main>
+  <h1>Lantern &amp; Loom Outfitters</h1>
+  <p class="muted">Woollens and outdoor wear. Returns within 30 days; exchanges within 60 days with a receipt; sale items are final.</p>
+  <div class="grid">
+    <div class="card"><b>Wool scarf</b><div class="price">$89</div></div>
+    <div class="card"><b>Down parka</b><div class="price">$260</div></div>
+    <div class="card"><b>Rain jacket</b><div class="price">$145 <span class="muted">(sale)</span></div></div>
+    <div class="card"><b>Wool sweater</b><div class="price">$175</div></div>
+  </div>
+  <p class="muted" style="margin-top:28px">Open the chat (bottom right) and ask about an order. Each reply is checked against the store's policy before it is shown.</p>
+</main>
+<script src="/widget.js" data-endpoint="/widget/chat" data-title="Ask Lantern &amp; Loom"></script>
+</body>
+</html>

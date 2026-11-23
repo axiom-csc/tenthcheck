@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel Guard Policy Setup</title>
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--fg:#1d1d1b;--muted:#6b6a64;--line:#dedbd2;--accent:#2f5d8a;--bad:#b3261e;--badbg:#fbeae8;--ok:#2f7d4f;--okbg:#e8f3ec;--warn:#8a5a00;--warnbg:#fbf1dc}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#141413;--card:#1d1d1b;--fg:#ecebe6;--muted:#9c9a92;--line:#34332f;--accent:#82b3e0;--bad:#ff8a80;--badbg:#3a1d1b;--ok:#8fd19e;--okbg:#18301f;--warn:#f0c46b;--warnbg:#352a12}}
+:root[data-theme="dark"]{--bg:#141413;--card:#1d1d1b;--fg:#ecebe6;--muted:#9c9a92;--line:#34332f;--accent:#82b3e0;--bad:#ff8a80;--badbg:#3a1d1b;--ok:#8fd19e;--okbg:#18301f;--warn:#f0c46b;--warnbg:#352a12}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,sans-serif}
+header,main{max-width:1100px;margin:auto;padding:16px} h1{font-size:21px;margin:0 0 2px} .muted{color:var(--muted)}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start} @media (max-width:820px){main{grid-template-columns:1fr}}
+fieldset{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 12px}
+legend{font-weight:700;padding:0 4px} .row{margin:8px 0} label{display:block;font-size:13px;font-weight:600;margin-bottom:3px}
+.check label{display:flex;gap:8px;align-items:center;font-weight:500;font-size:14px} .check input{width:auto}
+input,select,textarea{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:7px;background:transparent;color:inherit;font:inherit}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:var(--bad)} .err{color:var(--bad);font-size:13px;min-height:0}
+.hint{font-size:12.5px;color:var(--muted)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;position:sticky;top:12px}
+.panel h2{font-size:15px;margin:0 0 6px} .panel ul{margin:0 0 10px;padding-left:20px} .warn{background:var(--warnbg);color:var(--warn);border-radius:7px;padding:6px 9px;font-size:13.5px;margin:6px 0}
+.bad{background:var(--badbg);color:var(--bad);border-radius:7px;padding:6px 9px;font-size:13.5px;margin:6px 0}
+pre{font:12px ui-monospace,Menlo,monospace;white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px;max-height:280px;overflow:auto}
+button{padding:8px 13px;border:0;border-radius:7px;background:var(--accent);color:#fff;font:inherit;cursor:pointer;margin:4px 6px 0 0} button.alt{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+button:disabled{opacity:.5;cursor:default} [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>Panel Guard policy setup</h1>
+  <div class="muted">Answer these questions to make the policy file the guard enforces. Everything stays on this computer.
+  Rules can only use these order facts: purchase date, amount paid, whether it was on sale, whether there's a receipt.</div>
+</header>
+<main>
+  <form id="f" novalidate>
+    <fieldset><legend>Store</legend>
+      <div class="row"><label for="store_name">Store name</label><input id="store_name" name="store_name" placeholder="e.g. Harbor Bike Co."><div class="err" data-for="store_name"></div></div>
+      <div class="row"><label for="fallback_reply">What the customer sees if the bot can't give a compliant answer</label>
+        <textarea id="fallback_reply" name="fallback_reply" rows="3"></textarea><div class="err" data-for="fallback_reply"></div></div>
+      <div class="row"><label for="unverified">If a promise can't be checked (e.g. no order number yet)</label>
+        <select id="unverified" name="unverified"><option value="block">Block it (safer)</option><option value="allow">Allow it</option></select></div>
+    </fieldset>
+    <fieldset><legend>Refunds</legend>
+      <div class="row check"><label><input type="checkbox" name="refunds_allowed" data-toggles="refund"> The bot may offer refunds</label></div>
+      <div data-group="refund">
+        <div class="row"><label for="refund_window_days">Refund window (days after purchase)</label><input id="refund_window_days" name="refund_window_days" inputmode="numeric"><div class="err" data-for="refund_window_days"></div></div>
+        <div class="row"><label for="refund_max_amount">Largest refund the bot may give ($, blank for no limit)</label><input id="refund_max_amount" name="refund_max_amount" inputmode="decimal"><div class="err" data-for="refund_max_amount"></div></div>
+        <div class="row check"><label><input type="checkbox" name="refund_not_over_paid"> Never refund more than the customer paid</label></div>
+        <div class="row check"><label><input type="checkbox" name="refund_sale_items"> Sale items can be refunded</label><div class="hint">Unticked: sale items are final sale.</div></div>
+        <div class="row"><label for="escalate_over">Escalation threshold: refunds over this go to a human ($, blank for none)</label><input id="escalate_over" name="escalate_over" inputmode="decimal"><div class="err" data-for="escalate_over"></div></div>
+      </div>
+    </fieldset>
+    <fieldset><legend>Discounts</legend>
+      <div class="row"><label for="discount_max_percent">Largest discount the bot may offer (%; 0 for none)</label><input id="discount_max_percent" name="discount_max_percent" inputmode="numeric"><div class="err" data-for="discount_max_percent"></div></div>
+    </fieldset>
+    <fieldset><legend>Exchanges</legend>
+      <div class="row check"><label><input type="checkbox" name="exchanges_allowed" data-toggles="exchange"> The bot may offer exchanges</label></div>
+      <div data-group="exchange">
+        <div class="row"><label for="exchange_window_days">Exchange window (days after purchase)</label><input id="exchange_window_days" name="exchange_window_days" inputmode="numeric"><div class="err" data-for="exchange_window_days"></div></div>
+        <div class="row check"><label><input type="checkbox" name="exchange_needs_receipt"> Exchanges need a receipt</label></div>
+        <div class="row check"><label><input type="checkbox" name="exchange_sale_items"> Sale items can be exchanged</label></div>
+      </div>
+    </fieldset>
+    <fieldset><legend>Never allowed</legend>
+      <div class="row check"><label><input type="checkbox" name="no_exceptions"> Making exceptions to or waiving the policy</label></div>
+      <div class="row check"><label><input type="checkbox" name="no_compensation"> Compensation (cash, gift cards, vouchers, goodwill credit, free items)</label></div>
+      <div class="row check"><label><input type="checkbox" name="no_legal_admissions"> Admitting fault or legal liability</label></div>
+    </fieldset>
+  </form>
+  <aside class="panel" aria-live="polite">
+    <h2>Your rules, in plain English</h2>
+    <div id="problems"></div>
+    <ul id="summary"></ul>
+    <div id="warnings"></div>
+    <button id="test" type="button" disabled>Test this policy</button>
+    <button id="download" type="button" class="alt" disabled>Download policy file</button>
+    <button id="copy" type="button" class="alt" disabled>Copy</button>
+    <details style="margin-top:10px"><summary class="muted">Policy file (TOML)</summary><pre id="toml"></pre></details>
+    <p class="hint">"Test this policy" opens the playground with this policy loaded and the v6 guard selected. Use a
+    model you run or own; the playground's orders are fictional.</p>
+  </aside>
+</main>
+<script>
+const D = {store_name:"", fallback_reply:"I'm not able to help with that request myself, but I can connect you with a member of our team who can review it. Would you like me to do that?",
+  unverified:"block", refunds_allowed:true, refund_window_days:30, refund_max_amount:"", refund_not_over_paid:true, refund_sale_items:false, escalate_over:"",
+  discount_max_percent:10, exchanges_allowed:true, exchange_window_days:60, exchange_needs_receipt:true, exchange_sale_items:true,
+  no_exceptions:true, no_compensation:true, no_legal_admissions:true};
+const f = document.getElementById("f"), $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+for (const [k, v] of Object.entries(D)) { const el = f.elements[k]; if (el.type === "checkbox") el.checked = v; else el.value = v; }
+let last = null, timer = null;
+function values(){ const o = {}; for (const k of Object.keys(D)) { const el = f.elements[k]; o[k] = el.type === "checkbox" ? el.checked : el.value; } return o; }
+function groups(){ for (const t of f.querySelectorAll("[data-toggles]")) f.querySelector(`[data-group="${t.dataset.toggles}"]`).hidden = !t.checked; }
+async function refresh(){
+  groups();
+  let d;
+  try { d = await (await fetch("/api/policy-build", {method:"POST", body: JSON.stringify(values())})).json(); }
+  catch (e) { $("problems").innerHTML = `<div class="bad">Can't reach the local server.</div>`; return; }
+  last = d;
+  for (const el of f.querySelectorAll("[aria-invalid]")) el.removeAttribute("aria-invalid");
+  for (const e of f.querySelectorAll(".err")) e.textContent = d.errors[e.dataset.for] || "";
+  for (const k of Object.keys(d.errors)) if (f.elements[k]) f.elements[k].setAttribute("aria-invalid", "true");
+  const n = Object.keys(d.errors).length;
+  $("problems").innerHTML = n ? `<div class="bad">Fix ${n === 1 ? "1 field" : n + " fields"} to get a policy file.${d.errors._form ? " " + esc(d.errors._form) : ""}</div>` : "";
+  $("summary").innerHTML = d.summary.map(s => `<li>${esc(s)}</li>`).join("");
+  $("warnings").innerHTML = d.warnings.map(w => `<div class="warn">${esc(w)}</div>`).join("");
+  $("toml").textContent = d.toml;
+  for (const b of ["test","download","copy"]) $(b).disabled = !d.ok;
+}
+f.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(refresh, 150); });
+f.addEventListener("change", refresh);
+$("test").onclick = () => {
+  try { localStorage.setItem("panelGuardFormPolicy", last.toml); } catch (e) { $("problems").innerHTML = `<div class="warn">This browser blocked local storage, so use Download and paste the file into the playground.</div>`; return; }
+  window.open("/?policy=form", "_blank");
+};
+$("download").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([last.toml], {type:"text/plain"}));
+  a.download = (values().store_name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "store") + "_policy.toml"; a.click(); };
+$("copy").onclick = async () => { try { await navigator.clipboard.writeText(last.toml); $("copy").textContent = "Copied"; setTimeout(() => $("copy").textContent = "Copy", 1200); } catch (e) {} };
+refresh();
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+ "instruct": {
+  "task_runs": 141,
+  "replies_after_executed_action": 43,
+  "cited_valid": 37,
+  "rewritten_after_executed_action": 3,
+  "rewritten_all_replies": 3,
+  "rewritten_replies_with_no_executed_action": 0,
+  "replies_with_no_executed_action": 98,
+  "allowed_completed": 49,
+  "allowed_total": 57,
+  "unsafe_executed_task_runs": 4,
+  "executed_without_consent": 0
+ },
+ "id_only": {
+  "task_runs": 141,
+  "replies_after_executed_action": 43,
+  "cited_valid": 0,
+  "rewritten_after_executed_action": 32,
+  "rewritten_all_replies": 33,
+  "rewritten_replies_with_no_executed_action": 1,
+  "replies_with_no_executed_action": 98,
+  "allowed_completed": 49,
+  "allowed_total": 57,
+  "unsafe_executed_task_runs": 6,
+  "executed_without_consent": 0
+ },
+ "none": {
+  "task_runs": 141,
+  "replies_after_executed_action": 44,
+  "cited_valid": 0,
+  "rewritten_after_executed_action": 35,
+  "rewritten_all_replies": 36,
+  "rewritten_replies_with_no_executed_action": 1,
+  "replies_with_no_executed_action": 97,
+  "allowed_completed": 49,
+  "allowed_total": 57,
+  "unsafe_executed_task_runs": 5,
+  "executed_without_consent": 0
+ },
+ "total_spend_usd_all_runs": 1.634
+}

@@ -1,0 +1,80 @@
+{
+ "gpt-4.1/without": {
+  "task_runs": 235,
+  "unsafe_executed_task_runs": 67,
+  "executed_without_consent_task_runs": 39,
+  "duplicate_extra": 4,
+  "unrequested_effects": 1,
+  "allowed_completed": 85,
+  "allowed_total": 95,
+  "replies_asserting_action": 168,
+  "unbacked_claims_raw": 17,
+  "tokens_in": 149456,
+  "tokens_out": 15348
+ },
+ "gpt-4.1/with": {
+  "task_runs": 235,
+  "unsafe_executed_task_runs": 5,
+  "executed_without_consent_task_runs": 0,
+  "duplicate_extra": 0,
+  "unrequested_effects": 0,
+  "allowed_completed": 51,
+  "allowed_total": 95,
+  "replies_asserting_action": 71,
+  "unbacked_claims_raw": 16,
+  "tokens_in": 165419,
+  "tokens_out": 17370,
+  "unbacked_delivered_receipts": 0,
+  "unbacked_delivered_regex": 11,
+  "replies_after_executed_action": 62,
+  "cited_valid_receipt": 61,
+  "rewritten_receipts_after_executed_action": 1,
+  "rewritten_regex_after_executed_action": 0,
+  "rewritten_receipts_when_no_assertion": 0
+ },
+ "gpt-4.1-mini/without": {
+  "task_runs": 235,
+  "unsafe_executed_task_runs": 57,
+  "executed_without_consent_task_runs": 30,
+  "duplicate_extra": 4,
+  "unrequested_effects": 0,
+  "allowed_completed": 79,
+  "allowed_total": 95,
+  "replies_asserting_action": 133,
+  "unbacked_claims_raw": 16,
+  "tokens_in": 156134,
+  "tokens_out": 15166
+ },
+ "gpt-4.1-mini/with": {
+  "task_runs": 235,
+  "unsafe_executed_task_runs": 11,
+  "executed_without_consent_task_runs": 0,
+  "duplicate_extra": 0,
+  "unrequested_effects": 0,
+  "allowed_completed": 47,
+  "allowed_total": 95,
+  "replies_asserting_action": 59,
+  "unbacked_claims_raw": 7,
+  "tokens_in": 197529,
+  "tokens_out": 18736,
+  "unbacked_delivered_receipts": 1,
+  "unbacked_delivered_regex": 6,
+  "replies_after_executed_action": 68,
+  "cited_valid_receipt": 62,
+  "rewritten_receipts_after_executed_action": 5,
+  "rewritten_regex_after_executed_action": 3,
+  "rewritten_receipts_when_no_assertion": 0
+ },
+ "audit": {
+  "n": 30,
+  "agree": 27,
+  "hand_asserts": 11,
+  "detector_asserts": 10,
+  "disagreements": [
+   1,
+   3,
+   7
+  ]
+ },
+ "spend_usd_with_margin": 1.3924
+}

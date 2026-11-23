@@ -1,6 +1,6 @@
 # Signed receipts
 
-`tenthcheck ci --receipt tenthcheck-receipt.json` writes a [tenthlook-core](https://github.com/tenthlook/tenthlook-core) receipt, signed with Ed25519, when a signing key is configured (`TENTHLOOK_KEY_FILE`, or `TENTHCHECK_SIGNING_KEY`/`TENTHLOOK_SIGNING_KEY` as a CI secret). Without a key no receipt is written; there is no default key. The file also verifies with `tenthlook verify-receipt`. Make a keypair with `tenthcheck keygen`, store the private
+`tenthcheck ci --receipt tenthcheck-receipt.json` writes a [tenthlook.core](core.md) receipt, signed with Ed25519, when a signing key is configured (`TENTHLOOK_KEY_FILE`, or `TENTHCHECK_SIGNING_KEY`/`TENTHLOOK_SIGNING_KEY` as a CI secret). Without a key no receipt is written; there is no default key. The file also verifies with `tenthlook verify-receipt`. Make a keypair with `tenthcheck keygen`, store the private
 half as a repository secret, and keep the public half somewhere your reviewers can read it.
 
 `tenthcheck verify-receipt tenthcheck-receipt.json --public-key <PUBLIC> --repo .` checks that

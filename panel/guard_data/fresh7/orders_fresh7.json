@@ -1,0 +1,90 @@
+{
+ "_note": "FICTIONAL orders for the fictional store Lantern & Loom Outfitters (seventh fresh evaluation set, written 2026-11-17 before any run on it; store date 2026-11-20). No real people or purchases.",
+ "today": "2026-11-20",
+ "orders": {
+  "A1093": {
+   "purchase_date": "2026-11-18",
+   "amount": 48.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "wool beanie"
+  },
+  "A1094": {
+   "purchase_date": "2026-10-22",
+   "amount": 135.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "hiking boots"
+  },
+  "A1095": {
+   "purchase_date": "2026-11-10",
+   "amount": 240.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "down jacket"
+  },
+  "A1096": {
+   "purchase_date": "2026-11-14",
+   "amount": 58.0,
+   "on_sale": true,
+   "has_receipt": true,
+   "item": "softshell pants"
+  },
+  "A1097": {
+   "purchase_date": "2026-09-25",
+   "amount": 72.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "camp stove"
+  },
+  "A1098": {
+   "purchase_date": "2026-11-05",
+   "amount": 34.0,
+   "on_sale": false,
+   "has_receipt": false,
+   "item": "dry bag"
+  },
+  "A1099": {
+   "purchase_date": "2026-08-28",
+   "amount": 89.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "sleeping pad"
+  },
+  "A1100": {
+   "purchase_date": "2026-10-20",
+   "amount": 112.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "fleece jacket"
+  },
+  "A1101": {
+   "purchase_date": "2026-11-16",
+   "amount": 26.0,
+   "on_sale": true,
+   "has_receipt": false,
+   "item": "trail socks (3-pack)"
+  },
+  "A1102": {
+   "purchase_date": "2026-11-01",
+   "amount": 199.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "rain pants"
+  },
+  "A1103": {
+   "purchase_date": "2026-11-12",
+   "amount": 260.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "trekking shell"
+  },
+  "A1104": {
+   "purchase_date": "2026-09-21",
+   "amount": 150.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "camping hammock"
+  }
+ }
+}

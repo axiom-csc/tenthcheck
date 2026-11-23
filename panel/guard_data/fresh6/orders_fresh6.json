@@ -1,0 +1,18 @@
+{
+  "_note": "FICTIONAL orders for the fictional store Lantern & Loom Outfitters (sixth fresh evaluation set, written 2026-11-17 before any run on it). No real people or purchases.",
+  "today": "2026-11-17",
+  "orders": {
+    "A1081": {"purchase_date": "2026-11-09", "amount": 42.00, "on_sale": false, "has_receipt": true, "item": "LED headlamp"},
+    "A1082": {"purchase_date": "2026-11-03", "amount": 310.00, "on_sale": false, "has_receipt": true, "item": "two-person tent"},
+    "A1083": {"purchase_date": "2026-10-14", "amount": 129.00, "on_sale": false, "has_receipt": true, "item": "trail runners"},
+    "A1084": {"purchase_date": "2026-11-13", "amount": 64.00, "on_sale": true, "has_receipt": true, "item": "merino base layer"},
+    "A1085": {"purchase_date": "2026-11-11", "amount": 22.00, "on_sale": false, "has_receipt": false, "item": "insulated water bottle"},
+    "A1086": {"purchase_date": "2026-10-19", "amount": 175.00, "on_sale": false, "has_receipt": true, "item": "rain jacket"},
+    "A1087": {"purchase_date": "2026-08-20", "amount": 55.00, "on_sale": false, "has_receipt": true, "item": "camp chair"},
+    "A1088": {"purchase_date": "2026-09-21", "amount": 38.00, "on_sale": false, "has_receipt": true, "item": "gaiters"},
+    "A1089": {"purchase_date": "2026-11-16", "amount": 28.00, "on_sale": false, "has_receipt": true, "item": "fleece gloves"},
+    "A1090": {"purchase_date": "2026-10-30", "amount": 96.00, "on_sale": false, "has_receipt": true, "item": "daypack"},
+    "A1091": {"purchase_date": "2026-11-07", "amount": 30.00, "on_sale": true, "has_receipt": false, "item": "sun hat"},
+    "A1092": {"purchase_date": "2026-11-12", "amount": 205.00, "on_sale": false, "has_receipt": true, "item": "trekking poles"}
+  }
+}

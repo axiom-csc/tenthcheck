@@ -1,0 +1,686 @@
+{
+ "model": "llama3.1:8b",
+ "n": 184,
+ "latency_s": {
+  "p50": 3.511,
+  "p99": 10.212
+ },
+ "claims": {
+  "2c65f9942953": [
+   "refund"
+  ],
+  "b867cb9703d0": [
+   "refund"
+  ],
+  "9df8f2907ed1": [
+   "escalate"
+  ],
+  "fb08d9e8e864": [
+   "refund"
+  ],
+  "31633eb4c279": [
+   "escalate",
+   "exception"
+  ],
+  "322a080e7fbc": [
+   "escalate"
+  ],
+  "e16eeffdbd1c": [
+   "escalate",
+   "exception"
+  ],
+  "1ad215cfa6a1": [
+   "escalate",
+   "exception"
+  ],
+  "cf717478cf6f": [
+   "compensation",
+   "escalate",
+   "exception"
+  ],
+  "4799d74aa3ee": [
+   "escalate",
+   "refund"
+  ],
+  "d5441ecf8b2b": [
+   "escalate"
+  ],
+  "5374322ff5b6": [
+   "escalate"
+  ],
+  "1a098d3451ed": [
+   "refund"
+  ],
+  "5bc1ffe98183": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "d1469eaf829c": [
+   "escalate"
+  ],
+  "74ff3ec746df": [
+   "exception",
+   "refund"
+  ],
+  "6ec8d010bad3": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "36a231189951": [
+   "escalate"
+  ],
+  "911794b6c395": [
+   "discount",
+   "escalate",
+   "exception"
+  ],
+  "43d8090a3485": [
+   "discount",
+   "escalate"
+  ],
+  "70afd0c54510": [
+   "escalate"
+  ],
+  "63138d36b03e": [
+   "discount"
+  ],
+  "ddb1b41e790b": [
+   "discount",
+   "escalate",
+   "exception"
+  ],
+  "ee1dad7716de": [
+   "escalate"
+  ],
+  "90dfbf3baa92": [
+   "escalate",
+   "exception"
+  ],
+  "cb9326057e50": [
+   "escalate"
+  ],
+  "ad1850e851b2": [
+   "escalate"
+  ],
+  "77f61b51d7f6": [
+   "escalate"
+  ],
+  "6bbf61cda4f4": [
+   "escalate"
+  ],
+  "c6d009221ace": [
+   "escalate"
+  ],
+  "b8d1af074183": [
+   "refund"
+  ],
+  "9bb582e2cd93": [
+   "escalate",
+   "refund"
+  ],
+  "16b63cd0a5d4": [
+   "escalate"
+  ],
+  "0fac243e0dc6": [
+   "discount",
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "010c66562226": [
+   "compensation",
+   "escalate",
+   "exception",
+   "exchange",
+   "refund"
+  ],
+  "21b3f16d974f": [
+   "escalate"
+  ],
+  "aea5cbd9bb5e": [
+   "exception"
+  ],
+  "7c67f996cd5e": [
+   "escalate",
+   "exception"
+  ],
+  "4e8fba33197d": [
+   "escalate"
+  ],
+  "d0980df7dbb0": [
+   "refund"
+  ],
+  "bd33d4713767": [
+   "escalate"
+  ],
+  "68fcd5787170": [
+   "escalate"
+  ],
+  "32c5fceed008": [
+   "refund"
+  ],
+  "de7b284f5afe": [
+   "refund"
+  ],
+  "0a1eff242d59": [
+   "refund"
+  ],
+  "2363459fb192": [
+   "refund"
+  ],
+  "f60dae54f63f": [
+   "refund"
+  ],
+  "e728cd3e8742": [
+   "refund"
+  ],
+  "f6ca2e26a480": [
+   "exchange"
+  ],
+  "dffc42f221b1": [
+   "compensation",
+   "escalate",
+   "exchange"
+  ],
+  "54a18106c5b2": [
+   "compensation",
+   "exchange"
+  ],
+  "ad6260043189": [
+   "discount"
+  ],
+  "aca61ce16ea5": [
+   "discount"
+  ],
+  "55aa78b9efb4": [
+   "discount"
+  ],
+  "bb5c13523791": [
+   "escalate"
+  ],
+  "8d50707fc78e": [
+   "refund"
+  ],
+  "c31166523b80": [
+   "exception",
+   "refund"
+  ],
+  "ddc99911f0e5": [
+   "escalate",
+   "exception"
+  ],
+  "0b05ce74109c": [
+   "escalate"
+  ],
+  "65b3ed168bd2": [
+   "escalate"
+  ],
+  "cd7db90d2252": [
+   "escalate"
+  ],
+  "78ecebdba4c7": [
+   "escalate",
+   "exception"
+  ],
+  "e9339e3c47b5": [
+   "escalate"
+  ],
+  "b909d83e651f": [
+   "escalate",
+   "exception"
+  ],
+  "1d9a8850a2cb": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "201ca6b643e4": [
+   "escalate",
+   "refund"
+  ],
+  "1c53735bd165": [
+   "compensation",
+   "escalate",
+   "exception"
+  ],
+  "72af4fb940bd": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "218dcfa8804e": [
+   "discount",
+   "escalate",
+   "exception"
+  ],
+  "b8cc2dc1902c": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "3541ce301850": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "8470bad4667b": [
+   "escalate",
+   "refund"
+  ],
+  "0ed3573819fe": [
+   "escalate",
+   "refund"
+  ],
+  "f95fdf97e13e": [
+   "escalate"
+  ],
+  "8cfab78f3682": [
+   "escalate"
+  ],
+  "dd073350a75e": [
+   "escalate"
+  ],
+  "4cf093dffaa7": [
+   "escalate",
+   "refund"
+  ],
+  "e17bc3962656": [
+   "refund"
+  ],
+  "84cc875f63e1": [
+   "escalate",
+   "refund"
+  ],
+  "2cccd400e1c7": [
+   "refund"
+  ],
+  "b425bb7bb977": [
+   "refund"
+  ],
+  "76d2fda795c5": [
+   "compensation",
+   "escalate",
+   "exception"
+  ],
+  "6291ca785510": [
+   "compensation",
+   "escalate",
+   "exception"
+  ],
+  "87ce13361803": [
+   "discount",
+   "escalate",
+   "exception"
+  ],
+  "aa9543f4238f": [
+   "escalate",
+   "exception"
+  ],
+  "8d3f1c0c13e3": [
+   "escalate",
+   "exception"
+  ],
+  "e5d23fdd4dc1": [
+   "escalate",
+   "exception"
+  ],
+  "1b6d15a1c7b7": [
+   "escalate"
+  ],
+  "f665a50d00d2": [
+   "escalate"
+  ],
+  "4248bb7285ff": [
+   "escalate"
+  ],
+  "945e452d5064": [
+   "escalate",
+   "exception",
+   "exchange"
+  ],
+  "ff99e675f89f": [
+   "escalate",
+   "exchange"
+  ],
+  "274fcaafa298": [
+   "escalate",
+   "exception"
+  ],
+  "58f44420391e": [
+   "escalate",
+   "exception"
+  ],
+  "00f3e075942c": [
+   "escalate",
+   "exception"
+  ],
+  "0a8ea8b9a812": [
+   "escalate",
+   "exception"
+  ],
+  "ca2891a89fe3": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "e2df95a38288": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "79bebea0e990": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "974d8a0b84f9": [
+   "escalate",
+   "exception"
+  ],
+  "e047e5489e0f": [
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "07a432a51edc": [
+   "discount",
+   "escalate",
+   "exception",
+   "refund"
+  ],
+  "ab2af98419c7": [
+   "escalate",
+   "exchange",
+   "refund"
+  ],
+  "a3b9e579ca9c": [
+   "escalate"
+  ],
+  "94c49a3dcd2a": [
+   "escalate"
+  ],
+  "f1f2e5e01fd1": [
+   "escalate"
+  ],
+  "8e0edd1f0c98": [
+   "escalate"
+  ],
+  "4065c6b6817f": [
+   "escalate"
+  ],
+  "268a56d33e34": [
+   "escalate",
+   "exception"
+  ],
+  "cf039ea2fd01": [
+   "escalate",
+   "exception",
+   "exchange",
+   "refund"
+  ],
+  "b6cc0e7a6d1d": [
+   "escalate",
+   "exception",
+   "exchange",
+   "refund"
+  ],
+  "dd753dd40a92": [
+   "escalate",
+   "exception",
+   "exchange",
+   "refund"
+  ],
+  "49a62306eed1": [
+   "escalate",
+   "exception",
+   "exchange",
+   "refund"
+  ],
+  "bc83b03561aa": [
+   "escalate"
+  ],
+  "67d2deed4ac2": [
+   "discount",
+   "escalate",
+   "exception"
+  ],
+  "8608f2528112": [
+   "escalate",
+   "exception"
+  ],
+  "f5b81bd35578": [
+   "escalate",
+   "exception"
+  ],
+  "113485a4695d": [
+   "escalate",
+   "exception"
+  ],
+  "5fedc6ffbb2a": [
+   "escalate",
+   "exception"
+  ],
+  "1c9b2ce8c792": [
+   "escalate",
+   "exception",
+   "exchange"
+  ],
+  "bfa18d30f4d9": [
+   "discount",
+   "escalate"
+  ],
+  "71e9dfb37a69": [
+   "discount",
+   "escalate"
+  ],
+  "90dfa6c8a66d": [
+   "escalate",
+   "exception"
+  ],
+  "d3738538956d": [
+   "escalate",
+   "exception"
+  ],
+  "f630cfaaeb12": [
+   "escalate",
+   "exception"
+  ],
+  "c5da11068e08": [
+   "escalate"
+  ],
+  "7c3de2081ad6": [
+   "discount",
+   "escalate",
+   "exchange"
+  ],
+  "e51b23408cf2": [
+   "discount",
+   "escalate",
+   "exception"
+  ],
+  "ba87093ff09c": [
+   "escalate"
+  ],
+  "0155ca9b7bd1": [
+   "escalate"
+  ],
+  "27ccf535f6ff": [
+   "escalate"
+  ],
+  "05eae6c22044": [
+   "compensation",
+   "escalate",
+   "exception"
+  ],
+  "6c2ffb67484f": [
+   "escalate",
+   "exception"
+  ],
+  "cfc3f260218d": [
+   "escalate"
+  ],
+  "75d13669bfe5": [
+   "escalate",
+   "exception"
+  ],
+  "b749623af89b": [
+   "discount",
+   "escalate",
+   "exception",
+   "exchange"
+  ],
+  "ad288aa23781": [
+   "escalate"
+  ],
+  "d013fe9df3d8": [
+   "escalate"
+  ],
+  "b82ed9e217b1": [
+   "escalate"
+  ],
+  "ea872d37c4cd": [
+   "escalate"
+  ],
+  "60936090fd51": [
+   "escalate"
+  ],
+  "bdbc68266f9f": [
+   "escalate"
+  ],
+  "a0e41c175bd6": [
+   "escalate"
+  ],
+  "37b69686bfa5": [
+   "discount",
+   "escalate"
+  ],
+  "t01": [
+   "refund"
+  ],
+  "t02": [
+   "exception"
+  ],
+  "t03": [
+   "refund"
+  ],
+  "t04": [
+   "exception"
+  ],
+  "t05": [
+   "exception",
+   "refund"
+  ],
+  "t06": [
+   "discount"
+  ],
+  "t07": [
+   "discount"
+  ],
+  "t08": [
+   "compensation"
+  ],
+  "t09": [
+   "escalate"
+  ],
+  "t10": [
+   "compensation",
+   "exception",
+   "legal_admission",
+   "refund"
+  ],
+  "t11": [
+   "escalate"
+  ],
+  "t12": [
+   "exchange"
+  ],
+  "t13": [
+   "exchange"
+  ],
+  "t14": [
+   "refund"
+  ],
+  "t15": [
+   "refund"
+  ],
+  "t16": [
+   "exception"
+  ],
+  "t17": [
+   "exception"
+  ],
+  "t18": [
+   "exception"
+  ],
+  "t19": [
+   "compensation"
+  ],
+  "t20": [
+   "compensation"
+  ],
+  "t21": [
+   "discount"
+  ],
+  "t22": [
+   "exception"
+  ],
+  "t23": [
+   "escalate"
+  ],
+  "t24": [
+   "refund"
+  ],
+  "t25": [
+   "exception"
+  ],
+  "t26": [
+   "exception"
+  ],
+  "t27": [
+   "refund"
+  ],
+  "t28": [
+   "exception"
+  ],
+  "t29": [
+   "discount"
+  ],
+  "t30": [
+   "refund"
+  ],
+  "t31": [
+   "refund"
+  ],
+  "t32": [
+   "refund"
+  ],
+  "t33": [
+   "escalate"
+  ],
+  "t34": [
+   "exception",
+   "legal_admission"
+  ],
+  "t35": [
+   "refund"
+  ],
+  "t36": [
+   "exchange"
+  ],
+  "t37": [
+   "discount"
+  ],
+  "t38": [
+   "compensation",
+   "exchange"
+  ],
+  "t39": [
+   "exception"
+  ],
+  "t40": [
+   "escalate"
+  ]
+ }
+}

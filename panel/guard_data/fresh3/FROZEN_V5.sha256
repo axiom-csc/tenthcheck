@@ -1,0 +1,3 @@
+becde607a46fed1db34ad2f49cb97f576e898f6009701c17fd1b05306ff1ccd1  panel_firewall/guard/v5.py
+45622e67a136075d4f138007edab45b333833916cd46a819cd7fb204033d9533  panel_firewall/guard/check.py
+frozen 2026-11-12 19:43:07: v5 allow-list prototype, before any run on the third fresh set

@@ -1,0 +1,16 @@
+{
+  "_note": "FICTIONAL orders for the fictional store Lantern & Loom Outfitters (fresh evaluation set, written 2026-11-12 before extractor v3 existed). No real people or purchases.",
+  "today": "2026-11-12",
+  "orders": {
+    "A1011": {"purchase_date": "2026-10-30", "amount": 95.00, "on_sale": false, "has_receipt": true, "item": "merino base layer"},
+    "A1012": {"purchase_date": "2026-09-25", "amount": 58.00, "on_sale": false, "has_receipt": true, "item": "fleece hat"},
+    "A1013": {"purchase_date": "2026-11-03", "amount": 130.00, "on_sale": true, "has_receipt": true, "item": "softshell jacket"},
+    "A1014": {"purchase_date": "2026-10-15", "amount": 240.00, "on_sale": false, "has_receipt": true, "item": "wool overcoat"},
+    "A1015": {"purchase_date": "2026-11-09", "amount": 42.00, "on_sale": false, "has_receipt": false, "item": "cotton socks (3-pack)"},
+    "A1016": {"purchase_date": "2026-07-30", "amount": 150.00, "on_sale": false, "has_receipt": true, "item": "trail backpack"},
+    "A1017": {"purchase_date": "2026-10-22", "amount": 185.00, "on_sale": false, "has_receipt": true, "item": "leather walking boots"},
+    "A1018": {"purchase_date": "2026-11-06", "amount": 76.00, "on_sale": false, "has_receipt": true, "item": "linen shirt"},
+    "A1019": {"purchase_date": "2026-10-01", "amount": 99.00, "on_sale": false, "has_receipt": true, "item": "corduroy trousers"},
+    "A1020": {"purchase_date": "2026-11-10", "amount": 310.00, "on_sale": true, "has_receipt": true, "item": "insulated parka"}
+  }
+}

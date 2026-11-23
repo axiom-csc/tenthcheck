@@ -1,0 +1,23 @@
+# Panel's own connectors served as one MCP server:  usepanel serve --policy examples/policy.native.yaml
+version: "native-1"
+mode: auto
+consent_wait_seconds: 0       # >0 = keep the call open this long waiting for `usepanel approve`
+sql: {protected_tables: [secrets]}
+connectors:
+  - {type: sqlite, path: ./app.db}
+  - {type: stripe}            # reads STRIPE_API_KEY or ~/.config/panel/stripe.env; refuses anything but sk_test_
+actions:
+  sql.query:
+    risk: destructive
+    max_rows: 100
+    consent_over_rows: 10
+  stripe.refund:
+    amount_field: amount_usd
+    max_amount: 200
+    consent_over_amount: 50
+    max_total_amount: {amount: 500, per_seconds: 86400}
+    rate_limit: {max: 10, per_seconds: 3600}
+  stripe.customer_credit:
+    amount_field: amount_usd
+    max_amount: 25
+    consent_over_amount: 10

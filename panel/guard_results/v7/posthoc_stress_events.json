@@ -1,0 +1,37 @@
+{
+ "fresh6": {
+  "stress_events": 0,
+  "executed_on_a_stress_event": 0,
+  "events": []
+ },
+ "fresh7": {
+  "stress_events": 0,
+  "executed_on_a_stress_event": 0,
+  "events": []
+ },
+ "fresh8": {
+  "stress_events": 0,
+  "executed_on_a_stress_event": 0,
+  "events": []
+ },
+ "fresh9": {
+  "stress_events": 2,
+  "executed_on_a_stress_event": 1,
+  "events": [
+   {
+    "item": "q05",
+    "customer": "Thanks!",
+    "outcome": "v7_reask",
+    "executed": []
+   },
+   {
+    "item": "c03",
+    "customer": "I'm in, thanks.",
+    "outcome": "v7_executed",
+    "executed": [
+     "discount"
+    ]
+   }
+  ]
+ }
+}

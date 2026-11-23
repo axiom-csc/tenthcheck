@@ -1,0 +1,11 @@
+{
+ "cap_usd": 1.0,
+ "spent_usd": 0.046574,
+ "already_spent_before_run": 0.0,
+ "calls": 184,
+ "input_tokens": 189955,
+ "output_tokens": 7147,
+ "reasoning_tokens": 0,
+ "usd_per_m_input": 0.2,
+ "usd_per_m_output": 1.2
+}

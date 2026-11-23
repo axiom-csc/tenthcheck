@@ -19,18 +19,12 @@ runs:
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ inputs.python-version }}
-    - name: Install tenthcheck from this action's checkout
+    - name: Install tenthlook (the tenthcheck command) from this action's checkout
       shell: bash
       run: |
         pip install "${{ github.action_path }}"
-        # Receipts need tenthlook-core, which is not on PyPI yet. If it cannot be installed, skip receipts instead of failing the check.
-        if [ -n "${{ inputs.receipt }}" ]; then
-          if pip install "${{ github.action_path }}[receipt]"; then
-            echo "TENTHCHECK_RECEIPTS=1" >> "$GITHUB_ENV"
-          else
-            echo "::warning title=Tenthcheck receipt skipped::tenthlook-core could not be installed (it is not on PyPI yet), so no signed receipt will be written. The check itself still runs."
-          fi
-        fi
+        # Signed receipts are part of the package now (tenthlook.core): nothing extra to install.
+        if [ -n "${{ inputs.receipt }}" ]; then echo "TENTHCHECK_RECEIPTS=1" >> "$GITHUB_ENV"; fi
     - name: Run tenthcheck ci
       id: tc
       shell: bash

@@ -1,0 +1,3 @@
+08782f7c9d3cbba70874c80f389251862f138d6fd93e46fc106e186b72624ecf  guard_data/fresh2/orders_fresh2.json
+43f6359798a90e070fa9aec8bbaa3414bf3ee3b13ef22700b62aa41990e799b9  guard_data/fresh2/policy_pressure_fresh2.json
+frozen 2026-11-12 18:58:30: second fresh set written before extractor v4 existed; nothing in it has been run

@@ -30,7 +30,7 @@ def repo(tmp_path):
 
 
 def hook(root: Path, payload: dict, *args: str):
-    p = subprocess.run([sys.executable, "-c", "from tenthcheck.cli import main; raise SystemExit(main())", "hook",
+    p = subprocess.run([sys.executable, "-c", "from tenthlook.tenthcheck.cli import main; raise SystemExit(main())", "hook",
                         "--root", str(root), *args], input=json.dumps(payload), capture_output=True, text=True,
                        env={**os.environ, "CLAUDE_PROJECT_DIR": str(root)})
     return p.returncode, p.stdout, p.stderr
@@ -78,7 +78,7 @@ def test_other_tools_non_python_and_outside_files_are_silent(repo, payload):
 
 
 def test_a_bug_or_bad_input_never_interrupts_the_agent(repo):
-    p = subprocess.run([sys.executable, "-c", "from tenthcheck.cli import main; raise SystemExit(main())", "hook",
+    p = subprocess.run([sys.executable, "-c", "from tenthlook.tenthcheck.cli import main; raise SystemExit(main())", "hook",
                         "--root", str(repo)], input="{not json", capture_output=True, text=True)
     assert (p.returncode, p.stdout, p.stderr) == (0, "", "")
     assert "Traceback" in (repo / ".tenthcheck/hook.log").read_text()
@@ -182,8 +182,8 @@ def test_output_is_capped(repo):
 # ---------------------------------------------------------------- the hook's import edges match the parser's
 
 def test_import_edges_match_the_full_parser(repo):
-    from tenthcheck.hook import import_graph, summarize
-    from tenthcheck.parser import iter_py_files, parse_package
+    from tenthlook.tenthcheck.hook import import_graph, summarize
+    from tenthlook.tenthcheck.parser import iter_py_files, parse_package
     roots = [repo] + [p for p in [Path.home() / "callguard-corpus/httpx", Path.home() / "callguard-corpus/click/src"]
                       if p.is_dir()]
     for root in roots:
@@ -233,7 +233,7 @@ def test_reorder_reports_an_unchanged_caller_in_the_same_file(repo):
 
 def test_hook_and_agents_share_the_state_dir_without_clobbering(repo):
     """v0.2 (agents) and v0.3 (hook) both keep state in .tenthcheck/; neither touches the other's files."""
-    from tenthcheck import agents
+    from tenthlook.tenthcheck import agents
     agents.record_edit(repo, "A", "pkg/core.py", CORE.replace("x + 1", "x + 5"))
     before = (repo / ".tenthcheck/agents.json").read_text()
     assert hook(repo, edit(repo, "pkg/core.py", CORE.replace("x + 1", "x + 6"))) == (0, "", "")

@@ -1,0 +1,7 @@
+{
+ "note": "Receipts mode on the OLD 40/25 probe. NOT held-out: the blocker was tuned against this probe.",
+ "claims_total": 40,
+ "claims_caught": 40,
+ "nonclaims_total": 25,
+ "false_positives": []
+}

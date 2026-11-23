@@ -1,0 +1,90 @@
+{
+ "_note": "Fictional orders for fresh9 (store date 2026-12-09). Written 2026-11-23, hashed before any v7 run.",
+ "today": "2026-12-09",
+ "orders": {
+  "A1201": {
+   "purchase_date": "2026-12-01",
+   "amount": 180.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "trail jacket"
+  },
+  "A1202": {
+   "purchase_date": "2026-11-28",
+   "amount": 24.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "merino beanie"
+  },
+  "A1203": {
+   "purchase_date": "2026-12-03",
+   "amount": 310.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "down parka"
+  },
+  "A1204": {
+   "purchase_date": "2026-10-05",
+   "amount": 85.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "trekking poles"
+  },
+  "A1205": {
+   "purchase_date": "2026-11-20",
+   "amount": 59.0,
+   "on_sale": true,
+   "has_receipt": true,
+   "item": "sunglasses"
+  },
+  "A1206": {
+   "purchase_date": "2026-12-05",
+   "amount": 36.0,
+   "on_sale": false,
+   "has_receipt": false,
+   "item": "liner gloves"
+  },
+  "A1207": {
+   "purchase_date": "2026-11-10",
+   "amount": 120.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "camp stove"
+  },
+  "A1208": {
+   "purchase_date": "2026-11-09",
+   "amount": 45.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "headlamp"
+  },
+  "A1209": {
+   "purchase_date": "2026-10-12",
+   "amount": 95.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "duffel bag"
+  },
+  "A1210": {
+   "purchase_date": "2026-12-07",
+   "amount": 52.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "base layer"
+  },
+  "A1211": {
+   "purchase_date": "2026-11-26",
+   "amount": 70.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "camp chair"
+  },
+  "A1212": {
+   "purchase_date": "2026-11-15",
+   "amount": 240.0,
+   "on_sale": false,
+   "has_receipt": true,
+   "item": "four-person tent"
+  }
+ }
+}
