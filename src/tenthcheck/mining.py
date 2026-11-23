@@ -30,7 +30,7 @@ _ROUTE_METHODS = {"route", "get", "post", "put", "delete", "patch", "head", "opt
 # Words that make a decorator / call name a *guard* (access control, validation, rate limits).
 GUARD_RE = re.compile(r"(auth|login|permission|perm_|admin|require|role|csrf|scope|protect|secure|verify|owner|"
                       r"access|allow|can_|throttle|rate_?limit|jwt|token|sudo|staff|superuser|ensure|check_|"
-                      r"validate|sanitize)", re.I)
+                      r"validate|sanitize|current_user|current_active)", re.I)
 # Handlers that are public on purpose; never reported as exceptions.
 PUBLIC_RE = re.compile(r"(login|logout|log_in|log_out|signin|sign_in|signup|sign_up|register|health|ping|status|"
                        r"index|home|static|callback|webhook|reset|forgot|oauth|public|favicon|robots|sitemap|"
