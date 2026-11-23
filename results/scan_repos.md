@@ -38,3 +38,20 @@ Changes made because of that, nothing else:
 Thresholds unchanged: min_support 5, min_consistency 0.80.
 After tuning, TUNE repos: redash 1 exception site (redash/handlers/destinations.py:81, see results/review_tune.md), zulip 0, celery 0,
 requests 0, saleor 0.
+
+## Held-out set 2 (pre-registered before scanning; for the v1.1 post-hoc fixes)
+The first held-out set (repos 6-10) was reviewed and its false positives were then used to make v1.1 (handlers must be
+decorated, non-hook methods; `protect_read` counts as `protect`; `@before_request` etc. are not handlers). Those five repos are
+therefore no longer held out for v1.1. These five fresh repos, not looked at before, are:
+
+| # | Repo | Commit |
+|---|------|--------|
+| 11 | paperless-ngx/paperless-ngx | f722730db75495d0ee8d26d77c8730c95fff3219 |
+| 12 | goauthentik/authentik | 7e5db84abecb04e48adca2166dec83236fc060f0 |
+| 13 | pretix/pretix | 526a79c7d175a37421242a8167821373c357773d |
+| 14 | apache/airflow | fecbb16aa07c5aa7d03a454dda9577545a1df9ab |
+| 15 | frappe/erpnext | 88fa0a7c5fbadfaf7f558c231fbcd4a2dce6219c |
+
+v1.1 settings frozen at the commit that contains this section. One run, every finding reviewed, no further tuning.
+Set-1 re-run with v1.1 (tainted, for information only): superset 3 sites (download_xlsx, ensure_thumbnails_enabled [now excluded as a
+hook], ensure_alert_reports_enabled [likewise]); all other set-1 repos 0 (redash still 1).
