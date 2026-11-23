@@ -129,8 +129,29 @@ def _agents(a, ap) -> int:
     return 0  # warn only: overlap never changes the exit code
 
 
+def _scan_cmds(a) -> int:
+    from tenthcheck import config, mining, report
+    cfg = config.load(a.repo_dir)
+    ms = getattr(a, "min_support", None) or cfg.min_support
+    mc = getattr(a, "min_consistency", None) or cfg.min_consistency
+    res = mining.scan(a.repo_dir, ms, mc, include_tests=getattr(a, "include_tests", False), exclude=cfg.exclude)
+    if a.cmd == "init":
+        path, how = config.init(a.repo_dir, res.invariants)
+        print(f"{path} {how}: {len(res.invariants)} mined patterns "
+              f"({len(res.findings)} with exceptions). Edit status = accepted / rejected.")
+        return 0
+    if a.json:
+        print(json.dumps({"files": res.files, "seconds": round(res.seconds, 3),
+                          "invariants": [i.to_dict() for i in res.invariants]}, indent=2))
+    else:
+        print(report.format_scan(res, cfg, report.use_color(), a.limit))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = sys.argv[1:] if argv is None else argv
+    if not args or (args[0].startswith("-") and args[0] not in ("--version", "-h", "--help")):
+        args = ["scan"] + args  # `tenthcheck` alone is the zero-config scan
     if args[:1] == ["hook"]:  # own parser: stdin JSON in, nothing on stdout, exit 0 or 2
         from tenthcheck.hook import main as hook_main
         return hook_main(args[1:])
@@ -151,6 +172,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("repo_dir"); p.add_argument("--json", action="store_true")
     p = sub.add_parser("scope", help="scope report between two snapshots")
     p.add_argument("before_dir"); p.add_argument("after_dir"); p.add_argument("--json", action="store_true")
+    p = sub.add_parser("scan", help="zero-config scan: mine invariants, report inconsistencies (default command)")
+    p.add_argument("repo_dir", nargs="?", default=".")
+    p.add_argument("--min-support", type=int, default=None); p.add_argument("--min-consistency", type=float, default=None)
+    p.add_argument("--include-tests", action="store_true"); p.add_argument("--limit", type=int, default=20)
+    p.add_argument("--json", action="store_true")
+    p = sub.add_parser("init", help="write tenthcheck.toml listing mined invariants to accept or reject")
+    p.add_argument("repo_dir", nargs="?", default=".")
     sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
     p = sub.add_parser("agents", help="multi-agent edit warnings (sessions under .tenthcheck/)")
     asub = p.add_subparsers(dest="agents_cmd", required=True)
@@ -168,9 +196,11 @@ def main(argv: list[str] | None = None) -> int:
     q.add_argument("--session", default=os.environ.get("TENTHCHECK_SESSION"))
     p = sub.add_parser("serve", help="run the MCP stdio server (server name: tenthcheck)")
     p.add_argument("repo_dir", nargs="?", default=".")
-    a = ap.parse_args(argv)
+    a = ap.parse_args(args)
 
     try:
+        if a.cmd in ("scan", "init"):
+            return _scan_cmds(a)
         if a.cmd == "blast":
             res = blast(a.repo_dir, a.symbol, a.max_depth, a.max_nodes)
             print(json.dumps(res, indent=2)) if a.json else _print_blast(res)

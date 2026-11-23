@@ -9,7 +9,7 @@ description = "Tenthcheck, from Tenthlook: see what an AI coding agent's edit co
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-dependencies = []
+dependencies = ["sqlglot>=25", "z3-solver>=4.12", "tomli>=2; python_version<'3.11'"]
 
 [project.urls]
 Homepage = "https://tenthlook.com"
