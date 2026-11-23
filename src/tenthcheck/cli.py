@@ -177,9 +177,49 @@ def _verify(a, ap) -> int:
     return 1 if any(r.status == "violated" for r in results) else 0
 
 
+def _status(a) -> int:
+    """Default command: blast radius of the uncommitted diff, then every Z3 invariant in tenthcheck.toml."""
+    from tenthcheck import config, z3check
+    from tenthcheck.impact import format_impact, impact
+    try:
+        res = impact(a.repo_dir, a.base)
+        text = format_impact(res)
+        bad = bool(res["mined_violations"])
+    except ValueError as e:  # not a git repo / bad base: still run the invariants
+        res, text, bad = None, f"Blast radius unavailable: {e}", False
+    cfg = config.load(a.repo_dir)
+    z3res = z3check.check_handwritten(a.repo_dir, cfg) if cfg.handwritten else []
+    bad = bad or any(r.status == "violated" for r in z3res)
+    if a.json:
+        print(json.dumps({"impact": None if res is None else dict(res, z3=[r.to_dict() for r in res["z3"]]),
+                          "invariants": [r.to_dict() for r in z3res]}, indent=2, default=list))
+        return 1 if bad else 0
+    print(text)
+    print()
+    if z3res:
+        print(f"Z3 invariants in {config.FILENAME} ({len(z3res)}):")
+        for r in z3res:
+            print(r.format())
+    else:
+        print(f"No [[invariant]] entries in {config.FILENAME}; run `tenthcheck init` for a template.")
+    return 1 if bad else 0
+
+
 def _scan_cmds(a) -> int:
     from tenthcheck import config, mining, report
     cfg = config.load(a.repo_dir)
+    if not a.experimental_mining:
+        if a.cmd == "init":
+            if cfg.path:  # rewriting without mining would drop accepted/rejected [[mined]] entries
+                print(f"{cfg.path} already exists; left unchanged. (Re-mining: pass --experimental-mining.)")
+                return 0
+            path, how = config.init(a.repo_dir, [])
+            print(f"{path} {how}. Add [[invariant]] entries for Z3 checks. (Mined patterns: pass --experimental-mining.)")
+            return 0
+        print("tenthcheck: invariant mining is experimental and off by default (0 true findings on 15 real repos; "
+              "see results/mining_negative_result.md).\nRe-run with --experimental-mining to use it anyway. "
+              "For the default view run `tenthcheck`.", file=sys.stderr)
+        return 2
     ms = getattr(a, "min_support", None) or cfg.min_support
     mc = getattr(a, "min_consistency", None) or cfg.min_consistency
     res = mining.scan(a.repo_dir, ms, mc, include_tests=getattr(a, "include_tests", False), exclude=cfg.exclude)
@@ -199,7 +239,7 @@ def _scan_cmds(a) -> int:
 def main(argv: list[str] | None = None) -> int:
     args = sys.argv[1:] if argv is None else argv
     if not args or (args[0].startswith("-") and args[0] not in ("--version", "-h", "--help")):
-        args = ["scan"] + args  # `tenthcheck` alone is the zero-config scan
+        args = ["status"] + args  # `tenthcheck` alone: blast radius of the uncommitted diff + Z3 invariants
     if args[:1] == ["hook"]:  # own parser: stdin JSON in, nothing on stdout, exit 0 or 2
         from tenthcheck.hook import main as hook_main
         return hook_main(args[1:])
@@ -220,7 +260,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("repo_dir"); p.add_argument("--json", action="store_true")
     p = sub.add_parser("scope", help="scope report between two snapshots")
     p.add_argument("before_dir"); p.add_argument("after_dir"); p.add_argument("--json", action="store_true")
-    p = sub.add_parser("scan", help="zero-config scan: mine invariants, report inconsistencies (default command)")
+    p = sub.add_parser("status", help="default: blast radius of the uncommitted diff + Z3 invariants in tenthcheck.toml")
+    p.add_argument("repo_dir", nargs="?", default="."); p.add_argument("--base", default="HEAD")
+    p.add_argument("--json", action="store_true")
+    p = sub.add_parser("scan", help="EXPERIMENTAL, off by default (needs --experimental-mining): mine invariants, report inconsistencies")
+    p.add_argument("--experimental-mining", action="store_true", help="required; mining had 0 true findings on 15 repos (results/mining_negative_result.md)")
     p.add_argument("repo_dir", nargs="?", default=".")
     p.add_argument("--min-support", type=int, default=None); p.add_argument("--min-consistency", type=float, default=None)
     p.add_argument("--include-tests", action="store_true"); p.add_argument("--limit", type=int, default=20)
@@ -241,14 +285,16 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--dry-run", action="store_true"); p.add_argument("--dir", default=".")
     p = sub.add_parser("ci", help="CI mode: enforce accepted invariants, write a PR-comment summary, optional signed receipt")
     p.add_argument("repo_dir", nargs="?", default="."); p.add_argument("--base", default=None, help="base ref of the PR, e.g. origin/main")
+    p.add_argument("--experimental-mining", action="store_true", help="also list unreviewed mined candidates")
     p.add_argument("--summary-file", default=None, help="write the markdown summary here (default: print it)")
     p.add_argument("--receipt", default=None, help="write a signed receipt here (needs TENTHCHECK_SIGNING_KEY)")
     p.add_argument("--json", action="store_true")
     sub.add_parser("keygen", help="print a new Ed25519 receipt keypair (store the private part as a repo secret)")
     p = sub.add_parser("verify-receipt", help="verify a signed receipt")
     p.add_argument("receipt"); p.add_argument("--public-key", default=None); p.add_argument("--repo", default=None)
-    p = sub.add_parser("init", help="write tenthcheck.toml listing mined invariants to accept or reject")
+    p = sub.add_parser("init", help="write tenthcheck.toml (settings + Z3 invariant template); with --experimental-mining also list mined patterns")
     p.add_argument("repo_dir", nargs="?", default=".")
+    p.add_argument("--experimental-mining", action="store_true")
     sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
     p = sub.add_parser("agents", help="multi-agent edit warnings (sessions under .tenthcheck/)")
     asub = p.add_subparsers(dest="agents_cmd", required=True)
@@ -281,7 +327,7 @@ def main(argv: list[str] | None = None) -> int:
             return 0 if ok else 1
         if a.cmd == "ci":
             from tenthcheck import ci, receipt
-            res = ci.run_ci(a.repo_dir, a.base)
+            res = ci.run_ci(a.repo_dir, a.base, a.experimental_mining)
             md = ci.markdown(res)
             if a.summary_file:
                 Path(a.summary_file).write_text(md, encoding="utf-8")
@@ -292,6 +338,8 @@ def main(argv: list[str] | None = None) -> int:
             return 1 if res["failed"] else 0
         if a.cmd in ("install", "uninstall"):
             return _install(a, ap)
+        if a.cmd == "status":
+            return _status(a)
         if a.cmd == "impact":
             from tenthcheck.impact import format_impact, impact
             res = impact(a.repo_dir, a.base)

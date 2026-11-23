@@ -1,12 +1,12 @@
 # Tenthcheck
 
-Tenthcheck, from Tenthlook. A zero-config scan that finds places in a Python repo that are *inconsistent with the rest
-of the repo*, a narrow Z3 checker for numeric invariants, and an agent hook / MCP server / GitHub Action that feed the
-exact counterexample back to a coding agent. No LLM and no network: it runs offline and no API key is involved.
+Tenthcheck, from Tenthlook. When an AI coding agent edits your Python, it shows **what the edit touches** (the blast radius of
+the changed symbols) and checks **numeric invariants you write with Z3**, returning the exact counterexample when one breaks.
+It runs as a CLI, an agent hook / MCP server and a GitHub Action. No LLM and no network: it runs offline and no API key is involved.
 
 Python only. Everything below was measured in this repository's own runs; the numbers cite their results files.
 
-## Quickstart (10 seconds)
+## Quickstart
 
 ```
 pipx install tenthcheck        # or: uvx tenthcheck
@@ -15,38 +15,20 @@ cd your-repo && tenthcheck
 
 > Not on PyPI yet. Until it is published, install from a checkout: `pipx install /path/to/tenthcheck`.
 
-`tenthcheck` with no arguments scans the current directory and prints candidate inconsistencies. Real output, from
-`apache/superset` at `11f4e38` (results/scans/superset.json):
-
-```
-Tenthcheck 1.0.0.dev0: scanned 1243 files in 7.7s, 13 patterns mined, 1 candidate inconsistencies
-
-[1] missing guard  confidence high (29 of 30 places = 97%)
-    pattern: public methods of class DashboardRestApi in superset/dashboards/api.py use `protect`
-    followed in 29 places, e.g. superset/dashboards/api.py:531 get_list(), ...
-    inconsistent here: superset/dashboards/api.py:2261 download_xlsx()  (inconsistent with 29 other places)
-```
-
-That one is a deliberate exception (a code comment at `api.py:2248` says `download_xlsx` is intentionally login-free).
-Findings are **candidates**, not bugs; see [Measured precision](#measured-precision) before relying on them.
+`tenthcheck` with no arguments looks at your uncommitted diff, prints the changed symbols and every symbol that depends on
+them, then checks any Z3 invariants in `tenthcheck.toml`. Real output on a one-line edit to starlette's `HTTPConnection.url_for`
+(`results/impact_timing.jsonl`): 2 changed symbols, 469 dependents of `HTTPConnection`, 7 of `url_for`.
 
 ## What it does
 
-**1. Invariant mining** (`tenthcheck`, `tenthcheck scan`). Finds patterns most places follow and lists the exceptions.
-Reported only with at least 5 supporting places and at least 80% consistency (`--min-support`, `--min-consistency`,
-or `[settings]` in `tenthcheck.toml`). Four miners, all `ast` and counting:
+**1. Blast radius** (`tenthcheck`, `tenthcheck impact`). The uncommitted diff becomes changed symbols (AST-hash diff against
+`HEAD`), then their dependents (callers, importers, subclasses, references) from a graph of the repo, listed by hop depth.
+Calls it cannot resolve statically (`getattr`, dynamic dispatch) are not guessed; see "What Tenthcheck does not do".
+The parsed graph is cached under `.tenthcheck/cache/`, keyed by file content hashes (see Measured).
 
-| Miner | Pattern |
-|---|---|
-| `route-guard` | handlers on one router / class / module (`@router.get`, `get/post/...` methods, `def view(request, ...)`) mostly carry a guard decorator, `Depends(...)` or an access-control call |
-| `call-pair` | `open_x()` / `acquire()` / `begin()` ... is followed by its closer in the same function |
-| `guard-mutation` | `target -= amount` is mostly in functions that also compare `target` |
-| `sql-scope` | SQL string literals (parsed with sqlglot; ambiguous ones skipped) doing UPDATE/DELETE on a table mostly filter by `tenant_id` / `user_id` / ... |
-
-Test files, docs and examples are skipped. When a site is unclear it is skipped rather than reported.
-
-**2. `tenthcheck init`** writes `tenthcheck.toml`: each mined pattern with `status = "pending"`. Set `accepted` to enforce
-it in the hook and in CI, `rejected` to suppress it. Hand-written numeric invariants go in the same file:
+**2. Z3 numeric counterexamples** (`tenthcheck verify`, and every `[[invariant]]` in `tenthcheck.toml` on each `tenthcheck`
+run). For simple straight-line functions (assignments, + - * /, small `**`, comparisons, if/else, `abs/min/max`, `raise` and
+`assert`) it translates the function to Z3 and either finds a counterexample or finds none:
 
 ```toml
 [[invariant]]
@@ -55,10 +37,6 @@ function = "withdraw"
 check = "final_balance >= 0"
 assume = ["balance >= 0", "amount > 0", "fee >= 0"]
 ```
-
-**3. Z3 numeric checker** (`tenthcheck verify`). For simple straight-line functions (assignments, + - * /, small `**`,
-comparisons, if/else, `abs/min/max`, `raise` and `assert`) it translates the function to Z3 and either finds a
-counterexample or finds none:
 
 ```
 $ tenthcheck verify bank.py::withdraw "final_balance >= 0" --assume "balance >= 0" --assume "amount > 0" --assume "fee >= 0"
@@ -70,24 +48,29 @@ VIOLATED withdraw  [final_balance >= 0]: counterexample found, Z3, 31 ms
 Loops, `try`/`with`, external calls, I/O, `//`, `%`, strings and containers are reported as `NOT CHECKABLE BY Z3 ... (reason)`;
 nothing is guessed. Numbers are modelled as exact reals/integers, so float rounding is not modelled. 38 parametrized cases with known
 answers (16 hold, 9 violable, 13 unsupported-construct refusals) plus 4 behaviour tests are in `tests/test_z3check.py`.
+`tenthcheck init` writes a `tenthcheck.toml` with this template.
 
-**4. `tenthcheck impact`** on the uncommitted diff: changed symbols, their dependents (the existing blast-radius graph),
-touched hand-written invariants and a Z3 re-check of them.
-
-**5. Agents.** `tenthcheck install --claude` registers the MCP server (`.mcp.json`) and the hook (`.claude/settings.json`);
+**3. Agents.** `tenthcheck install --claude` registers the MCP server (`.mcp.json`) and the hook (`.claude/settings.json`);
 `--cursor` registers the MCP server (`.cursor/mcp.json`; no Cursor hook is registered, since the hook only understands Claude
 Code's payload). It backs the file up (`*.tenthcheck.bak`), prints a diff, changes nothing on a second run, and
-`tenthcheck uninstall` removes only what it added (`--dry-run` shows the diff only). When an accepted invariant breaks or Z3
-finds a counterexample, the hook tells the agent the exact counterexample and `file:line`. This does not mean agents "self-heal":
-the earlier 48-session hook/MCP/no-tool experiment in this repo found 0 broken tests and 0 real missed callers in every arm,
-i.e. a correctness tie (`experiments/with_without/`, commit `c63a970`), and no new agent experiment was run for v1.
+`tenthcheck uninstall` removes only what it added (`--dry-run` shows the diff only). When a Z3 invariant breaks, the hook tells
+the agent the exact counterexample and `file:line`. This does not mean agents "self-heal": the earlier 48-session
+hook/MCP/no-tool experiment in this repo found 0 broken tests and 0 real missed callers in every arm, i.e. a correctness tie
+(`experiments/with_without/`, commit `c63a970`), and no new agent experiment was run for v1.
 
-**6. GitHub Action** (`action.yml`, `examples/tenthcheck-pr.yml`, `tenthcheck ci`). On a PR it enforces accepted invariants,
-posts a summary comment (invariants checked, counterexamples, blast-radius, elapsed time) and fails on a violation. Wording is
-"checked", "no counterexample found" and "N candidate inconsistencies". **Untested on GitHub:** `act` is not installed here;
-only the `tenthcheck ci` command and the YAML syntax were tested. Optional Ed25519 receipt: `tenthcheck keygen`,
-`tenthcheck ci --receipt r.json`, `tenthcheck verify-receipt r.json --public-key ...`. A receipt shows what was checked, on which
-commit; it does not show the code is correct (`docs/receipts.md`).
+**4. GitHub Action** (`action.yml`, `examples/tenthcheck-pr.yml`, `tenthcheck ci`). On a PR it enforces invariants,
+posts a summary comment (invariants checked, counterexamples, blast radius, elapsed time) and fails on a violation. Wording is
+"checked" and "no counterexample found". **Untested on GitHub:** `act` is not installed here; only the `tenthcheck ci` command and
+the YAML syntax were tested. Optional Ed25519 receipt: `tenthcheck keygen`, `tenthcheck ci --receipt r.json`,
+`tenthcheck verify-receipt r.json --public-key ...`. A receipt shows what was checked, on which commit; it does not show the code is
+correct (`docs/receipts.md`).
+
+**5. Invariant mining: experimental, off by default, and it did not work.** `tenthcheck scan --experimental-mining` finds
+patterns most places in a repo follow (for example "these handlers all have an auth guard") and lists the exceptions. On **15 real
+repos it found 0 true findings**: 3 of 18 graded findings were real but deliberate differences and 15 were false positives
+(`results/review_heldout.md`; write-up in `results/mining_negative_result.md`). The reason is structural: real codebases have many
+intentional exceptions, and the same guarantee is written in many forms. Nothing mines unless you ask. Mined patterns you
+explicitly mark `accepted` in `tenthcheck.toml` are still enforced.
 
 ## Measured
 
@@ -96,13 +79,21 @@ All wall-clock figures below are from this machine (macOS, Python 3.11), single 
 **Scan** (`results/scan_timing.md`): requests, 20 files, 0.2 s; celery, 208 files, 1.2 s; superset, 1243 files, 8.0 s;
 erpnext, 2551 files, 9.2 s; airflow, 3881 files, 18.7 s.
 
-**`impact` on a one-function uncommitted edit** (`results/impact_timing.jsonl`, median of runs, whole command including start-up):
-requests (37 .py files) 0.92 s, 5 runs; starlette at `271c277` (84 files) 2.1 s, 5 runs; airflow (8,697 .py files in the checkout)
-**223 s**, 3 runs. Nearly all of it is the whole-repo graph parse run twice (before and after the diff; 220 s of 222 s on
-airflow), which the existing graph code does without caching. It is nowhere near a "milliseconds" figure and it does not scale
-well to very large repos. The agent hook keeps a separate cached incremental index (its speed was not measured for v1).
+**`impact` on a one-function uncommitted edit, with the graph cache** (`results/impact_timing_cached.jsonl`, one run per
+scenario, whole command; the pre-cache figures in `results/impact_timing.jsonl` were 0.92 s / 2.1 s / 223 s):
 
-**Tests:** 108 passed, 2 skipped (`pytest -q`).
+| Repo (.py files) | Cold (no cache) | Repeat, nothing changed | After a new edit |
+|---|---|---|---|
+| requests (37) | 1.4 s | 0.20 s | 0.54-0.62 s |
+| starlette (84) | 2.6 s | 0.22 s | 1.2 s |
+| airflow (8,697) | 258 s | 7.3 s | 113-128 s |
+
+The graph is cached keyed by file content hashes. The base-commit graph is reused across edits, and an unchanged tree is a full
+cache hit. **A changed file still re-parses the whole working-tree graph**: call and reference resolution is cross-file, so I did
+not patch graphs incrementally. The saving after an edit is therefore about half (one parse instead of two), not "only the changed
+file". Airflow is still ~2 minutes after an edit. The agent hook keeps a separate incremental index (its speed was not measured for v1).
+
+**Tests:** 111 passed, 2 skipped (`pytest -q`).
 
 ## Measured precision
 
@@ -121,7 +112,7 @@ Repos were pinned by commit and listed before scanning; thresholds and filters w
 - Held-out 2 (five fresh repos, v1.1, run once): **1 of 4** was an intentional exception; **3 were false positives** (a guard done
   in the function body instead of a decorator, twice; a client factory whose name contains `admin`, once).
 - **No finding was an unexplained real inconsistency, and no genuine bug was found in any repo.** Nothing was reported upstream.
-- Most repos produced no findings at all (11 of 15). Only the `route-guard` miner produced any exception site on real code; the
+- Mining is off by default (see `results/mining_negative_result.md`). Most repos produced no findings at all (11 of 15). Only the `route-guard` miner produced any exception site on real code; the
   `call-pair`, `guard-mutation` and `sql-scope` miners are tested on synthetic fixtures only and produced zero exceptions on the
   15 repos. Recall was not measured.
 - The samples are tiny (13 and 4 findings): treat the percentages as "the tool is not yet precise", not as a stable rate.
@@ -134,7 +125,7 @@ Repos were pinned by commit and listed before scanning; thresholds and filters w
   body, in middleware, in a framework hook) is not recognised, which causes false positives.
 - It does not guarantee your code is correct, and a receipt only records what was checked.
 - It does not fix code. It tells you (or your agent) where and, for Z3, with what inputs.
-- `tenthcheck impact` is slow on very large repositories (see Measured).
+- `tenthcheck impact` is still slow after an edit on very large repositories (see Measured).
 - The GitHub Action has not been run on GitHub.
 
 ---

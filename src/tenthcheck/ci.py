@@ -22,11 +22,15 @@ def _merge_base(root: Path, base: str) -> str | None:
     return r.stdout.strip() if r.returncode == 0 else None
 
 
-def run_ci(repo_dir: str, base: str | None = None) -> dict:
+def run_ci(repo_dir: str, base: str | None = None, experimental_mining: bool = False) -> dict:
     t0 = time.perf_counter()
     root = Path(repo_dir).resolve()
     cfg = cfgmod.load(root)
-    scan = mining.scan(root, cfg.min_support, cfg.min_consistency, exclude=cfg.exclude)
+    # Mining runs only when opted in, or when the config has accepted mined invariants to enforce.
+    if experimental_mining or cfg.accepted():
+        scan = mining.scan(root, cfg.min_support, cfg.min_consistency, exclude=cfg.exclude)
+    else:
+        scan = mining.ScanResult(str(root), 0, 0.0, [])
     enf = enforce(root, cfg, scan=scan)
     imp = None
     base_ref = None

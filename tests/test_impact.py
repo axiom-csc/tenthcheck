@@ -41,3 +41,17 @@ def test_impact_untouched_invariant_not_rechecked(tmp_path):
     git(tmp_path, "init", "-q"); git(tmp_path, "add", "-A"); git(tmp_path, "commit", "-qm", "i")
     (tmp_path / "b.py").write_text("def g(x):\n    return x + 1\n")
     assert impact(str(tmp_path))["z3"] == []
+
+
+def test_graph_cache_hits_and_invalidates(tmp_path):
+    from tenthcheck.graphcache import load_graph
+    (tmp_path / "a.py").write_text("def f():\n    return 1\n")
+    (tmp_path / "b.py").write_text("from a import f\n\ndef g():\n    return f()\n")
+    g1, hit1 = load_graph(tmp_path)
+    g2, hit2 = load_graph(tmp_path)
+    assert (hit1, hit2) == (False, True) and set(g1.entities) == set(g2.entities)
+    (tmp_path / "a.py").write_text("def f():\n    return 2\n")
+    _, hit3 = load_graph(tmp_path)
+    assert hit3 is False                                   # content changed -> rebuilt
+    _, hit4 = load_graph(tmp_path, {"a.py": "def f():\n    return 1\n"})
+    assert hit4 is True                                    # override = the earlier content -> its cached graph

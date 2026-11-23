@@ -11,7 +11,7 @@ from pathlib import Path
 
 from tenthcheck import config as cfgmod
 from tenthcheck.enforce import describe_violation, enforce
-from tenthcheck.parser import parse_package
+from tenthcheck.graphcache import load_graph
 from tenthcheck.scope_audit import audit_graphs
 
 
@@ -48,8 +48,8 @@ def impact(repo_dir: str, base: str = "HEAD", max_nodes: int = 10_000) -> dict:
     if not files:
         return {"files": [], "changed": None, "z3": [], "mined_violations": [], "timing": {"total": t["git"], **t}}
     t1 = time.perf_counter()
-    after = parse_package(str(root), skip_syntax_errors=True)
-    before = parse_package(str(root), skip_syntax_errors=True, overrides=dict(files))
+    after, hit_after = load_graph(root)
+    before, hit_before = load_graph(root, dict(files))
     t["parse"] = time.perf_counter() - t1
     t2 = time.perf_counter()
     ch = audit_graphs(before, after, max_nodes=max_nodes)
@@ -72,6 +72,7 @@ def impact(repo_dir: str, base: str = "HEAD", max_nodes: int = 10_000) -> dict:
     t["mined"] = time.perf_counter() - t4
     t["total"] = time.perf_counter() - t0
     return {"files": sorted(files), "changed": ch, "z3": z3res, "mined_violations": mined,
+            "cache": {"before_graph_hit": hit_before, "after_graph_hit": hit_after},
             "timing": {k: round(v, 4) for k, v in t.items()}}
 
 
@@ -98,6 +99,10 @@ def format_impact(res: dict, limit: int = 15) -> str:
         lines.append("ACCEPTED INVARIANT: " + m["text"])
     if not res["z3"] and not res["mined_violations"]:
         lines.append("Invariants: none touched (or none accepted/hand-written in tenthcheck.toml)")
+    c = res.get("cache")
+    if c:
+        lines.append("Graph cache: base " + ("hit" if c["before_graph_hit"] else "miss")
+                     + ", working tree " + ("hit" if c["after_graph_hit"] else "miss (re-parsed)"))
     tm = res["timing"]
     lines.append("Time: " + ", ".join(f"{k} {v * 1000:.0f} ms" for k, v in tm.items()))
     return "\n".join(lines)

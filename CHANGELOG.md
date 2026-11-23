@@ -55,3 +55,8 @@
 - Hook reports Z3 counterexamples and accepted-invariant violations with file:line.
 - `ci`, `action.yml`, signed receipts (`keygen`, `verify-receipt`). Action untested on GitHub.
 - Dependencies are now `sqlglot` and `z3-solver` (previously none).
+
+## Unreleased
+- Mining is opt-in: `tenthcheck scan --experimental-mining` (also `init`, `ci`). Default `tenthcheck` = blast radius of the uncommitted diff + Z3 invariants from `tenthcheck.toml`.
+- `impact` caches parsed graphs by file content hash (`.tenthcheck/cache/`); unchanged tree is a cache hit, a changed tree is re-parsed in full.
+- README leads with blast radius and Z3; mining negative result in `results/mining_negative_result.md`.

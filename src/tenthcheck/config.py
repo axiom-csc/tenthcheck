@@ -64,7 +64,8 @@ def _q(s: str) -> str:
 
 
 def render(invs: list[Invariant], cfg: Config) -> str:
-    out = ["# tenthcheck.toml: review each [[mined]] entry below.",
+    out = ["# tenthcheck.toml: Z3 invariants ([[invariant]]) and, if you opted in to experimental mining, mined candidates." if not invs
+           else "# tenthcheck.toml: review each mined entry below (experimental).",
            "#   status = \"accepted\"  -> enforced: `tenthcheck ci` and the agent hook report any place that breaks it",
            "#   status = \"rejected\"  -> suppressed: never shown again",
            "#   status = \"pending\"   -> shown in `tenthcheck`, not enforced",
