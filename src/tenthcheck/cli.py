@@ -203,6 +203,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("check", nargs="?", help="invariant in plain Python, e.g. 'final_balance >= 0'")
     p.add_argument("--assume", action="append", default=[], help="a condition known true on entry (repeatable)")
     p.add_argument("--json", action="store_true")
+    p = sub.add_parser("impact", help="uncommitted diff -> changed symbols -> dependents -> touched invariants (Z3 re-check)")
+    p.add_argument("repo_dir", nargs="?", default="."); p.add_argument("--base", default="HEAD")
+    p.add_argument("--json", action="store_true")
     p = sub.add_parser("init", help="write tenthcheck.toml listing mined invariants to accept or reject")
     p.add_argument("repo_dir", nargs="?", default=".")
     sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
@@ -225,6 +228,15 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(args)
 
     try:
+        if a.cmd == "impact":
+            from tenthcheck.impact import format_impact, impact
+            res = impact(a.repo_dir, a.base)
+            if a.json:
+                res = dict(res, z3=[r.to_dict() for r in res["z3"]])
+                print(json.dumps(res, indent=2, default=list))
+            else:
+                print(format_impact(res))
+            return 1 if res["mined_violations"] or any(r.status == "violated" for r in res["z3"]) else 0
         if a.cmd == "verify":
             return _verify(a, ap)
         if a.cmd in ("scan", "init"):
