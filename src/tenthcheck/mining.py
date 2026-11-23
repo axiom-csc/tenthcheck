@@ -25,12 +25,16 @@ DEFAULT_MIN_SUPPORT = 5
 DEFAULT_MIN_CONSISTENCY = 0.80
 _EXCLUDED_DIRS = {"tests", "test", "testing", "docs", "doc", "examples", "example", "benchmarks", "migrations",
                   "build", "dist", "node_modules", "site-packages"}
+_VERBS = {"get", "post", "put", "delete", "patch"}
 _ROUTE_METHODS = {"route", "get", "post", "put", "delete", "patch", "head", "options", "websocket", "api_route",
                   "trace", "on_event"}
 # Words that make a decorator / call name a *guard* (access control, validation, rate limits).
 GUARD_RE = re.compile(r"(auth|login|permission|perm_|admin|require|role|csrf|scope|protect|secure|verify|owner|"
                       r"access|allow|can_|throttle|rate_?limit|jwt|token|sudo|staff|superuser|ensure|check_|"
                       r"validate|sanitize|current_user|current_active)", re.I)
+# Body calls must match the stricter set (access control only). `check_x`/`validate_x`/`ensure_x` are too generic.
+STRONG_GUARD_RE = re.compile(r"(auth|login|permission|perm_|admin|require|role|csrf|scope|protect|owner|access|can_|"
+                             r"jwt|sudo|staff|superuser|current_user|current_active)", re.I)
 # Handlers that are public on purpose; never reported as exceptions.
 PUBLIC_RE = re.compile(r"(login|logout|log_in|log_out|signin|sign_in|signup|sign_up|register|health|ping|status|"
                        r"index|home|static|callback|webhook|reset|forgot|oauth|public|favicon|robots|sitemap|"
@@ -153,8 +157,8 @@ def _load(root: Path, include_tests: bool, exclude: list[str]) -> tuple[list[_Mo
     for p in iter_py_files(root):
         rel = p.relative_to(root).as_posix()
         parts = set(rel.split("/")[:-1])
-        if not include_tests and (parts & _EXCLUDED_DIRS or p.name.startswith("test_") or p.name.endswith("_test.py")
-                                  or p.name == "conftest.py"):
+        if not include_tests and (parts & _EXCLUDED_DIRS or p.name.startswith("test_") or p.name.endswith(("_test.py", "_tests.py"))
+                                  or p.name in ("conftest.py", "tests.py", "test.py", "testing.py")):
             continue
         if any(rel.startswith(e) for e in exclude):
             continue
@@ -214,7 +218,7 @@ def _guards(fn, skip_route: bool) -> set[str]:
     for n in walk_no_nested(fn):
         if isinstance(n, ast.Call):
             name = dotted(n.func)
-            if name and GUARD_RE.search(name.split(".")[-1]) and name.split(".")[-1] not in ("get", "post"):
+            if name and STRONG_GUARD_RE.search(name.split(".")[-1]) and name.split(".")[-1] not in ("get", "post"):
                 g.add(name)
     return g
 
@@ -238,6 +242,15 @@ def mine_route_guards(mods: list[_Module], min_support: int, min_cons: float) ->
                 groups.setdefault(("router", m.rel, base, None), []).append((site, gs, public))
                 if prefix:
                     groups.setdefault(("router", m.rel, base, prefix), []).append((site, gs, public))
+            elif (not cls and fn.args.args and fn.args.args[0].arg == "request" and not fn.name.startswith("_")
+                  and not fn.name.startswith("test")):
+                groups.setdefault(("views", m.rel, "view functions taking `request`", None), []).append((site, _guards(fn, False), public))
+            elif cls and "test" in cls.lower():
+                continue
+            elif cls and fn.name.startswith(("test", "setUp", "tearDown")):
+                continue
+            elif cls and fn.name in _VERBS:
+                groups.setdefault(("verbs", m.rel, "HTTP-verb methods", None), []).append((site, _guards(fn, False), public))
             elif cls and not fn.name.startswith("_"):
                 groups.setdefault(("class", m.rel, cls, None), []).append((site, _guards(fn, False), public))
     out: list[Invariant] = []
@@ -256,7 +269,8 @@ def mine_route_guards(mods: list[_Module], min_support: int, min_cons: float) ->
             if len(followers) < min_support or total == 0 or len(followers) / total < min_cons:
                 continue
             where = (f"handlers on `{owner}`" + (f" under /{prefix}" if prefix else "") if kind == "router"
-                     else f"public methods of class {owner}")
+                     else "get/post/put/delete/patch methods" if kind == "verbs"
+                     else "view functions taking `request`" if kind == "views" else f"public methods of class {owner}")
             inv_id = f"route-guard:{rel}:{owner}:{prefix or '*'}:{tok}"
             out.append(Invariant(inv_id, "route-guard", f"{where} in {rel} use `{_guard_label(tok)}`",
                                  len(followers), total, followers, exc))

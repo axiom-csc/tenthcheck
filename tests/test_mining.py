@@ -95,3 +95,28 @@ def test_tests_dir_excluded(tmp_path):
     ok = "\n".join(f"def w{i}(a, amount):\n    if a.balance >= amount:\n        a.balance -= amount\n" for i in range(7))
     res = scan(mk(tmp_path, {"tests/t.py": ok + "def s(a, amount):\n    a.balance -= amount\n"}))
     assert not res.invariants
+
+
+def test_tests_py_and_test_classes_excluded(tmp_path):
+    body = "class FooHookTests:\n" + "".join(f"    def test_{i}(self):\n        self.check_webhook()\n" for i in range(8)) + "    def helper(self):\n        pass\n"
+    res = scan(mk(tmp_path, {"hooks/tests.py": body, "hooks/real.py": body}))
+    assert not res.invariants
+
+
+def test_http_verb_methods_group(tmp_path):
+    src = "".join(f"class R{i}(Base):\n    @require_admin\n    def get(self):\n        pass\n" for i in range(5))
+    src += "class Open(Base):\n    def get(self):\n        pass\n"
+    res = scan(mk(tmp_path, {"h.py": src}))
+    inv = [i for i in res.findings if i.kind == "route-guard"]
+    assert inv and inv[0].exceptions[0].line == 22 and "require_admin" in inv[0].id
+
+
+def test_django_view_group(tmp_path):
+    src = "".join(f"@login_required\ndef v{i}(request):\n    pass\n" for i in range(5)) + "def v_bad(request):\n    pass\n"
+    res = scan(mk(tmp_path, {"views.py": src}))
+    assert [e.func for i in res.findings for e in i.exceptions] == ["v_bad"]
+
+
+def test_generic_check_calls_are_not_guards(tmp_path):
+    src = "".join(f"class C:\n    def m{i}(self):\n        self.check_thing()\n" for i in range(8)) + "class D:\n    def n(self):\n        pass\n"
+    assert not scan(mk(tmp_path, {"c.py": src})).findings

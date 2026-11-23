@@ -23,3 +23,18 @@ Tool: tenthcheck v1 at the commit that contains this file's parent. Defaults: mi
 4. Precision = (TRUE-INCONSISTENCY + INTENTIONAL) / all findings is reported alongside TRUE-INCONSISTENCY / all findings.
    "TRUE-INCONSISTENCY" means the code really differs from the pattern with no visible reason; it is not a claim of a bug.
 5. If a finding looks like a genuine bug: write it up in results/, open nothing upstream.
+
+## Tuning log (TUNE repos only; recorded before the held-out run)
+First run (defaults as first written) on the 5 TUNE repos: zulip gave 48 exception sites in 24 patterns, all in Zulip's own
+webhook test classes (files named `tests.py`, classes `*HookTests`, guard `self.check_webhook`). Every one of them is a
+false positive for "route handler guard" (they are test helpers/ignored-event tests). Redash, celery, requests, saleor: 0.
+Changes made because of that, nothing else:
+1. Treat `tests.py`, `test.py`, `testing.py`, `*_tests.py` as test files; skip classes whose name contains "test" and methods
+   named `test*`/`setUp`/`tearDown`.
+2. Body-call guards must match the strict access-control name set (auth/login/permission/admin/require/role/csrf/scope/owner/
+   access/can_/jwt/staff/current_user). Generic `check_*`, `validate_*`, `ensure_*`, `verify_*`, `allow*`, `token*` no longer count.
+3. Added two groups so common frameworks are visible at all: methods named get/post/put/delete/patch in one module (Flask-RESTful /
+   DRF style: redash) and top-level `def view(request, ...)` functions in one module (Django style: zulip).
+Thresholds unchanged: min_support 5, min_consistency 0.80.
+After tuning, TUNE repos: redash 1 exception site (redash/handlers/destinations.py:81, see results/review_tune.md), zulip 0, celery 0,
+requests 0, saleor 0.
