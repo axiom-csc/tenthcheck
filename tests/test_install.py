@@ -47,3 +47,27 @@ def test_malformed_config_is_not_overwritten(tmp_path):
     with pytest.raises(ValueError):
         inst.plan(tmp_path, "claude")
     assert p.read_text() == "{ not json"
+
+
+def test_receipt_sign_verify_and_tamper(tmp_path, monkeypatch):
+    import json
+    import subprocess
+
+    from tenthcheck import receipt
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    subprocess.run(["git", "-C", str(tmp_path), "-c", "user.email=a@b", "-c", "user.name=n", "commit", "-q", "--allow-empty", "-m", "i"], check=True)
+    priv, pub = receipt.keygen()
+    monkeypatch.setenv(receipt.KEY_ENV, priv)
+    out = tmp_path / "r.json"
+    assert receipt.write_receipt(out, tmp_path, {"files_scanned": 3, "z3_counterexamples": 0}, None)
+    ok, msgs = receipt.verify(out, pub, tmp_path)
+    assert ok, msgs
+    assert any("not that the code is correct" in m for m in msgs)
+    data = json.loads(out.read_text())
+    data["payload"]["summary"]["z3_counterexamples"] = 5
+    out.write_text(json.dumps(data))
+    assert not receipt.verify(out, pub)[0]
+    other_priv, other_pub = receipt.keygen()
+    monkeypatch.setenv(receipt.KEY_ENV, other_priv)
+    receipt.write_receipt(out, tmp_path, {"files_scanned": 3}, None)
+    assert not receipt.verify(out, pub)[0]          # pinned key mismatch

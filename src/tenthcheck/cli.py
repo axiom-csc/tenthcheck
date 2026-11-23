@@ -239,6 +239,14 @@ def main(argv: list[str] | None = None) -> int:
         p.add_argument("--claude", action="store_true"); p.add_argument("--cursor", action="store_true")
         p.add_argument("--no-hook", action="store_true", help="MCP server only"); p.add_argument("--no-mcp", action="store_true", help="hook only")
         p.add_argument("--dry-run", action="store_true"); p.add_argument("--dir", default=".")
+    p = sub.add_parser("ci", help="CI mode: enforce accepted invariants, write a PR-comment summary, optional signed receipt")
+    p.add_argument("repo_dir", nargs="?", default="."); p.add_argument("--base", default=None, help="base ref of the PR, e.g. origin/main")
+    p.add_argument("--summary-file", default=None, help="write the markdown summary here (default: print it)")
+    p.add_argument("--receipt", default=None, help="write a signed receipt here (needs TENTHCHECK_SIGNING_KEY)")
+    p.add_argument("--json", action="store_true")
+    sub.add_parser("keygen", help="print a new Ed25519 receipt keypair (store the private part as a repo secret)")
+    p = sub.add_parser("verify-receipt", help="verify a signed receipt")
+    p.add_argument("receipt"); p.add_argument("--public-key", default=None); p.add_argument("--repo", default=None)
     p = sub.add_parser("init", help="write tenthcheck.toml listing mined invariants to accept or reject")
     p.add_argument("repo_dir", nargs="?", default=".")
     sub.add_parser("hook", help="Claude Code hook mode (see `tenthcheck hook --help`)")
@@ -261,6 +269,27 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(args)
 
     try:
+        if a.cmd == "keygen":
+            from tenthcheck.receipt import keygen
+            priv, pub = keygen()
+            print(f"private (secret TENTHCHECK_SIGNING_KEY): {priv}\npublic  (--public-key):                  {pub}")
+            return 0
+        if a.cmd == "verify-receipt":
+            from tenthcheck.receipt import verify
+            ok, msgs = verify(Path(a.receipt), a.public_key, Path(a.repo) if a.repo else None)
+            print("\n".join(msgs))
+            return 0 if ok else 1
+        if a.cmd == "ci":
+            from tenthcheck import ci, receipt
+            res = ci.run_ci(a.repo_dir, a.base)
+            md = ci.markdown(res)
+            if a.summary_file:
+                Path(a.summary_file).write_text(md, encoding="utf-8")
+            if a.receipt:
+                wrote = receipt.write_receipt(Path(a.receipt), Path(a.repo_dir).resolve(), res["summary"], res["config_text"])
+                print(("receipt written to " + a.receipt) if wrote else f"no receipt: {receipt.KEY_ENV} is not set", file=sys.stderr)
+            print(json.dumps(res["summary"], indent=2) if a.json else md)
+            return 1 if res["failed"] else 0
         if a.cmd in ("install", "uninstall"):
             return _install(a, ap)
         if a.cmd == "impact":
