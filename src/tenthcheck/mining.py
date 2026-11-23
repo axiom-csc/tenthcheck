@@ -191,6 +191,25 @@ def _route_info(fn) -> tuple[str, str | None] | None:
     return None
 
 
+_TRIVIAL_DECORATORS = {"staticmethod", "classmethod", "property", "abstractmethod", "abc.abstractmethod", "override",
+                       "cached_property", "functools.cached_property", "overload", "typing.overload", "wraps",
+                       # lifecycle hooks / validators are decorated but are not endpoints
+                       "before_request", "after_request", "teardown_request", "before_app_request", "after_app_request",
+                       "validates", "validator", "field_validator", "model_validator", "receiver", "listens_for"}
+
+
+def _is_handler_like(fn) -> bool:
+    """A method that carries at least one non-trivial decorator (route/endpoint registrations always do)."""
+    return any((dotted(d) or "").split(".")[-1] not in {t.split(".")[-1] for t in _TRIVIAL_DECORATORS}
+               for d in fn.decorator_list)
+
+
+def _has_guard(guards: set[str], tok: str) -> bool:
+    """`protect_read` counts as `protect`: same family when one name is the other plus `_suffix`."""
+    return tok in guards or any(g.startswith(tok + "_") or g.split(".")[-1].startswith(tok.split(".")[-1] + "_")
+                                for g in guards)
+
+
 def _guards(fn, skip_route: bool) -> set[str]:
     g: set[str] = set()
     for d in fn.decorator_list:
@@ -251,7 +270,7 @@ def mine_route_guards(mods: list[_Module], min_support: int, min_cons: float) ->
                 continue
             elif cls and fn.name in _VERBS:
                 groups.setdefault(("verbs", m.rel, "HTTP-verb methods", None), []).append((site, _guards(fn, False), public))
-            elif cls and not fn.name.startswith("_"):
+            elif cls and not fn.name.startswith("_") and _is_handler_like(fn):
                 groups.setdefault(("class", m.rel, cls, None), []).append((site, _guards(fn, False), public))
     out: list[Invariant] = []
     for (kind, rel, owner, prefix), members in groups.items():
@@ -263,8 +282,8 @@ def mine_route_guards(mods: list[_Module], min_support: int, min_cons: float) ->
             for t in g:
                 tokens[t] = tokens.get(t, 0) + 1
         for tok, cnt in tokens.items():
-            followers = [s for s, g, _ in counted if tok in g]
-            exc = [s for s, g, p in counted if tok not in g and not p]
+            followers = [s for s, g, _ in counted if _has_guard(g, tok)]
+            exc = [s for s, g, p in counted if not _has_guard(g, tok) and not p]
             total = len(followers) + len(exc)  # public-by-design handlers are neither
             if len(followers) < min_support or total == 0 or len(followers) / total < min_cons:
                 continue

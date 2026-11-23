@@ -120,3 +120,27 @@ def test_django_view_group(tmp_path):
 def test_generic_check_calls_are_not_guards(tmp_path):
     src = "".join(f"class C:\n    def m{i}(self):\n        self.check_thing()\n" for i in range(8)) + "class D:\n    def n(self):\n        pass\n"
     assert not scan(mk(tmp_path, {"c.py": src})).findings
+
+
+def test_class_group_ignores_undecorated_and_static_helpers(tmp_path):
+    src = "class Api:\n" + "".join(f"    @expose('/{i}')\n    @protect()\n    def m{i}(self):\n        pass\n" for i in range(6))
+    src += "    def pre_get_list(self, data):\n        pass\n    @staticmethod\n    def helper():\n        pass\n"
+    assert not scan(mk(tmp_path, {"api.py": src})).findings
+
+
+def test_guard_family_protect_read_counts_as_protect(tmp_path):
+    src = "class Api:\n" + "".join(f"    @expose('/{i}')\n    @protect()\n    def m{i}(self):\n        pass\n" for i in range(6))
+    src += "    @expose('/x')\n    @protect_read('A')\n    def x(self):\n        pass\n"
+    assert not scan(mk(tmp_path, {"api.py": src})).findings
+
+
+def test_class_group_still_flags_decorated_endpoint_without_guard(tmp_path):
+    src = "class Api:\n" + "".join(f"    @expose('/{i}')\n    @protect()\n    def m{i}(self):\n        pass\n" for i in range(6))
+    src += "    @expose('/open')\n    @safe\n    def open_one(self):\n        pass\n"
+    assert [e.func for i in scan(mk(tmp_path, {"api.py": src})).findings for e in i.exceptions] == ["open_one"]
+
+
+def test_before_request_hook_is_not_a_handler(tmp_path):
+    src = "class Api:\n" + "".join(f"    @expose('/{i}')\n    @protect()\n    def m{i}(self):\n        pass\n" for i in range(6))
+    src += "    @before_request(only=['a'])\n    def ensure_enabled(self):\n        pass\n"
+    assert not scan(mk(tmp_path, {"api.py": src})).findings
