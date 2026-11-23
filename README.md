@@ -102,7 +102,7 @@ requests (37 .py files) 0.92 s, 5 runs; starlette at `271c277` (84 files) 2.1 s,
 airflow), which the existing graph code does without caching. It is nowhere near a "milliseconds" figure and it does not scale
 well to very large repos. The agent hook keeps a separate cached incremental index (its speed was not measured for v1).
 
-**Tests:** 106 passed, 2 skipped (`pytest -q`).
+**Tests:** 108 passed, 2 skipped (`pytest -q`).
 
 ## Measured precision
 
