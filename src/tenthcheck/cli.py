@@ -333,7 +333,7 @@ def main(argv: list[str] | None = None) -> int:
                 Path(a.summary_file).write_text(md, encoding="utf-8")
             if a.receipt:
                 wrote = receipt.write_receipt(Path(a.receipt), Path(a.repo_dir).resolve(), res["summary"], res["config_text"])
-                print(("receipt written to " + a.receipt) if wrote else f"no receipt: {receipt.KEY_ENV} is not set", file=sys.stderr)
+                print(("receipt written to " + a.receipt) if wrote else f"no receipt: no signing key (set TENTHLOOK_KEY_FILE, or {receipt.KEY_ENV} in CI)", file=sys.stderr)
             print(json.dumps(res["summary"], indent=2) if a.json else md)
             return 1 if res["failed"] else 0
         if a.cmd in ("install", "uninstall"):
