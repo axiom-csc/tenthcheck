@@ -1,0 +1,24 @@
+{
+  "files": 2551,
+  "seconds": 9.18,
+  "invariants": [
+    {
+      "id": "route-guard:erpnext/manufacturing/doctype/job_card/job_card.py:JobCard:*:frappe.has_permission",
+      "kind": "route-guard",
+      "pattern": "public methods of class JobCard in erpnext/manufacturing/doctype/job_card/job_card.py use `frappe.has_permission`",
+      "follow": 6,
+      "total": 7,
+      "confidence": "low",
+      "followers": [
+        "erpnext/manufacturing/doctype/job_card/job_card.py:981 get_required_items()",
+        "erpnext/manufacturing/doctype/job_card/job_card.py:1770 pause_job()",
+        "erpnext/manufacturing/doctype/job_card/job_card.py:1786 resume_job()",
+        "erpnext/manufacturing/doctype/job_card/job_card.py:2163 start_timer()",
+        "erpnext/manufacturing/doctype/job_card/job_card.py:2198 complete_job_card()"
+      ],
+      "exceptions": [
+        "erpnext/manufacturing/doctype/job_card/job_card.py:288 get_material_shortages()"
+      ]
+    }
+  ]
+}

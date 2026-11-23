@@ -45,3 +45,13 @@
 - `tenthcheck check <repo>` with no file arguments now prints import cycles plus a summary of the parsed repo.
   `tenthcheck check <repo> <file> <proposed_file>` works as before.
 - `tenthcheck serve` defaults to the current directory.
+
+## 1.0.0.dev0 (unreleased)
+- `tenthcheck` (no args) / `scan`: zero-config invariant mining (route-guard, call-pair, guard-mutation, sql-scope).
+- `init` / `tenthcheck.toml`: accept / reject mined patterns, hand-written numeric invariants.
+- `verify`: narrow Z3 checker (straight-line numeric functions), counterexamples, explicit "not checkable" refusals.
+- `impact`: uncommitted diff -> changed symbols -> dependents -> Z3 re-check (slow on very large repos: see README).
+- `install` / `uninstall` for Claude Code (MCP + hook) and Cursor (MCP): backup, diff, idempotent.
+- Hook reports Z3 counterexamples and accepted-invariant violations with file:line.
+- `ci`, `action.yml`, signed receipts (`keygen`, `verify-receipt`). Action untested on GitHub.
+- Dependencies are now `sqlglot` and `z3-solver` (previously none).

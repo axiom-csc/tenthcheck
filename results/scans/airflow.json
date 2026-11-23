@@ -1,0 +1,411 @@
+{
+  "files": 3881,
+  "seconds": 18.727,
+  "invariants": [
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:connections_router:*:requires_access_connection",
+      "kind": "route-guard",
+      "pattern": "handlers on `connections_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py use `requires_access_connection`",
+      "follow": 8,
+      "total": 10,
+      "confidence": "low",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:147 delete_connection()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:204 get_connection()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:224 get_connections()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:268 post_connection()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:281 bulk_connections()"
+      ],
+      "exceptions": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:166 get_connection_test()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/connections.py:441 enqueue_connection_test()"
+      ]
+    },
+    {
+      "id": "route-guard:providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:FeatureStoreHook:*:self.get_feature_online_store_admin_service_client",
+      "kind": "route-guard",
+      "pattern": "public methods of class FeatureStoreHook in providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py use `get_feature_online_store_admin_service_client`",
+      "follow": 6,
+      "total": 7,
+      "confidence": "low",
+      "followers": [
+        "providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:115 create_feature_online_store()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:155 get_feature_online_store()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:199 create_feature_view()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:288 sync_feature_view()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:381 delete_feature_view()"
+      ],
+      "exceptions": [
+        "providers/google/src/airflow/providers/google/cloud/hooks/vertex_ai/feature_store.py:327 fetch_feature_values()"
+      ]
+    },
+    {
+      "id": "route-guard:dev/breeze/src/airflow_breeze/utils/selective_checks.py:SelectiveChecks:*:_scoped_to_component_branch",
+      "kind": "route-guard",
+      "pattern": "public methods of class SelectiveChecks in dev/breeze/src/airflow_breeze/utils/selective_checks.py use `_scoped_to_component_branch`",
+      "follow": 39,
+      "total": 39,
+      "confidence": "high",
+      "followers": [
+        "dev/breeze/src/airflow_breeze/utils/selective_checks.py:1471 run_mypy_providers()",
+        "dev/breeze/src/airflow_breeze/utils/selective_checks.py:1497 run_api_tests()",
+        "dev/breeze/src/airflow_breeze/utils/selective_checks.py:1502 run_ol_tests()",
+        "dev/breeze/src/airflow_breeze/utils/selective_checks.py:1507 run_api_codegen()",
+        "dev/breeze/src/airflow_breeze/utils/selective_checks.py:1516 run_ui_tests()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py:AlloyDbHook:*:self.get_alloy_db_admin_client",
+      "kind": "route-guard",
+      "pattern": "public methods of class AlloyDbHook in providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py use `get_alloy_db_admin_client`",
+      "follow": 18,
+      "total": 18,
+      "confidence": "high",
+      "followers": [
+        "providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py:69 create_cluster()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py:123 create_secondary_cluster()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py:182 get_cluster()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py:214 update_cluster()",
+        "providers/google/src/airflow/providers/google/cloud/hooks/alloy_db.py:276 delete_cluster()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py:task_instances_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `task_instances_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py use `requires_access_dag`",
+      "follow": 17,
+      "total": 17,
+      "confidence": "high",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py:173 get_task_instance()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py:214 get_mapped_task_instances()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py:385 get_task_instance_dependencies()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py:443 get_task_instance_tries()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_instances.py:492 get_mapped_task_instance_tries()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py:dag_run_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `dag_run_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py use `requires_access_dag`",
+      "follow": 10,
+      "total": 10,
+      "confidence": "high",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py:145 get_dag_run()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py:174 delete_dag_run()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py:209 patch_dag_run()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py:261 bulk_dag_runs()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dag_run.py:286 get_upstream_asset_events()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py:assets_router:assets:requires_access_asset",
+      "kind": "route-guard",
+      "pattern": "handlers on `assets_router` under /assets in airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py use `requires_access_asset`",
+      "follow": 9,
+      "total": 9,
+      "confidence": "high",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py:258 get_assets()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py:363 get_asset_aliases()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py:395 get_asset_alias()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py:411 get_asset_events()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/assets.py:538 create_asset_event()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py:dags_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `dags_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py use `requires_access_dag`",
+      "follow": 9,
+      "total": 9,
+      "confidence": "high",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py:99 get_dags()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py:220 get_dag()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py:248 get_dag_details()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py:311 bulk_dags()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/dags.py:326 patch_dag()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py:ui_router:worker:requires_access_view",
+      "kind": "route-guard",
+      "pattern": "handlers on `ui_router` under /worker in providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py use `requires_access_view`",
+      "follow": 9,
+      "total": 9,
+      "confidence": "high",
+      "followers": [
+        "providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py:66 worker()",
+        "providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py:162 request_worker_maintenance()",
+        "providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py:190 update_worker_maintenance()",
+        "providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py:219 exit_worker_maintenance()",
+        "providers/edge3/src/airflow/providers/edge3/worker_api/routes/ui.py:241 request_worker_shutdown()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py:backfills_router:*:requires_access_backfill",
+      "kind": "route-guard",
+      "pattern": "handlers on `backfills_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py use `requires_access_backfill`",
+      "follow": 8,
+      "total": 8,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py:97 list_backfills()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py:127 get_backfill()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py:146 list_backfill_dag_runs()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py:190 pause_backfill()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/backfills.py:216 unpause_backfill()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py:router:*:AssetScope",
+      "kind": "route-guard",
+      "pattern": "handlers on `router` in airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py use `AssetScope`",
+      "follow": 8,
+      "total": 8,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py:128 get_asset_state_store_by_name()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py:184 set_asset_state_store_by_name()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py:199 delete_asset_state_store_by_name()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py:211 clear_asset_state_store_by_name()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/asset_state_store.py:221 get_asset_state_store_by_uri()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py:pools_router:*:requires_access_pool",
+      "kind": "route-guard",
+      "pattern": "handlers on `pools_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py use `requires_access_pool`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py:65 delete_pool()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py:84 get_pool()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py:100 get_pools()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py:140 patch_pool()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/pools.py:173 post_pool()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py:task_state_store_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `task_state_store_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py use `requires_access_dag`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py:191 list_task_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py:239 get_task_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py:278 set_task_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py:300 patch_task_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/task_state_store.py:340 delete_task_state_store()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py:variables_router:*:requires_access_variable",
+      "kind": "route-guard",
+      "pattern": "handlers on `variables_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py use `requires_access_variable`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py:61 delete_variable()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py:81 get_variable()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py:100 get_variables()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py:145 patch_variable()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/variables.py:171 post_variable()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py:dags_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `dags_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py use `requires_access_dag`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py:114 get_dags()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py:352 get_dag_timetable_types()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py:386 get_dag_folders()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py:436 get_latest_run_info()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/dags.py:478 get_dag_run_state_counts()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py:asset_state_store_router:*:requires_access_asset",
+      "kind": "route-guard",
+      "pattern": "handlers on `asset_state_store_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py use `requires_access_asset`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py:65 list_asset_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py:128 get_asset_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py:184 set_asset_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py:206 delete_asset_state_store()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/asset_state_store.py:221 clear_asset_state_store()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py:xcom_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `xcom_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py use `requires_access_dag`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py:114 get_xcom_entry()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py:185 get_xcom_entries()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py:345 create_xcom_entry()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py:450 update_xcom_entry()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/public/xcom.py:532 delete_xcom_entry()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py:grid_router:*:requires_access_dag",
+      "kind": "route-guard",
+      "pattern": "handlers on `grid_router` in airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py use `requires_access_dag`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py:141 get_dag_structure()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py:301 get_grid_runs()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py:565 get_grid_ti_summaries_stream()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py:690 get_loop_summary()",
+        "airflow-core/src/airflow/api_fastapi/core_api/routes/ui/grid.py:715 get_loop_history()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py:router:*:require_auth",
+      "kind": "route-guard",
+      "pattern": "handlers on `router` in airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py use `require_auth`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py:163 publish_parse_result()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py:309 get_bundles()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py:344 publish_inventory()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py:506 claim_work()",
+        "airflow-core/src/airflow/api_fastapi/execution_api/routes/dag_parsing.py:592 acknowledge_work()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:fab_router:roles:_release_scoped_session",
+      "kind": "route-guard",
+      "pattern": "handlers on `fab_router` under /roles in providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py use `_release_scoped_session`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:52 create_role()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:71 get_roles()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:92 delete_role()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:105 get_role()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:124 patch_role()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:fab_router:roles:requires_fab_custom_view",
+      "kind": "route-guard",
+      "pattern": "handlers on `fab_router` under /roles in providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py use `requires_fab_custom_view`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:52 create_role()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:71 get_roles()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:92 delete_role()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:105 get_role()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/roles.py:124 patch_role()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:fab_router:*:_release_scoped_session",
+      "kind": "route-guard",
+      "pattern": "handlers on `fab_router` in providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py use `_release_scoped_session`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:52 create_user()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:69 get_users()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:90 get_user()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:109 update_user()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:131 delete_user()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:fab_router:*:requires_fab_custom_view",
+      "kind": "route-guard",
+      "pattern": "handlers on `fab_router` in providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py use `requires_fab_custom_view`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:52 create_user()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:69 get_users()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:90 get_user()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:109 update_user()",
+        "providers/fab/src/airflow/providers/fab/auth_manager/api_fastapi/routes/users.py:131 delete_user()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py:SafeDogStatsdLogger:*:validate_stat",
+      "kind": "route-guard",
+      "pattern": "public methods of class SafeDogStatsdLogger in shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py use `validate_stat`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py:71 incr()",
+        "shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py:86 decr()",
+        "shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py:101 gauge()",
+        "shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py:117 timing()",
+        "shared/observability/src/airflow_shared/observability/metrics/datadog_logger.py:133 timer()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py:SafeStatsdLogger:*:validate_stat",
+      "kind": "route-guard",
+      "pattern": "public methods of class SafeStatsdLogger in shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py use `validate_stat`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py:86 incr()",
+        "shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py:101 decr()",
+        "shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py:116 gauge()",
+        "shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py:132 timing()",
+        "shared/observability/src/airflow_shared/observability/metrics/statsd_logger.py:146 timer()"
+      ],
+      "exceptions": []
+    }
+  ]
+}

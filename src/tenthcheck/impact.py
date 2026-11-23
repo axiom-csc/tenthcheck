@@ -10,7 +10,6 @@ import time
 from pathlib import Path
 
 from tenthcheck import config as cfgmod
-from tenthcheck import z3check
 from tenthcheck.enforce import describe_violation, enforce
 from tenthcheck.parser import parse_package
 from tenthcheck.scope_audit import audit_graphs
@@ -59,6 +58,8 @@ def impact(repo_dir: str, base: str = "HEAD", max_nodes: int = 10_000) -> dict:
     changed_ids = set(ch["changed_entities"])
     t3 = time.perf_counter()
     z3res = []
+    if any(h.file in files for h in cfg.handwritten):
+        from tenthcheck import z3check
     for h in cfg.handwritten:
         if h.file in files and any(e.endswith("." + h.function) or e == h.function for e in changed_ids):
             z3res.append(z3check.check_file(root / h.file, h.function, h.check, h.assume, rel=h.file))

@@ -1,0 +1,38 @@
+{
+  "files": 671,
+  "seconds": 2.029,
+  "invariants": [
+    {
+      "id": "route-guard:wagtail/api/v3/routers/sites.py:router:*:require_any_permission",
+      "kind": "route-guard",
+      "pattern": "handlers on `router` in wagtail/api/v3/routers/sites.py use `require_any_permission`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "wagtail/api/v3/routers/sites.py:27 list_sites()",
+        "wagtail/api/v3/routers/sites.py:42 get_site()",
+        "wagtail/api/v3/routers/sites.py:60 create_site()",
+        "wagtail/api/v3/routers/sites.py:77 update_site()",
+        "wagtail/api/v3/routers/sites.py:93 delete_site()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:wagtail/locales/api/v3/router.py:router:*:require_any_permission",
+      "kind": "route-guard",
+      "pattern": "handlers on `router` in wagtail/locales/api/v3/router.py use `require_any_permission`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "wagtail/locales/api/v3/router.py:59 list_locales()",
+        "wagtail/locales/api/v3/router.py:75 get_locale_detail()",
+        "wagtail/locales/api/v3/router.py:94 create_locale()",
+        "wagtail/locales/api/v3/router.py:111 update_locale()",
+        "wagtail/locales/api/v3/router.py:127 delete_locale()"
+      ],
+      "exceptions": []
+    }
+  ]
+}

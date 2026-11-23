@@ -1,0 +1,38 @@
+{
+  "files": 1129,
+  "seconds": 4.306,
+  "invariants": [
+    {
+      "id": "guard-mutation:global_availability",
+      "kind": "guard-mutation",
+      "pattern": "`global_availability` is decreased only in functions that also compare `global_availability`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "saleor/warehouse/availability.py:444 check_preorder_threshold_in_orders()",
+        "saleor/warehouse/availability.py:447 check_preorder_threshold_in_orders()",
+        "saleor/warehouse/availability.py:522 check_preorder_threshold_bulk()",
+        "saleor/warehouse/availability.py:525 check_preorder_threshold_bulk()",
+        "saleor/warehouse/management.py:949 _create_preorder_allocation()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "guard-mutation:bytes_limit",
+      "kind": "guard-mutation",
+      "pattern": "`bytes_limit` is decreased only in functions that also compare `bytes_limit`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "saleor/webhook/observability/payloads.py:100 serialize_gql_operation_result()",
+        "saleor/webhook/observability/payloads.py:113 serialize_gql_operation_result()",
+        "saleor/webhook/observability/payloads.py:119 serialize_gql_operation_result()",
+        "saleor/webhook/observability/payloads.py:127 serialize_gql_operation_result()",
+        "saleor/webhook/observability/payloads.py:148 serialize_gql_operation_results()"
+      ],
+      "exceptions": []
+    }
+  ]
+}

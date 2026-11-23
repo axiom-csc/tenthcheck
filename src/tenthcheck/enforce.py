@@ -4,19 +4,19 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from tenthcheck import mining, z3check
+from tenthcheck import mining
 from tenthcheck.config import Config
 
 
 @dataclass
 class Enforcement:
     mined_violations: list[tuple[mining.Invariant, mining.Site]] = field(default_factory=list)
-    z3_results: list[z3check.Result] = field(default_factory=list)
+    z3_results: list = field(default_factory=list)
     scan: mining.ScanResult | None = None
     seconds: float = 0.0
 
     @property
-    def counterexamples(self) -> list[z3check.Result]:
+    def counterexamples(self) -> list:
         return [r for r in self.z3_results if r.status == "violated"]
 
     @property
@@ -40,6 +40,7 @@ def enforce(root: str | Path, cfg: Config, files: set[str] | None = None, scan: 
                         out.mined_violations.append((inv, e))
     for h in cfg.handwritten:
         if files is None or h.file in files:
+            from tenthcheck import z3check
             out.z3_results.extend(z3check.check_handwritten(root, _only(cfg, h)))
     out.seconds = time.perf_counter() - t0
     return out
@@ -55,7 +56,7 @@ def describe_violation(inv: mining.Invariant, site: mining.Site) -> str:
             f"\"{inv.pattern}\" ({inv.id})")
 
 
-def describe_counterexample(r: z3check.Result) -> str:
+def describe_counterexample(r) -> str:
     ins = ", ".join(f"{k}={v}" for k, v in r.counterexample.items())
     outs = ", ".join(f"{k}={v}" for k, v in r.outcome.items())
     return (f"{r.file}:{r.line} {r.function}(): invariant `{r.check}` can be violated. "

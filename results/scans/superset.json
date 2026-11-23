@@ -1,0 +1,216 @@
+{
+  "files": 1243,
+  "seconds": 8.034,
+  "invariants": [
+    {
+      "id": "route-guard:superset/dashboards/api.py:DashboardRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class DashboardRestApi in superset/dashboards/api.py use `protect`",
+      "follow": 29,
+      "total": 30,
+      "confidence": "high",
+      "followers": [
+        "superset/dashboards/api.py:531 get_list()",
+        "superset/dashboards/api.py:841 get_datasets()",
+        "superset/dashboards/api.py:942 get_tabs()",
+        "superset/dashboards/api.py:1004 get_charts()",
+        "superset/dashboards/api.py:1271 put_filters()"
+      ],
+      "exceptions": [
+        "superset/dashboards/api.py:2261 download_xlsx()"
+      ]
+    },
+    {
+      "id": "route-guard:superset/databases/api.py:DatabaseRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class DatabaseRestApi in superset/databases/api.py use `protect`",
+      "follow": 21,
+      "total": 21,
+      "confidence": "high",
+      "followers": [
+        "superset/databases/api.py:357 get_connection()",
+        "superset/databases/api.py:423 encrypted_extra_hints()",
+        "superset/databases/api.py:768 sync_permissions()",
+        "superset/databases/api.py:815 catalogs()",
+        "superset/databases/api.py:880 schemas()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/datasets/api.py:DatasetRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class DatasetRestApi in superset/datasets/api.py use `protect`",
+      "follow": 19,
+      "total": 19,
+      "confidence": "high",
+      "followers": [
+        "superset/datasets/api.py:1093 export()",
+        "superset/datasets/api.py:1151 duplicate()",
+        "superset/datasets/api.py:1222 refresh()",
+        "superset/datasets/api.py:1279 detect_datetime_formats()",
+        "superset/datasets/api.py:1362 related_objects()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/charts/api.py:ChartRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class ChartRestApi in superset/charts/api.py use `protect`",
+      "follow": 18,
+      "total": 18,
+      "confidence": "high",
+      "followers": [
+        "superset/charts/api.py:534 get_list()",
+        "superset/charts/api.py:603 deck_layers()",
+        "superset/charts/api.py:992 bulk_delete()",
+        "superset/charts/api.py:1057 restore()",
+        "superset/charts/api.py:1099 purge()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/tags/api.py:TagRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class TagRestApi in superset/tags/api.py use `protect`",
+      "follow": 8,
+      "total": 8,
+      "confidence": "medium",
+      "followers": [
+        "superset/tags/api.py:224 bulk_create()",
+        "superset/tags/api.py:366 add_objects()",
+        "superset/tags/api.py:430 delete_object()",
+        "superset/tags/api.py:556 bulk_delete()",
+        "superset/tags/api.py:611 get_objects()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/themes/api.py:ThemeRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class ThemeRestApi in superset/themes/api.py use `protect`",
+      "follow": 8,
+      "total": 8,
+      "confidence": "medium",
+      "followers": [
+        "superset/themes/api.py:275 bulk_delete()",
+        "superset/themes/api.py:488 export()",
+        "superset/themes/api.py:545 import_()",
+        "superset/themes/api.py:609 set_system_default()",
+        "superset/themes/api.py:676 set_system_dark()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/extensions/storage/api.py:ExtensionStorageRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class ExtensionStorageRestApi in superset/extensions/storage/api.py use `protect`",
+      "follow": 7,
+      "total": 7,
+      "confidence": "medium",
+      "followers": [
+        "superset/extensions/storage/api.py:128 get_ephemeral()",
+        "superset/extensions/storage/api.py:207 set_ephemeral()",
+        "superset/extensions/storage/api.py:319 delete_ephemeral()",
+        "superset/extensions/storage/api.py:370 list_persistent()",
+        "superset/extensions/storage/api.py:506 get_persistent()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/semantic_layers/api.py:HTTP-verb methods:*:_requires_semantic_layers",
+      "kind": "route-guard",
+      "pattern": "get/post/put/delete/patch methods in superset/semantic_layers/api.py use `_requires_semantic_layers`",
+      "follow": 7,
+      "total": 7,
+      "confidence": "medium",
+      "followers": [
+        "superset/semantic_layers/api.py:384 post()",
+        "superset/semantic_layers/api.py:492 put()",
+        "superset/semantic_layers/api.py:565 delete()",
+        "superset/semantic_layers/api.py:1104 post()",
+        "superset/semantic_layers/api.py:1160 put()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/semantic_layers/api.py:HTTP-verb methods:*:protect",
+      "kind": "route-guard",
+      "pattern": "get/post/put/delete/patch methods in superset/semantic_layers/api.py use `protect`",
+      "follow": 7,
+      "total": 7,
+      "confidence": "medium",
+      "followers": [
+        "superset/semantic_layers/api.py:384 post()",
+        "superset/semantic_layers/api.py:492 put()",
+        "superset/semantic_layers/api.py:565 delete()",
+        "superset/semantic_layers/api.py:1104 post()",
+        "superset/semantic_layers/api.py:1160 put()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/datasource/api.py:DatasourceRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class DatasourceRestApi in superset/datasource/api.py use `protect`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "superset/datasource/api.py:261 get_column_values()",
+        "superset/datasource/api.py:457 validate_expression()",
+        "superset/datasource/api.py:622 compatible()",
+        "superset/datasource/api.py:821 query()",
+        "superset/datasource/api.py:1030 datasource_info()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/reports/api.py:ReportScheduleRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class ReportScheduleRestApi in superset/reports/api.py use `protect`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "superset/reports/api.py:374 get_configuration()",
+        "superset/reports/api.py:434 put_configuration()",
+        "superset/reports/api.py:569 subscribe()",
+        "superset/reports/api.py:802 bulk_delete()",
+        "superset/reports/api.py:864 slack_channels()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/sqllab/api.py:SqlLabRestApi:*:protect",
+      "kind": "route-guard",
+      "pattern": "public methods of class SqlLabRestApi in superset/sqllab/api.py use `protect`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "superset/sqllab/api.py:161 estimate_query_cost()",
+        "superset/sqllab/api.py:209 format_sql()",
+        "superset/sqllab/api.py:310 export_csv()",
+        "superset/sqllab/api.py:377 export_streaming_csv()",
+        "superset/sqllab/api.py:500 get_results()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:superset/views/sql_lab/views.py:HTTP-verb methods:*:has_access_api",
+      "kind": "route-guard",
+      "pattern": "get/post/put/delete/patch methods in superset/views/sql_lab/views.py use `has_access_api`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "superset/views/sql_lab/views.py:80 post()",
+        "superset/views/sql_lab/views.py:112 delete()",
+        "superset/views/sql_lab/views.py:134 get()",
+        "superset/views/sql_lab/views.py:171 put()",
+        "superset/views/sql_lab/views.py:285 post()"
+      ],
+      "exceptions": []
+    }
+  ]
+}

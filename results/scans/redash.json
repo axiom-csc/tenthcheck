@@ -1,0 +1,24 @@
+{
+  "files": 170,
+  "seconds": 0.732,
+  "invariants": [
+    {
+      "id": "route-guard:redash/handlers/destinations.py:HTTP-verb methods:*:require_admin",
+      "kind": "route-guard",
+      "pattern": "get/post/put/delete/patch methods in redash/handlers/destinations.py use `require_admin`",
+      "follow": 5,
+      "total": 6,
+      "confidence": "low",
+      "followers": [
+        "redash/handlers/destinations.py:17 get()",
+        "redash/handlers/destinations.py:23 get()",
+        "redash/handlers/destinations.py:36 post()",
+        "redash/handlers/destinations.py:64 delete()",
+        "redash/handlers/destinations.py:103 post()"
+      ],
+      "exceptions": [
+        "redash/handlers/destinations.py:81 get()"
+      ]
+    }
+  ]
+}

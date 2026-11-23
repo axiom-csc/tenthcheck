@@ -55,7 +55,7 @@ Result: 4 findings, 0 TRUE-INCONSISTENCY, 1 INTENTIONAL, 3 FALSE-POSITIVE. Preci
 | held-out 1 (superset, mealie, netbox, frappe, wagtail) | v1.0 frozen | 13 | 0 | 1 | 12 |
 | held-out 2 (paperless-ngx, authentik, pretix, airflow, erpnext) | v1.1 | 4 | 0 | 1 | 3 |
 
-Across 10 repos, 5 repos (mealie, netbox, frappe/wagtail on v1.1, paperless-ngx, authentik, pretix) gave nothing.
+No findings at all on: mealie, netbox, frappe, wagtail (v1.1), paperless-ngx, authentik, pretix, celery, requests, saleor, zulip.
 **No genuine bug was found in any repo, so nothing is written up for reporting.**
 Mined-pattern quality is not what is measured here; only the exceptions were graded.
 

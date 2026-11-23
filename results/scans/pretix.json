@@ -1,0 +1,54 @@
+{
+  "files": 552,
+  "seconds": 4.724,
+  "invariants": [
+    {
+      "id": "route-guard:src/pretix/api/views/order.py:InvoiceViewSet:*:PermissionDenied",
+      "kind": "route-guard",
+      "pattern": "public methods of class InvoiceViewSet in src/pretix/api/views/order.py use `PermissionDenied`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "src/pretix/api/views/order.py:1990 download()",
+        "src/pretix/api/views/order.py:2011 transmit()",
+        "src/pretix/api/views/order.py:2023 retransmit()",
+        "src/pretix/api/views/order.py:2050 regenerate()",
+        "src/pretix/api/views/order.py:2076 reissue()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:src/pretix/base/models/auth.py:User:*:scopes_disabled",
+      "kind": "route-guard",
+      "pattern": "public methods of class User in src/pretix/base/models/auth.py use `scopes_disabled`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "src/pretix/base/models/auth.py:577 get_events_with_any_permission()",
+        "src/pretix/base/models/auth.py:595 get_events_with_permission()",
+        "src/pretix/base/models/auth.py:619 get_organizers_with_any_permission()",
+        "src/pretix/base/models/auth.py:636 get_organizers_with_permission()",
+        "src/pretix/base/models/auth.py:704 is_in_any_teams()"
+      ],
+      "exceptions": []
+    },
+    {
+      "id": "route-guard:src/pretix/base/models/orders.py:Order:*:scopes_disabled",
+      "kind": "route-guard",
+      "pattern": "public methods of class Order in src/pretix/base/models/orders.py use `scopes_disabled`",
+      "follow": 5,
+      "total": 5,
+      "confidence": "medium",
+      "followers": [
+        "src/pretix/base/models/orders.py:460 count_positions()",
+        "src/pretix/base/models/orders.py:484 payment_refund_sum()",
+        "src/pretix/base/models/orders.py:496 pending_sum()",
+        "src/pretix/base/models/orders.py:711 user_change_allowed()",
+        "src/pretix/base/models/orders.py:752 user_cancel_allowed()"
+      ],
+      "exceptions": []
+    }
+  ]
+}

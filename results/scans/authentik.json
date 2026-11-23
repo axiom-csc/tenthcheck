@@ -1,0 +1,22 @@
+{
+  "files": 1126,
+  "seconds": 2.163,
+  "invariants": [
+    {
+      "id": "route-guard:authentik/enterprise/providers/ssf/views/stream.py:HTTP-verb methods:*:PermissionDenied",
+      "kind": "route-guard",
+      "pattern": "get/post/put/delete/patch methods in authentik/enterprise/providers/ssf/views/stream.py use `PermissionDenied`",
+      "follow": 8,
+      "total": 8,
+      "confidence": "medium",
+      "followers": [
+        "authentik/enterprise/providers/ssf/views/stream.py:118 get()",
+        "authentik/enterprise/providers/ssf/views/stream.py:129 post()",
+        "authentik/enterprise/providers/ssf/views/stream.py:147 patch()",
+        "authentik/enterprise/providers/ssf/views/stream.py:161 put()",
+        "authentik/enterprise/providers/ssf/views/stream.py:175 delete()"
+      ],
+      "exceptions": []
+    }
+  ]
+}

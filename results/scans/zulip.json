@@ -1,0 +1,22 @@
+{
+  "files": 806,
+  "seconds": 4.571,
+  "invariants": [
+    {
+      "id": "route-guard:zerver/views/invite.py:view functions taking `request`:*:require_human_non_guest_user",
+      "kind": "route-guard",
+      "pattern": "view functions taking `request` in zerver/views/invite.py use `require_human_non_guest_user`",
+      "follow": 6,
+      "total": 6,
+      "confidence": "medium",
+      "followers": [
+        "zerver/views/invite.py:138 invite_users_backend()",
+        "zerver/views/invite.py:233 get_user_invites()",
+        "zerver/views/invite.py:240 revoke_user_invite()",
+        "zerver/views/invite.py:250 revoke_multiuse_invite()",
+        "zerver/views/invite.py:260 resend_user_invite_email()"
+      ],
+      "exceptions": []
+    }
+  ]
+}
